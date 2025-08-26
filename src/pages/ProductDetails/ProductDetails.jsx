@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './ProductDetailsPage.module.css';
+import styles from './ProductDetails.module.css';
 
 const ProductDetailsPage = () => {
   const [cart, setCart] = useState([]);

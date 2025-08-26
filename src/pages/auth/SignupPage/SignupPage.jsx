@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './SignupPage.module.css';
+import { Link } from 'react-router-dom';
 
 const SignupPage = () => {
   const [fullName, setFullName] = useState('');
@@ -131,7 +132,7 @@ const SignupPage = () => {
                 Continue with Google
               </button>
               <p className={styles.signInLink}>
-                Already have an account? <a href="#" className={styles.link}>Sign in</a>
+                Already have an account? <Link to={'/auth/signin'} className={styles.link}>Sign in</Link>
               </p>
               {statusMessage && (
                 <div className={`${styles.statusMessage} ${statusMessage.includes('successful') ? styles.success : ''}`}>

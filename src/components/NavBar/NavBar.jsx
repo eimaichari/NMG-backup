@@ -1,8 +1,20 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import styles from "./NavBar.module.css";
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { getAuth, signOut } from 'firebase/auth';
+import styles from './NavBar.module.css';
 
-const NavBar = () => {
+const Nav = () => {
+  const { user, isAuthenticated } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      const auth = getAuth();
+      await signOut(auth);
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+
   return (
     <nav className={styles.nav}>
       <div className={styles.logo}>
@@ -24,15 +36,30 @@ const NavBar = () => {
         <li>
           <Link to="/cart" className={styles.link}>Cart</Link>
         </li>
-        <li>
-          <Link to="/signin" className={styles.link}>Sign In</Link>
-        </li>
-        <li>
-          <Link to="/signup" className={styles.link}>Sign Up</Link>
-        </li>
+        {isAuthenticated ? (
+          <>
+            <li className={styles.userInfo}>
+              Welcome, {user.displayName || user.email}
+            </li>
+            <li>
+              <button onClick={handleSignOut} className={styles.link}>
+                Sign Out
+              </button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/auth/signin" className={styles.link}>Sign In</Link>
+            </li>
+            <li>
+              <Link to="/auth/signup" className={styles.link}>Sign Up</Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
 };
 
-export default NavBar;
+export default Nav;
