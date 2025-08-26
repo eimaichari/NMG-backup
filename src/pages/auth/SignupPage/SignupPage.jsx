@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styles from './SignUpPage.module.css';
+import styles from './SignupPage.module.css';
 
-const SignUpPage = () => {
+const SignupPage = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -146,4 +146,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignupPage;
