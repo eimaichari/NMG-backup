@@ -1,0 +1,20 @@
+.cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #2EC4B6;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  mix-blend-mode: difference; /* nice glowing overlap */
+  transition: transform 0.2s ease;
+}
+
+.cursor.hover {
+  transform: translate(-50%, -50%) scale(2);
+  background: #FFB703;
+  border-color: #FFB703;
+}

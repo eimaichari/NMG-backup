@@ -1,0 +1,149 @@
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1E2A38;
+  font-family: 'Inter', sans-serif;
+  color: #E6E6E6;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Product Details Section */
+.productDetailsSection {
+  padding: 100px 0 4rem;
+  background-color: #1E2A38;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.detailsWrap {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.productImageWrapper {
+  width: 100%;
+}
+
+.productImage {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.productName {
+  font-size: 1.75rem;
+  color: #FFB703;
+}
+
+.productDescription {
+  font-size: 0.95rem;
+  color: #E6E6E6;
+}
+
+.productPrice {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2EC4B6;
+}
+
+.detailsActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.addToCart {
+  background: #FFB703;
+  border: none;
+  padding: 8px 16px;
+  color: #2b2d42;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: transform 0.3s ease;
+}
+
+.addToCart:hover {
+  transform: scale(1.05);
+}
+
+.statusMessage {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #E6E6E6;
+}
+
+.statusMessage.success {
+  color: #2EC4B6;
+  font-weight: 700;
+}
+
+/* Related Products Section */
+.relatedProductsSection {
+  padding: 4rem 0;
+  background-color: #2F3E46;
+}
+
+.sectionTitle {
+  font-size: 1.75rem;
+  color: #2EC4B6;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.productCard {
+  background: rgba(74, 78, 105, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.productCard:hover {
+  transform: translateY(-5px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 800px) {
+  .detailsWrap {
+    grid-template-columns: 1fr;
+  }
+  .productGrid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
