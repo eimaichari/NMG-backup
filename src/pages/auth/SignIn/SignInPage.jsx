@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from './SignInPage.module.css';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '../../../utils/firebase';
 import { Link } from 'react-router-dom';
 
 const SignInPage = () => {
@@ -9,20 +11,35 @@ const SignInPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
-  const handleSignIn = () => {
-    if (email && password) {
+  const handleSignIn = async () => {
+  if (email && password) {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       setStatusMessage('Sign-in successful');
       setTimeout(() => setStatusMessage(''), 3000);
-    } else {
-      setStatusMessage('Please fill in all fields');
+    } catch (error) {
+      setStatusMessage(`Error: ${error.message}`);
       setTimeout(() => setStatusMessage(''), 3000);
     }
-  };
-
-  const handleGoogleSignIn = () => {
-    setStatusMessage('Google sign-in initiated (mock)');
+  } else {
+    setStatusMessage('Please fill in all fields');
     setTimeout(() => setStatusMessage(''), 3000);
-  };
+  }
+};
+
+
+const handleGoogleSignIn = async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+    await signInWithPopup(auth, provider);
+    setStatusMessage('Google sign-in successful');
+    setTimeout(() => setStatusMessage(''), 3000);
+  } catch (error) {
+    setStatusMessage(`Error: ${error.message}`);
+    setTimeout(() => setStatusMessage(''), 3000);
+  }
+};
+
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);

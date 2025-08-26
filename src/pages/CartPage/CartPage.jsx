@@ -1,40 +1,38 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useCart } from '../../utils/useCart';
 import styles from './CartPage.module.css';
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Pies', price: 50, quantity: 1, thumbnail: '/images/pies.jpg' },
-    { id: 2, name: 'Noodles', price: 20, quantity: 2, thumbnail: '/images/noodles.jpg' },
-  ]);
+  const { cartItems, loading, error, removeItem, increaseQuantity, decreaseQuantity } = useCart();
   const [statusMessage, setStatusMessage] = useState('');
+  const navigate = useNavigate();
 
-  const handleIncreaseQuantity = (id) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
-
-  const handleDecreaseQuantity = (id) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.quantity > 1
-          ? { ...item, quantity: item.quantity - 1 }
-          : item
-      )
-    );
-  };
-
-  const handleRemoveItem = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const handleRemoveItem = async (id) => {
+    await removeItem(id);
     setStatusMessage('Item removed from cart');
     setTimeout(() => setStatusMessage(''), 3000);
+  };
+
+  const handleIncreaseQuantity = async (id) => {
+    await increaseQuantity(id);
+  };
+
+  const handleDecreaseQuantity = async (id) => {
+    await decreaseQuantity(id);
   };
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
+
+  if (loading) {
+    return <div className={styles.loading}>Loading cart...</div>;
+  }
+
+  if (error) {
+    return <div className={styles.error}>{error}</div>;
+  }
 
   return (
     <main>
@@ -48,7 +46,7 @@ const CartPage = () => {
               cartItems.map((item) => (
                 <div key={item.id} className={styles.cartItem}>
                   <img
-                    src={item.thumbnail}
+                    src={item.image}
                     alt={item.name}
                     className={styles.cartThumb}
                   />
@@ -88,15 +86,20 @@ const CartPage = () => {
             Total: R{calculateTotal()}
           </div>
           {statusMessage && (
-            <div className={`${styles.statusMessage} ${statusMessage ? styles.success : ''}`}>
+            <div className={`${styles.statusMessage} ${statusMessage.includes('removed') ? styles.success : styles.error}`}>
               {statusMessage}
             </div>
           )}
           <div className={styles.cartActions}>
-            <button className={styles.submitButton}>Proceed to Checkout</button>
-            <a href="#" className={styles.continueShopping}>
+            <button 
+              className={styles.submitButton}
+              onClick={() => navigate('/checkout')}
+            >
+              Proceed to Checkout
+            </button>
+            <Link to="/products" className={styles.continueShopping}>
               Continue Shopping
-            </a>
+            </Link>
           </div>
         </div>
       </section>

@@ -1,0 +1,175 @@
+.container {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  margin: 12px 0;
+  font-size: 1.5rem;
+  color: var(--text-light, #e5e7eb);
+}
+
+.addButton {
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border, #374151);
+  background: var(--primary-color, #22C55E);
+  color: var(--text, #e5e7eb);
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+.addButton:hover {
+  transform: scale(1.05);
+}
+
+.productForm {
+  background: var(--card-bg, #111827);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid var(--card-border, #374151);
+  border-radius: 8px;
+  background: var(--input-bg, #1f2937);
+  color: var(--text-light, #e5e7eb);
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-color, #22C55E);
+}
+
+/* New CSS for the submit button */
+.submitButton {
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background: var(--primary-color, #22C55E);
+  color: var(--text-dark, #111827);
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+  background: var(--primary-hover, #1b9a47);
+}
+
+.submitButton:disabled {
+  background: var(--disabled-bg, #5e6b7c);
+  cursor: not-allowed;
+  color: var(--text-muted, #9ca3af);
+}
+
+.error {
+  color: var(--yellow-accent, #FBBF24);
+  font-size: 0.9rem;
+  margin: 8px 0;
+}
+
+.productList {
+  background: var(--card-bg, #111827);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.productItem {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background: var(--card-bg, #111827);
+  border: 1px solid var(--card-border, #374151);
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.productItem:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.productThumb {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #0b0b0b;
+}
+
+.productName {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--yellow-accent, #FBBF24);
+  margin-bottom: 6px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.toggleButton, .deleteButton {
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border, #374151);
+  background: var(--card-bg, #111827);
+  color: var(--text, #e5e7eb);
+}
+
+.deleteButton {
+  border-color: var(--yellow-accent, #FBBF24);
+  color: var(--yellow-accent, #FBBF24);
+}
+
+.toggleButton:hover, .deleteButton:hover {
+  transform: scale(1.05);
+}
+
+.continueShopping {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  color: var(--primary-color, #22C55E);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.continueShopping:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-light, #e5e7eb);
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .productItem {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .productForm {
+    max-width: 100%;
+  }
+}
