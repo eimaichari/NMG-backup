@@ -1,0 +1,523 @@
+.gradient-text {
+  background: var(--highlight-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.button {
+  background: var(--highlight-gradient);
+  border: none;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-light);
+  cursor: pointer;
+  border-radius: 50px;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.tourButton {
+  background: var(--highlight-gradient);
+  border: none;
+  padding: 16px 36px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-light);
+  cursor: pointer;
+  border-radius: 50px;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background 0.3s ease;
+}
+
+.tourButton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 255, 255, 0.6),
+      transparent
+  );
+  transform: skewX(-20deg);
+}
+
+.tourButton:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 25px rgba(255, 255, 255, 0.3);
+  background: linear-gradient(90deg, var(--primary-color), var(--yellow-accent));
+}
+
+.tourButton:hover::after {
+  animation: shine 1s forwards;
+}
+
+@keyframes shine {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
+}
+
+.heroSection {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 1;
+  background: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.heroBackgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/images/pexels-rethaferguson-4177708.jpg') no-repeat center center/cover;
+  opacity: 0.7;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  text-align: center;
+  z-index: 3;
+  margin-top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroTitle {
+  font-size: var(--font-size-heading-lg);
+  margin: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.heroSubtitle,
+.tourButton {
+  display: block;
+}
+
+.heroOverlay {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(43, 45, 66, 0.7);
+  z-index: 2;
+}
+
+.lottieContainer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  z-index: 3;
+}
+
+.aboutSection {
+  padding: 0;
+  background-color: var(--primary-dark);
+  color: var(--text-light);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.aboutWrapper {
+  display: flex;
+  width: 80%;
+  max-width: var(--container-width);
+  height: 80%;
+  gap: var(--space-md);
+}
+
+.leftSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: var(--space-md);
+}
+
+.leftSection p {
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+.leftSection img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--border-radius-md);
+}
+
+.rightSection {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: url('/images/team.jpg') no-repeat center;
+  background-size: cover;
+  position: relative;
+  color: var(--secondary-color);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.rightSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.rightSection > * {
+  position: relative;
+  z-index: 1;
+}
+
+.rightSection h1 {
+  font-size: var(--font-size-heading-md);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.rightSection p {
+  font-size: 1em;
+  line-height: 1.5;
+  padding: 0 20px;
+}
+
+.readMoreButton {
+  background-color: var(--yellow-accent);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  color: var(--text-dark);
+  margin-top: 20px;
+  font-weight: 700;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.readMoreButton:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.servicesListCard {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.servicesListCard ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-sm);
+}
+
+.servicesListCard li {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem;
+  border-radius: var(--border-radius-sm);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.servicesListCard li a {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff !important;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-sm);
+  z-index: 2;
+}
+
+.servicesListCard li:hover {
+  transform: translateY(-3px);
+  color: #fff;
+}
+
+.serviceCleaning:hover {
+  background-image: url('/images/cleaning.jpg');
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.servicePies:hover {
+  background-image: url('/images/pies.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.serviceLunchbox:hover {
+  background-image: url('/images/lunch-box.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.serviceRisk:hover {
+  background-image: url('/images/risk.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.serviceEmbroidery:hover {
+  background-image: url('/images/gift.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.serviceSupply:hover {
+  background-image: url('/images/supply.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.tabButton,
+.categoryTabs button {
+  color: #fff !important;
+}
+
+.servicesListCard li a {
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.servicesAndProductsSection {
+  padding: var(--space-lg) 0;
+  background: var(--highlight-gradient);
+  color: var(--text-light);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sectionTitle {
+  font-size: var(--font-size-heading-lg);
+  font-family: var(--font-family-primary);
+  color: var(--text-light);
+  margin-bottom: var(--space-lg);
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sectionTitle::after {
+  content: '';
+  width: 60px;
+  height: 4px;
+  background: var(--yellow-accent);
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.sectionTitle::before,
+.sectionTitle::after {
+  content: none;
+  width: 0;
+}
+
+.servicesProductsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.servicesColumn,
+.productsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.columnTitle {
+  font-size: var(--font-size-heading-md);
+  color: var(--yellow-accent);
+  margin-bottom: var(--space-md);
+  font-weight: 600;
+}
+
+.servicesList,
+.productsList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+}
+
+.card h4 {
+  font-size: var(--font-size-heading-sm);
+  color: var(--primary-color);
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.card p {
+  font-size: var(--font-size-base);
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+.ctaButton {
+  display: inline-block;
+  background: var(--yellow-accent);
+  color: var(--text-dark);
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-top: var(--space-lg);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.ctaButton:hover {
+  background: var(--primary-color);
+  color: var(--text-light);
+  transform: scale(1.05);
+}
+
+.testimonialsSection {
+}
+
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-md);
+}
+
+.testimonialCard {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-md);
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.testimonialComment {
+  font-style: italic;
+  margin-bottom: var(--space-sm);
+}
+
+.testimonialRating {
+  color: var(--yellow-accent);
+  margin-bottom: var(--space-sm);
+}
+
+.testimonialName {
+  font-weight: bold;
+}
+
+.customCursor {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  pointer-events: none;
+  transition: transform 0.2s ease-out;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+.button:hover ~ .customCursor,
+.card:hover ~ .customCursor {
+  transform: scale(1.8) translate(-28%, -28%);
+}
+
+@media (max-width: 992px) {
+  :root {
+    --font-size-heading-lg: 2.5rem;
+    --font-size-heading-md: 1.75rem;
+    --font-size-heading-sm: 1.2rem;
+  }
+  .aboutSection {
+    height: auto;
+  }
+  .aboutWrapper {
+    flex-direction: column;
+    height: auto;
+  }
+  .leftSection,
+  .rightSection {
+    width: 100%;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+  .servicesProductsGrid {
+    grid-template-columns: 1fr;
+  }
+  .servicesColumn,
+  .productsColumn {
+    margin-bottom: var(--space-md);
+  }
+  .sectionTitle {
+    font-size: var(--font-size-heading-md);
+  }
+}

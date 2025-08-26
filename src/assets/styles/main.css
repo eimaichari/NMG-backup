@@ -1,0 +1,45 @@
+:root {
+  --primary-dark: #1E2A38;
+  --secondary-dark: #2F3E46;
+  --primary-color: #2EC4B6;
+  --secondary-color: #ffffff;
+  --text-light: #E6E6E6;
+  --font-family-primary: 'Inter', sans-serif;
+  --transition-fast: 0.3s ease;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-primary);
+  background-color: var(--primary-dark);
+  color: var(--text-light);
+  line-height: 1.6;
+  padding: 0;
+}
+h1, h2, h3, h4 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: 0.3s;
+}
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.section {
+  padding: 3rem 0;
+}
+.card {
+  background: rgba(74, 78, 105, 0.5);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
