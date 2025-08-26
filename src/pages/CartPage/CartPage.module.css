@@ -1,29 +1,54 @@
-.cart {
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1E2A38;
+  font-family: 'Inter', sans-serif;
+  color: #E6E6E6;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+a {
+  color: #2EC4B6;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #FFB703;
+}
+
+/* Cart Section */
+.cartSection {
+  padding: 100px 0 4rem;
+  background-color: #1E2A38;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .sectionTitle {
-  font-size: var(--font-size-heading-lg);
-  color: var(--text-light);
-  margin-bottom: var(--space-lg);
-  position: relative;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  margin: 12px 0;
+  font-size: 1.75rem;
+  color: #2EC4B6;
   text-align: center;
 }
 
-.sectionTitle::after {
-  content: '';
-  width: 60px;
-  height: 4px;
-  background: var(--yellow-accent);
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 2px;
-}
-
 .cartItems {
+  margin: 2rem 0;
 }
 
 .cartItem {
@@ -33,19 +58,13 @@
   align-items: center;
   margin-bottom: 12px;
   padding: 12px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: rgba(74, 78, 105, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
 .cartItem:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.cartItem span {
-  flex: 1;
-  font-size: 1rem;
-  color: var(--text-light);
 }
 
 .cartThumb {
@@ -60,12 +79,14 @@
   display: inline-block;
   font-weight: 700;
   text-decoration: none;
-  color: var(--yellow-accent);
+  color: #FFB703;
   margin-bottom: 6px;
 }
 
-.cartPrice, .cartSubtotal {
+.cartPrice,
+.cartSubtotal {
   font-weight: 700;
+  color: #E6E6E6;
 }
 
 .quantityControls {
@@ -75,26 +96,15 @@
   margin-top: 6px;
 }
 
-.qtyBtn, .removeItem, .submitButton {
+.qtyBtn,
+.removeItem,
+.submitButton {
   cursor: pointer;
   padding: 6px 10px;
   border-radius: 8px;
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
-  color: var(--text-light);
-}
-
-.removeItem {
-  background: transparent;
-  border: none;
-  color: var(--primary-color);
-  font-size: 0.9rem;
-  text-decoration: underline;
-  transition: color var(--transition-fast);
-}
-
-.removeItem:hover {
-  color: var(--yellow-accent);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(74, 78, 105, 0.5);
+  color: #E6E6E6;
 }
 
 .qtyBtn {
@@ -102,54 +112,47 @@
   height: 28px;
 }
 
-.submitButton {
-  background: var(--primary-color);
+.removeItem {
+  background: transparent;
   border: none;
-  padding: 10px 20px;
-  font-size: var(--font-size-base);
-  font-weight: 600;
-  color: var(--text-light);
-  cursor: pointer;
-  border-radius: 25px;
-  text-decoration: none;
-  transition: background 0.3s ease, transform 0.3s ease;
-  display: block;
-  margin: 0 auto;
+  color: #2EC4B6;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+.removeItem:hover {
+  color: #FFB703;
+}
+
+.submitButton {
+  background-color: #FFB703;
+  color: #2b2d42;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  width: auto;
+  align-self: center;
 }
 
 .submitButton:hover {
-  background: var(--secondary-dark);
   transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .cartTotal {
   text-align: right;
   margin: 16px 0;
   font-size: 1.2rem;
-  color: var(--yellow-accent);
-}
-
-.eftForm {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.eftNote {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  margin-top: var(--space-sm);
-  text-align: center;
+  color: #FFB703;
 }
 
 .continueShopping {
   display: block;
   text-align: center;
-  margin-top: var(--space-md);
-  color: var(--primary-color);
-  text-decoration: none;
+  margin-top: 2rem;
+  color: #2EC4B6;
   font-size: 1rem;
 }
 
@@ -157,7 +160,26 @@
   text-decoration: underline;
 }
 
+.statusMessage {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #E6E6E6;
+}
+
 .statusMessage.success {
-  color: var(--primary-color);
+  color: #2EC4B6;
   font-weight: 700;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .cartItem {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .quantityControls {
+    margin: 8px 0;
+  }
 }

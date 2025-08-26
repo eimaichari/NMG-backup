@@ -1,116 +1,148 @@
-/* Reuse styles from ProductsPage.module.css; add specifics if needed */
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1E2A38;
+  font-family: 'Inter', sans-serif;
+  color: #E6E6E6;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-.productDetails {
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Product Details Section */
+.productDetailsSection {
+  padding: 100px 0 4rem;
+  background-color: #1E2A38;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.detailsWrap {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.productImageWrapper {
+  width: 100%;
+}
+
+.productImage {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 8px;
 }
 
 .productInfo {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.productImage {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  border-radius: var(--border-radius-md);
-  margin-bottom: var(--space-md);
+  gap: 12px;
 }
 
 .productName {
-  font-size: var(--font-size-heading-lg);
-  color: var(--yellow-accent);
+  font-size: 1.75rem;
+  color: #FFB703;
 }
 
 .productDescription {
-  font-size: var(--font-size-base);
-  margin: var(--space-sm) 0;
+  font-size: 0.95rem;
+  color: #E6E6E6;
 }
 
 .productPrice {
-  font-size: var(--font-size-heading-md);
-  color: var(--primary-color);
+  font-size: 1.2rem;
   font-weight: bold;
+  color: #2EC4B6;
+}
+
+.detailsActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .addToCart {
-  background: var(--yellow-accent);
+  background: #FFB703;
   border: none;
-  padding: 12px 24px;
-  color: var(--text-dark);
+  padding: 8px 16px;
+  color: #2b2d42;
   border-radius: 50px;
   cursor: pointer;
-  margin-top: var(--space-md);
-  transition: transform var(--transition-fast);
-  font-size: 1.1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: transform 0.3s ease;
 }
 
 .addToCart:hover {
   transform: scale(1.05);
 }
 
-.relatedProducts {
-  background: var(--secondary-dark);
+.statusMessage {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #E6E6E6;
 }
 
-.relatedProducts h3 {
+.statusMessage.success {
+  color: #2EC4B6;
+  font-weight: 700;
+}
+
+/* Related Products Section */
+.relatedProductsSection {
+  padding: 4rem 0;
+  background-color: #2F3E46;
+}
+
+.sectionTitle {
+  font-size: 1.75rem;
+  color: #2EC4B6;
   text-align: center;
-  font-size: var(--font-size-heading-md);
-  margin-bottom: var(--space-lg);
-  color: var(--text-light);
+  margin-bottom: 2rem;
 }
 
 .productGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-md);
+  gap: 16px;
 }
 
 .productCard {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--border-radius-md);
-  padding: var(--space-md);
+  background: rgba(74, 78, 105, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
   text-align: center;
-  transition: transform var(--transition-fast);
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
 .productCard:hover {
   transform: translateY(-5px);
 }
 
-.productCard .productImage {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: var(--border-radius-sm);
-  margin-bottom: var(--space-sm);
-}
-
-.productCard .productName {
-  font-size: var(--font-size-heading-sm);
-  color: var(--yellow-accent);
-}
-
-.productCard .productPrice {
-  font-size: 1rem;
-  color: var(--primary-color);
-  margin: var(--space-sm) 0;
-}
-
-.productCard .addToCart {
-  padding: 8px 16px;
-  font-size: 1rem;
-}
-
-@media (max-width: 768px) {
-  .productInfo {
-    padding: 0 var(--space-sm);
+/* Responsive Adjustments */
+@media (max-width: 800px) {
+  .detailsWrap {
+    grid-template-columns: 1fr;
   }
-
   .productGrid {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }

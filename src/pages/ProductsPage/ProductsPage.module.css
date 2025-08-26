@@ -1,10 +1,20 @@
-.gradient-text {
-  background: var(--highlight-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1E2A38;
+  font-family: 'Inter', sans-serif;
+  color: #E6E6E6;
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
+h1, h2, h3 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Products Hero Section */
 .productsHero {
   min-height: 40vh;
   background: url('https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1932&auto=format&fit=crop') center/cover no-repeat;
@@ -30,65 +40,62 @@
 .heroContent {
   position: relative;
   z-index: 2;
+  color: #ffffff;
 }
 
 .heroTitle {
-  font-size: var(--font-size-heading-lg);
-  margin: 0;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
 }
 
 .heroSubtitle {
-  font-size: var(--font-size-heading-md);
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.productCategories {
+/* Products Section */
+.productsSection {
+  padding: 4rem 0;
+  background-color: #2F3E46;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
 .categoryTabs {
   display: flex;
   justify-content: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-lg);
+  gap: 1rem;
+  margin-bottom: 4rem;
   flex-wrap: wrap;
 }
 
 .tabButton {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: rgba(74, 78, 105, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50px;
   padding: 10px 20px;
-  color: var(--text-light);
+  color: #E6E6E6;
   font-size: 1rem;
   cursor: pointer;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .tabButton:hover,
 .tabButton.active {
-  background: var(--primary-color);
-  color: var(--text-dark);
+  background: #2EC4B6;
+  color: #2b2d42;
 }
 
 .sectionTitle {
-  font-size: var(--font-size-heading-lg);
-  color: var(--text-light);
-  margin-bottom: var(--space-lg);
-  position: relative;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-size: 1.75rem;
+  color: #2EC4B6;
   text-align: center;
-}
-
-.sectionTitle::after {
-  content: '';
-  width: 60px;
-  height: 4px;
-  background: var(--yellow-accent);
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 2px;
+  margin-bottom: 2rem;
 }
 
 .productGrid {
@@ -98,13 +105,13 @@
 }
 
 .productCard {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
+  background: rgba(74, 78, 105, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 12px;
   text-align: center;
   cursor: pointer;
-  transition: transform var(--transition-fast);
+  transition: transform 0.3s ease;
 }
 
 .productCard:hover {
@@ -121,7 +128,7 @@
 
 .productName {
   font-size: 1.1rem;
-  color: var(--yellow-accent);
+  color: #FFB703;
 }
 
 .productDescription {
@@ -132,41 +139,40 @@
 .productPrice {
   font-size: 1rem;
   font-weight: bold;
-  color: var(--primary-color);
+  color: #2EC4B6;
 }
 
 .addToCart {
-  background: var(--yellow-accent);
+  background: #FFB703;
   border: none;
   padding: 8px 16px;
-  color: var(--text-dark);
+  color: #2b2d42;
   border-radius: 50px;
   cursor: pointer;
-  margin-top: var(--space-sm);
-  transition: transform var(--transition-fast);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  transition: transform 0.3s ease;
 }
 
 .addToCart:hover {
   transform: scale(1.05);
 }
 
-.detailsWrap {
-  display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: 24px;
-  align-items: start;
+.statusMessage {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #E6E6E6;
 }
 
-.detailsActions {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
+.statusMessage.success {
+  color: #2EC4B6;
+  font-weight: 700;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 800px) {
-  .detailsWrap {
-    grid-template-columns: 1fr;
-  }
   .productGrid {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }

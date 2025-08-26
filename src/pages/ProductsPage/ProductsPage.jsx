@@ -1,101 +1,145 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './ProductsPage.module.css';
 
 const ProductsPage = () => {
-  const [activeCategory, setActiveCategory] = useState('laundry');
+  const [cart, setCart] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [statusMessage, setStatusMessage] = useState('');
 
-  // Mock products data
+  // Mock data for categories
+  const categories = ['All', 'Laundry', 'Pies & Noodles', 'Lunchbox', 'Gifts', 'Supply'];
+
+  // Mock data for products
   const products = [
-    // Laundry
-    { id: 1, category: 'laundry', name: 'Eco-Friendly Detergent', description: 'Biodegradable and effective on tough stains.', price: 15.99, image: '/images/laundry-detergent.jpg' },
-    { id: 2, category: 'laundry', name: 'Fabric Softener', description: 'Keeps clothes soft and fresh.', price: 9.99, image: '/images/fabric-softener.jpg' },
-    { id: 3, category: 'laundry', name: 'Stain Remover', description: 'Removes stubborn stains easily.', price: 7.49, image: '/images/stain-remover.jpg' },
-
-    // Pies & Noodles
-    { id: 4, category: 'pies-noodles', name: 'Chicken Pie', description: 'Delicious homemade chicken pie.', price: 5.99, image: '/images/chicken-pie.jpg' },
-    { id: 5, category: 'pies-noodles', name: 'Vegetable Noodles', description: 'Healthy and flavorful noodles.', price: 4.49, image: '/images/vegetable-noodles.jpg' },
-    { id: 6, category: 'pies-noodles', name: 'Beef Pie', description: 'Savory beef pie with rich filling.', price: 6.49, image: '/images/beef-pie.jpg' },
-
-    // Lunchbox
-    { id: 7, category: 'lunchbox', name: 'Kids Lunchbox Set', description: 'Colorful and practical lunchbox.', price: 12.99, image: '/images/kids-lunchbox.jpg' },
-    { id: 8, category: 'lunchbox', name: 'Insulated Lunch Bag', description: 'Keeps food warm or cold.', price: 18.99, image: '/images/insulated-lunchbag.jpg' },
-    { id: 9, category: 'lunchbox', name: 'Party Pack Snacks', description: 'Assorted snacks for parties.', price: 10.99, image: '/images/party-snacks.jpg' },
-
-    // Gifts
-    { id: 10, category: 'gifts', name: 'Custom Embroidered Mug', description: 'Personalized mug with embroidery.', price: 14.99, image: '/images/embroidered-mug.jpg' },
-    { id: 11, category: 'gifts', name: 'Branded Keychain', description: 'Custom branded keychain.', price: 5.99, image: '/images/keychain.jpg' },
-    { id: 12, category: 'gifts', name: 'Gift Basket', description: 'Assorted goodies in a basket.', price: 29.99, image: '/images/gift-basket.jpg' },
-
-    // Supply
-    { id: 13, category: 'supply', name: 'Office Stationery Set', description: 'Pens, notebooks, and more.', price: 19.99, image: '/images/stationery-set.jpg' },
-    { id: 14, category: 'supply', name: 'Corporate Notebooks', description: 'Branded notebooks for business.', price: 8.99, image: '/images/notebooks.jpg' },
-    { id: 15, category: 'supply', name: 'Delivery Supplies', description: 'Packaging materials.', price: 25.99, image: '/images/delivery-supplies.jpg' },
+    {
+      id: 1,
+      name: 'Pies',
+      description: 'Delicious homemade pies for resale, events, or meals.',
+      price: 50,
+      image: '/images/pies.jpg',
+      category: 'Pies & Noodles',
+    },
+    {
+      id: 2,
+      name: 'Noodles',
+      description: 'Quick and tasty instant noodles for everyday convenience.',
+      price: 20,
+      image: '/images/noodles.jpg',
+      category: 'Pies & Noodles',
+    },
+    {
+      id: 3,
+      name: 'Lunchbox Treats',
+      description: 'Snack packs designed for school or office lunchboxes.',
+      price: 30,
+      image: '/images/lunch-box.jpg',
+      category: 'Lunchbox',
+    },
+    {
+      id: 4,
+      name: 'Party Packs',
+      description: 'Custom party packs for birthdays, schools, and events.',
+      price: 100,
+      image: '/images/party-packs.jpg',
+      category: 'Lunchbox',
+    },
+    {
+      id: 5,
+      name: 'Embroidered Gifts',
+      description: 'Custom embroidery and personalized promotional gifts.',
+      price: 150,
+      image: '/images/gift.jpg',
+      category: 'Gifts',
+    },
+    {
+      id: 6,
+      name: 'Corporate Stationery',
+      description: 'Branded corporate packs and office supplies.',
+      price: 200,
+      image: '/images/supply.jpg',
+      category: 'Supply',
+    },
+    {
+      id: 7,
+      name: 'Laundry Service',
+      description: 'Affordable and reliable laundry services.',
+      price: 80,
+      image: '/images/laundry.jpg',
+      category: 'Laundry',
+    },
   ];
 
-  const filteredProducts = products.filter(product => product.category === activeCategory);
+  const addToCart = (item) => {
+    setCart((prevCart) => [
+      ...prevCart,
+      { ...item, quantity: 1 },
+    ]);
+    setStatusMessage(`${item.name} added to cart`);
+    setTimeout(() => setStatusMessage(''), 3000);
+  };
 
-  useEffect(() => {
-    document.body.classList.add('loaded');
-
-    // Handle tab clicks
-    const tabs = document.querySelectorAll(`.${styles.tabButton}`);
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        setActiveCategory(tab.dataset.category);
-      });
-    });
-
-    // Mock GSAP/ScrollTrigger animations if needed
-    // gsap.from(`.${styles.productCard}`, { opacity: 0, y: 50, stagger: 0.1, scrollTrigger: { trigger: `.${styles.productGrid}` } });
-
-    return () => {
-      document.body.classList.remove('loaded');
-      // Cleanup event listeners if necessary
-    };
-  }, []);
+  const filterProducts = () => {
+    if (selectedCategory === 'All') {
+      return products;
+    }
+    return products.filter((product) => product.category === selectedCategory);
+  };
 
   return (
-    <>
-      {/* TopNavigation component will go here */}
+    <main>
+      {/* Products Hero Section */}
+      <section className={styles.productsHero}>
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>Our Products</h1>
+          <p className={styles.heroSubtitle}>
+            Browse our range of high-quality products across categories.
+          </p>
+        </div>
+      </section>
 
-      <main>
-        <header className={`${styles.productsHero} section`}>
-          <div className={`container ${styles.heroContent}`}>
-            <h1 className={styles.heroTitle}>Our Products</h1>
-            <p className={styles.heroSubtitle}>Browse our range of high-quality products across categories.</p>
+      {/* Category Tabs and Product Grid Section */}
+      <section className={styles.productsSection}>
+        <div className={styles.container}>
+          <div className={styles.categoryTabs}>
+            {categories.map((category) => (
+              <button
+                key={category}
+                className={`${styles.tabButton} ${selectedCategory === category ? styles.active : ''}`}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
           </div>
-        </header>
-
-        <section className={`${styles.productCategories} section`}>
-          <div className="container">
-            <div className={styles.categoryTabs}>
-              <button className={`${styles.tabButton} active`} data-category="laundry">Laundry</button>
-              <button className={styles.tabButton} data-category="pies-noodles">Pies & Noodles</button>
-              <button className={styles.tabButton} data-category="lunchbox">Lunchbox</button>
-              <button className={styles.tabButton} data-category="gifts">Gifts</button>
-              <button className={styles.tabButton} data-category="supply">Supply</button>
-            </div>
-
-            <h2 className={styles.sectionTitle}>Featured Products</h2>
-            <div className={styles.productGrid} id="product-grid">
-              {filteredProducts.map(product => (
-                <div key={product.id} className={styles.productCard}>
-                  <img src={product.image} alt={product.name} className={styles.productImage} />
-                  <h3 className={styles.productName}>{product.name}</h3>
-                  <p className={styles.productDescription}>{product.description}</p>
-                  <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
-                  <button className={styles.addToCart}>Add to Cart</button>
-                </div>
-              ))}
-            </div>
+          <h2 className={styles.sectionTitle}>Featured Products</h2>
+          <div className={styles.productGrid}>
+            {filterProducts().map((product) => (
+              <div key={product.id} className={styles.productCard}>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className={styles.productImage}
+                />
+                <h3 className={styles.productName}>{product.name}</h3>
+                <p className={styles.productDescription}>{product.description}</p>
+                <p className={styles.productPrice}>R{product.price}</p>
+                <button
+                  className={styles.addToCart}
+                  onClick={() => addToCart(product)}
+                >
+                  Add to Cart
+                </button>
+              </div>
+            ))}
           </div>
-        </section>
-      </main>
-
-      {/* Footer component will go here */}
-    </>
+          {statusMessage && (
+            <div className={`${styles.statusMessage} ${statusMessage ? styles.success : ''}`}>
+              {statusMessage}
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
   );
 };
 

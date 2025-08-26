@@ -1,112 +1,136 @@
-import React, { useEffect } from 'react';
-import lottie from 'lottie-web'; // Assume installed: npm i lottie-web
+import React from 'react';
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
-  useEffect(() => {
-    // Mock body loaded for opacity transition
-    document.body.classList.add('loaded');
-
-    // Load Lottie animation (mock path; replace with actual JSON)
-    const animation = lottie.loadAnimation({
-      container: document.getElementById('lottie-animation'),
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      path: '/animations/your-lottie-file.json', // Mock; replace with actual
-    });
-
-    // Cleanup
-    return () => {
-      animation.destroy();
-      document.body.classList.remove('loaded');
-    };
-  }, []);
-
-  // Mock testimonials data
-  const testimonials = [
-    {
-      comment: "NMG Zembeta transformed our office with their exceptional cleaning services. Highly professional and reliable!",
-      rating: "★★★★★",
-      name: "Jane Doe",
-    },
-    {
-      comment: "The catering for our event was flawless, with delicious food and impeccable service. Highly recommend!",
-      rating: "★★★★☆",
-      name: "John Smith",
-    },
-    {
-      comment: "Their branding solutions gave our business a fresh, modern look. Truly outstanding work!",
-      rating: "★★★★★",
-      name: "Emily Johnson",
-    },
-  ];
-
   return (
-    <>
-      <div id="custom-cursor" className={styles.customCursor}></div> {/* Site-wide cursor; move to App if needed */}
-
+    <main>
+      {/* Hero Section */}
       <section className={styles.heroSection}>
         <div className={styles.heroBackgroundImage}></div>
         <div className={styles.heroOverlay}></div>
-        
-        {/* TopNavigation component will go here */}
-        
         <div className={styles.content}>
           <h1 className={styles.heroTitle}>My World. Your World. Our World.</h1>
-          <p className={styles.heroSubtitle}>Premium Cleaning, Catering, Branding & Supply Solutions</p>
-          <button className={styles.tourButton}>Explore Services</button>
+          <p className={styles.heroSubtitle}>
+            Premium Cleaning, Catering, Branding & Supply Solutions
+          </p>
+          <a href="#" className={styles.tourButton}>Explore Services</a>
         </div>
-
-        <div id="lottie-animation" className={styles.lottieContainer}></div>
+        <div id="lottie-animation" className={styles.lottieAnimation}></div>
       </section>
 
-      <div className={styles.aboutSection}>
+      {/* About Section */}
+      <section className={styles.aboutSection}>
         <div className={styles.aboutWrapper}>
           <div className={styles.leftSection}>
-            <p>At NMG Zembeta Pty Ltd, our vision is to become a leading and trusted multi-service provider across South Africa. We set new standards for quality, reliability, and innovation by offering essential services under one unified, professional brand.</p>
-            <img src="/images/risk.jpg" alt="NMG Team at Work" /> {/* Assume public/images */}
+            <p>
+              At NMG Zembeta Pty Ltd, our vision is to become a leading and trusted multi-service provider across South Africa.
+              We set new standards for quality, reliability, and innovation by offering essential services under one unified,
+              professional brand.
+            </p>
+            <img src="/images/team.jpg" alt="Team" />
           </div>
           <div className={styles.rightSection}>
-            <h1>WELCOME TO NMG ZEMBETA</h1>
-            <p>We are committed to delivering high-quality services that meet the everyday needs of our clients — from cleaning and laundry to catering, embroidery, branding, consulting, and supplies. Every service we offer is guided by integrity, punctuality, and attention to detail. By investing in skilled staff, innovative practices, and strong client relationships, we simplify service access while uplifting the communities we serve.</p>
-          </div>
-        </div>
-      </div>
-
-      <section className={`${styles.servicesOverview} section`}>
-        <div className="container">
-          <h2 className={styles.sectionTitle}>What We Offer</h2>
-          <div className={`${styles.servicesListCard} card`}>
-            <ul>
-              <li className={styles.serviceCleaning}><a href="...">Cleaning & Laundry Services</a></li>
-              <li className={styles.servicePies}><a href="...">Pies & Noodles</a></li>
-              <li className={styles.serviceLunchbox}><a href="...">Lunchbox Treats & Party Packs</a></li>
-              <li className={styles.serviceRisk}><a href="...">Risk Consulting & Recruitment</a></li>
-              <li className={styles.serviceEmbroidery}><a href="...">Embroidery, Branding & Custom Gifts</a></li>
-              <li className={styles.serviceSupply}><a href="...">Supply, Delivery & Corporate Stationery</a></li>
-            </ul>
+            <h1 className={styles.gradientText}>WELCOME TO NMG ZEMBETA</h1>
+            <p>
+              We are committed to delivering high-quality services that meet the everyday needs of our clients — from cleaning
+              and laundry to catering, embroidery, branding, consulting, and supplies.
+            </p>
+            <button className={styles.readMoreButton}>Read More</button>
           </div>
         </div>
       </section>
 
-      <section id="testimonials" className={styles.testimonialsSection}>
-        <div className="container">
-          <h2 className={styles.sectionTitle}>What Our Clients Say</h2>
-          <div className={styles.testimonialsGrid}>
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className={styles.testimonialCard}>
-                <p className={styles.testimonialComment}>"{testimonial.comment}"</p>
-                <div className={styles.testimonialRating}>{testimonial.rating}</div>
-                <p className={styles.testimonialName}>{testimonial.name}</p>
+      {/* Services and Products Section */}
+      <section className={styles.servicesAndProductsSection}>
+        <h2 className={styles.gradientText}>Our Services</h2>
+        <div className={styles.servicesWrapper}>
+          <div className={styles.servicesLeft}>
+            <div className={styles.servicesList}>
+              <div className={styles.serviceItem}>
+                <h3>Cleaning & Laundry</h3>
+                <p>Affordable and reliable residential, commercial, and industrial cleaning services.</p>
               </div>
-            ))}
+              <div className={styles.serviceItem}>
+                <h3>Risk Consulting & Recruitment</h3>
+                <p>Professional risk assessments, security consulting, and recruitment services.</p>
+              </div>
+            </div>
           </div>
+          <div className={styles.servicesRight}>
+            <div className={styles.servicesList}>
+              <div className={styles.serviceItem}>
+                <h3>Embroidery & Branding</h3>
+                <p>Custom embroidery, branding, and personalised promotional gifts.</p>
+              </div>
+              <div className={styles.serviceItem}>
+                <h3>Supply & Corporate Stationery</h3>
+                <p>Branded corporate packs, office supplies, and deliveries for all your business needs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h2 className={styles.gradientText}>Our Products</h2>
+        <div className={styles.servicesWrapper}>
+          <div className={styles.servicesLeft}>
+            <div className={styles.productsList}>
+              <div className={styles.productItem}>
+                <h3>Pies</h3>
+                <p>Delicious homemade pies for resale, events, or meals.</p>
+              </div>
+              <div className={styles.productItem}>
+                <h3>Noodles</h3>
+                <p>Quick and tasty instant noodles for everyday convenience.</p>
+              </div>
+            </div>
+          </div>
+          <div className={styles.servicesRight}>
+            <div className={styles.productsList}>
+              <div className={styles.productItem}>
+                <h3>Lunchbox Treats</h3>
+                <p>Snack packs designed for school or office lunchboxes.</p>
+              </div>
+              <div className={styles.productItem}>
+                <h3>Party Packs</h3>
+                <p>Custom party packs for birthdays, schools, and events.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.servicesFooter}>
+          <a href="#" className={styles.moreServicesButton}>More Services</a>
         </div>
       </section>
 
-      {/* Footer component will go here */}
-    </>
+      {/* Testimonials Section */}
+      <section className={styles.testimonialsSection}>
+        <div className={styles.testimonialsContent}>
+          <h2 className={styles.testimonialsTitle}>What Our Clients Say</h2>
+          <div className={styles.testimonialsCarousel}>
+            <div className={styles.testimonialItem}>
+              <p className={styles.testimonialComment}>
+                "NMG Zembeta transformed our office with their exceptional cleaning services."
+              </p>
+              <div className={styles.testimonialRating}>★★★★★</div>
+              <p className={styles.testimonialName}>Jane Doe</p>
+            </div>
+            <div className={styles.testimonialItem}>
+              <p className={styles.testimonialComment}>
+                "The catering for our event was flawless. Highly recommend!"
+              </p>
+              <div className={styles.testimonialRating}>★★★★☆</div>
+              <p className={styles.testimonialName}>John Smith</p>
+            </div>
+            <div className={styles.testimonialItem}>
+              <p className={styles.testimonialComment}>
+                "Their branding gave our business a fresh look. Outstanding work!"
+              </p>
+              <div className={styles.testimonialRating}>★★★★★</div>
+              <p className={styles.testimonialName}>Emily Johnson</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 };
 
