@@ -1,14 +1,12 @@
-import { useState } from 'react'
 //import './App.css'
 import AppRouter from './AppRouter/index'
-
-// test
-import HomePage from './pages/HomePage/HomePage'
+import CustomCursor from './components/CustomCursor/CustomCursor'
 
 function App() {
 
   return (
     <div className='app-container'>
+      <CustomCursor/>
         <AppRouter />
     </div>
   )

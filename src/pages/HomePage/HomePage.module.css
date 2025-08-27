@@ -20,7 +20,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('/images/pexels-rethaferguson-4177708.jpg') no-repeat center center/cover;
+  background: url('../../assets/images/pexels-rethaferguson-4177708.jpg') no-repeat center center/cover;
   opacity: 0.7;
   z-index: -1;
   pointer-events: none;
@@ -169,7 +169,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  background: url('/images/team.jpg') no-repeat center;
+  background: url('../../assets/images/team.jpg') no-repeat center;
   background-size: cover;
   position: relative;
   color: #ffffff;
@@ -321,7 +321,9 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Testimonials Section */
+
+
+/* Testimonials Section 
 .testimonialsSection {
   padding: 4rem 0;
   background-color: #1E2A38;
@@ -361,6 +363,7 @@
   width: 80%;
   max-width: 600px;
   opacity: 0;
+  z-index: 10;
 }
 
 .testimonialComment {
@@ -380,6 +383,7 @@
   font-weight: 600;
   color: #ffffff;
 }
+*/
 
 /* Gradient Text */
 .gradientText {

@@ -1,0 +1,84 @@
+.testimonialsSection {
+  padding: 4rem 0;
+  background-color: #1E2A38;
+  color: #E6E6E6;
+  text-align: center;
+}
+
+.testimonialsContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+/* Title */
+.testimonialsTitle {
+  font-size: 1.75rem;
+  margin-bottom: 4rem;
+  color: #2EC4B6;
+}
+
+/* Carousel container */
+.testimonialsCarousel {
+  position: relative;
+  overflow: hidden;
+  height: 350px;
+}
+
+/* Each testimonial card */
+.testimonialItem {
+  background: rgba(74, 78, 105, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: absolute;
+  top: 6%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  opacity: 0;
+}
+
+/* Active one will show */
+.active {
+  opacity: 1 !important;
+  position: relative;
+  transform: none;
+}
+
+/* Text styling */
+.text {
+  font-style: italic;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.author {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Rating style if you add stars */
+.rating {
+  font-size: 1.5rem;
+  color: #FFB703;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .testimonialsCarousel {
+    height: auto;
+  }
+  .testimonialItem {
+    position: static;
+    transform: none;
+    width: 100%;
+  }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './HomePage.module.css';
+import Testimonials from '../../components/Testimonials/Testimonials';
 
 const HomePage = () => {
   return (
@@ -27,7 +28,7 @@ const HomePage = () => {
               We set new standards for quality, reliability, and innovation by offering essential services under one unified,
               professional brand.
             </p>
-            <img src="/images/team.jpg" alt="Team" />
+            <img src="/src/assets/images/risk.jpg" alt="Team" />
           </div>
           <div className={styles.rightSection}>
             <h1 className={styles.gradientText}>WELCOME TO NMG ZEMBETA</h1>
@@ -105,29 +106,7 @@ const HomePage = () => {
       <section className={styles.testimonialsSection}>
         <div className={styles.testimonialsContent}>
           <h2 className={styles.testimonialsTitle}>What Our Clients Say</h2>
-          <div className={styles.testimonialsCarousel}>
-            <div className={styles.testimonialItem}>
-              <p className={styles.testimonialComment}>
-                "NMG Zembeta transformed our office with their exceptional cleaning services."
-              </p>
-              <div className={styles.testimonialRating}>★★★★★</div>
-              <p className={styles.testimonialName}>Jane Doe</p>
-            </div>
-            <div className={styles.testimonialItem}>
-              <p className={styles.testimonialComment}>
-                "The catering for our event was flawless. Highly recommend!"
-              </p>
-              <div className={styles.testimonialRating}>★★★★☆</div>
-              <p className={styles.testimonialName}>John Smith</p>
-            </div>
-            <div className={styles.testimonialItem}>
-              <p className={styles.testimonialComment}>
-                "Their branding gave our business a fresh look. Outstanding work!"
-              </p>
-              <div className={styles.testimonialRating}>★★★★★</div>
-              <p className={styles.testimonialName}>Emily Johnson</p>
-            </div>
-          </div>
+          <Testimonials/>
         </div>
       </section>
     </main>
