@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import styles from './SignupPage.module.css';
-import { Link } from 'react-router-dom';
 
 const SignupPage = () => {
   const [fullName, setFullName] = useState('');
@@ -11,26 +13,69 @@ const SignupPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
+  const [isSigningUp, setIsSigningUp] = useState(false);
 
-  const handleSignUp = () => {
+  const navigate = useNavigate();
+  const auth = getAuth();
+  const db = getFirestore();
+
+  const handleSignUp = async () => {
     if (!fullName || !email || !password || !confirmPassword) {
       setStatusMessage('Please fill in all fields');
       setTimeout(() => setStatusMessage(''), 3000);
-    } else if (password !== confirmPassword) {
+      return;
+    }
+    if (password !== confirmPassword) {
       setStatusMessage('Passwords do not match');
       setTimeout(() => setStatusMessage(''), 3000);
-    } else if (!agreeTerms) {
+      return;
+    }
+    if (!agreeTerms) {
       setStatusMessage('Please agree to the Terms & Privacy Policy');
       setTimeout(() => setStatusMessage(''), 3000);
-    } else {
-      setStatusMessage('Sign-up successful');
+      return;
+    }
+
+    setIsSigningUp(true);
+
+    try {
+      // 1. Create a new user with Firebase Authentication
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // 2. Create a new document in the 'users' collection using the user's UID as the document ID
+      const userDocRef = doc(db, 'users', user.uid);
+
+      await setDoc(userDocRef, {
+        fullName: fullName,
+        email: email,
+        createdAt: new Date(),
+      });
+
+      setStatusMessage('Sign-up successful!');
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+
+    } catch (error) {
+      console.error('Error signing up:', error);
+      let errorMessage = 'An error occurred during sign-up.';
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'This email address is already in use.';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'The password is too weak. Please use at least 6 characters.';
+      }
+      setStatusMessage(errorMessage);
+    } finally {
+      setIsSigningUp(false);
       setTimeout(() => setStatusMessage(''), 3000);
     }
   };
 
   const handleGoogleSignUp = () => {
-    setStatusMessage('Google sign-up initiated (mock)');
+    setStatusMessage('Google sign-up initiated (mock). Firebase integration needed.');
     setTimeout(() => setStatusMessage(''), 3000);
+    // TODO: Add Google sign-in integration here
   };
 
   const togglePasswordVisibility = () => {
@@ -58,6 +103,7 @@ const SignupPage = () => {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   className={styles.input}
+                  disabled={isSigningUp}
                 />
               </div>
               <div className={styles.formGroup}>
@@ -69,6 +115,7 @@ const SignupPage = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className={styles.input}
+                  disabled={isSigningUp}
                 />
               </div>
               <div className={styles.formGroup}>
@@ -81,6 +128,7 @@ const SignupPage = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className={styles.input}
+                    disabled={isSigningUp}
                   />
                   <span
                     className={styles.togglePassword}
@@ -100,9 +148,10 @@ const SignupPage = () => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className={styles.input}
+                    disabled={isSigningUp}
                   />
                   <span
-                    className={styles.togglePassword}
+                    className={styles.toggleConfirmPassword}
                     onClick={toggleConfirmPasswordVisibility}
                   >
                     👁️
@@ -115,12 +164,17 @@ const SignupPage = () => {
                     type="checkbox"
                     checked={agreeTerms}
                     onChange={() => setAgreeTerms((prev) => !prev)}
+                    disabled={isSigningUp}
                   />
                   I agree to the Terms & Privacy Policy
                 </label>
               </div>
-              <button className={styles.submitButton} onClick={handleSignUp}>
-                Create account
+              <button 
+                className={styles.submitButton} 
+                onClick={handleSignUp}
+                disabled={isSigningUp}
+              >
+                {isSigningUp ? 'Creating Account...' : 'Create account'}
               </button>
               <div className={styles.divider}>
                 <span>or</span>
@@ -128,6 +182,7 @@ const SignupPage = () => {
               <button
                 className={styles.googleButton}
                 onClick={handleGoogleSignUp}
+                disabled={isSigningUp}
               >
                 Continue with Google
               </button>

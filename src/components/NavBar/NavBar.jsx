@@ -4,7 +4,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import styles from './NavBar.module.css';
 
 const Nav = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth(); // Destructure the user object
 
   const handleSignOut = async () => {
     try {
@@ -27,17 +27,29 @@ const Nav = () => {
         <li>
           <Link to="/about" className={styles.link}>About</Link>
         </li>
-        <li>
-          <Link to="/products" className={styles.link}>Products</Link>
-        </li>
+        {((user && user.role !== 'admin') || !user) && (
+          <>
+            <li>
+              <Link to="/products" className={styles.link}>Products</Link>
+            </li>
+            <li>
+              <Link to="/cart" className={styles.link}>Cart</Link>
+            </li>
+          </>
+        )}
         <li>
           <Link to="/contact" className={styles.link}>Contact</Link>
         </li>
-        <li>
-          <Link to="/cart" className={styles.link}>Cart</Link>
-        </li>
+        {/* Only show links after authentication state is loaded */}
         {isAuthenticated ? (
           <>
+            {/* Show Admin Dashboard button if the user is an admin */}
+            {user.role === 'admin' && (
+              <li>
+                <Link to="/admin/dashboard" className={styles.link}>Admin Dashboard</Link>
+                <Link to="/admin/orders" >Orders</Link>
+              </li>
+            )}
             <li className={styles.userInfo}>
               Welcome, {user.displayName || user.email}
             </li>
@@ -48,14 +60,16 @@ const Nav = () => {
             </li>
           </>
         ) : (
-          <>
-            <li>
-              <Link to="/auth/signin" className={styles.link}>Sign In</Link>
-            </li>
-            <li>
-              <Link to="/auth/signup" className={styles.link}>Sign Up</Link>
-            </li>
-          </>
+          !loading && (
+            <>
+              <li>
+                <Link to="/auth/signin" className={styles.link}>Sign In</Link>
+              </li>
+              <li>
+                <Link to="/auth/signup" className={styles.link}>Sign Up</Link>
+              </li>
+            </>
+          )
         )}
       </ul>
     </nav>

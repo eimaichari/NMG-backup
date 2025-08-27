@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { app } from '../utils/firebase'; // Import the app instance
+import { doc, getDoc } from 'firebase/firestore'; // Import Firestore functions
+import { app, db } from '../utils/firebase'; // Make sure to import the 'db' instance
 
 // Create AuthContext
 const AuthContext = createContext();
@@ -20,15 +21,36 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const auth = getAuth(app); // Use the app instance here
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const auth = getAuth(app);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // User is logged in, extract basic data
-        setUser({
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          displayName: firebaseUser.displayName || null,
-        });
+        // User is logged in, now fetch their custom data from Firestore
+        const userDocRef = doc(db, 'users', firebaseUser.uid);
+        try {
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUser({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              displayName: firebaseUser.displayName || null,
+              role: userData.role || 'user', // Add the role to the user object
+            });
+
+            console.log("User role:", userData.role);
+          } else {
+            // Document doesn't exist, assume a basic 'user' role
+            setUser({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              displayName: firebaseUser.displayName || null,
+              role: 'user',
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching user role:", error);
+          setUser(null); // Set user to null on error
+        }
       } else {
         // No user is logged in
         setUser(null);
