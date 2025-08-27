@@ -18,7 +18,7 @@ const Nav = () => {
   return (
     <nav className={styles.nav}>
       <div className={styles.logo}>
-        <Link to="/">MyEcommerce</Link>
+        <Link to="/">NMG-Zembeta</Link>
       </div>
       <ul className={styles.navLinks}>
         <li>

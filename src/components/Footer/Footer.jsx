@@ -25,7 +25,7 @@ const Footer = () => {
       </div>
       <div className={styles.footerBottom}>
         <p>&copy; {new Date().getFullYear()} MyEcommerce. All rights reserved.</p>
-        <p>version 1.0.0</p>
+        <p>version 1.0.2</p>
       </div>
     </footer>
   );
