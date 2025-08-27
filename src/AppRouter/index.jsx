@@ -16,7 +16,8 @@ import CheckoutPage from '../pages/CheckoutPage/CheckoutPage';
 import SignInPage from '../pages/auth/SignIn/SignInPage';
 import SignupPage from '../pages/auth/SignupPage/SignupPage';
 import ProfilePage from '../pages/ProfilePage/ProfilePage.jsx';
-import AdminDashboard from '../pages/AdminDashboard/AdminDashboard.jsx';
+import AdminDashboard from '../pages/admin/AdminDashboard/AdminDashboard.jsx';
+import OrdersPage from '../pages/admin/OrdersPage/OrdersPage.jsx';
 
 import ProductDetailsPage from '../pages/ProductDetails/ProductDetails.jsx';
  
@@ -47,6 +48,7 @@ const AppRouter = () => {
             {/* Admin Routes */}
             <Route element={<AdminRoute />}>
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/orders" element={<OrdersPage />} />
             </Route>
           </Routes>
           <Footer />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './SignInPage.module.css';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../../../utils/firebase';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignInPage = () => {
   const [email, setEmail] = useState('');
@@ -11,11 +11,16 @@ const SignInPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
 
+  const navigate = useNavigate();
   const handleSignIn = async () => {
   if (email && password) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       setStatusMessage('Sign-in successful');
+      setTimeout(() => setStatusMessage(''), 3000);
+      navigate('/'); // Redirect to home or desired page after sign-in
+      setStatusMessage(`Error: ${error.message}`);
       setTimeout(() => setStatusMessage(''), 3000);
     } catch (error) {
       setStatusMessage(`Error: ${error.message}`);
@@ -34,6 +39,7 @@ const handleGoogleSignIn = async () => {
     await signInWithPopup(auth, provider);
     setStatusMessage('Google sign-in successful');
     setTimeout(() => setStatusMessage(''), 3000);
+    navigate('/'); // Redirect to home or desired page after Google sign-in
   } catch (error) {
     setStatusMessage(`Error: ${error.message}`);
     setTimeout(() => setStatusMessage(''), 3000);

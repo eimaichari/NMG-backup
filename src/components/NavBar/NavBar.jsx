@@ -27,14 +27,18 @@ const Nav = () => {
         <li>
           <Link to="/about" className={styles.link}>About</Link>
         </li>
-        <li>
-          <Link to="/products" className={styles.link}>Products</Link>
-        </li>
+        {((user && user.role !== 'admin') || !user) && (
+          <>
+            <li>
+              <Link to="/products" className={styles.link}>Products</Link>
+            </li>
+            <li>
+              <Link to="/cart" className={styles.link}>Cart</Link>
+            </li>
+          </>
+        )}
         <li>
           <Link to="/contact" className={styles.link}>Contact</Link>
-        </li>
-        <li>
-          <Link to="/cart" className={styles.link}>Cart</Link>
         </li>
         {/* Only show links after authentication state is loaded */}
         {isAuthenticated ? (
@@ -43,6 +47,7 @@ const Nav = () => {
             {user.role === 'admin' && (
               <li>
                 <Link to="/admin/dashboard" className={styles.link}>Admin Dashboard</Link>
+                <Link to="/admin/orders" >Orders</Link>
               </li>
             )}
             <li className={styles.userInfo}>

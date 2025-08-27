@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { useProducts } from '../../context/ProductContext';
+import { useAuth } from '../../../context/AuthContext';
+import { useProducts } from '../../../context/ProductContext';
 import { Link, Navigate } from 'react-router-dom';
 import styles from './AdminDashboard.module.css';
 
