@@ -1,15 +1,18 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { getAuth, signOut } from 'firebase/auth';
 import styles from './NavBar.module.css';
 
 const Nav = () => {
-  const { user, isAuthenticated, loading } = useAuth(); // Destructure the user object
+  const { user, isAuthenticated, loading } = useAuth();
+  const [isOpen, setIsOpen] = useState(false); // 🔹 track menu toggle
 
   const handleSignOut = async () => {
     try {
       const auth = getAuth();
       await signOut(auth);
+      setIsOpen(false); // close menu on sign out
     } catch (error) {
       console.error('Sign out error:', error);
     }
@@ -17,57 +20,60 @@ const Nav = () => {
 
   return (
     <nav className={styles.nav}>
+      {/* Logo */}
       <div className={styles.logo}>
-        <Link to="/">NMG-Zembeta</Link>
+        <Link to="/" onClick={() => setIsOpen(false)}>NMG-Zembeta</Link>
       </div>
-      <ul className={styles.navLinks}>
-        <li>
-          <Link to="/" className={styles.link}>Home</Link>
-        </li>
-        <li>
-          <Link to="/about" className={styles.link}>About</Link>
-        </li>
+
+      {/* Hamburger button (mobile only) */}
+      <div
+        className={`${styles.hamburgerMenu} ${isOpen ? styles.open : ''}`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span className={styles.bar}></span>
+        <span className={styles.bar}></span>
+        <span className={styles.bar}></span>
+      </div>
+
+      {/* Nav links */}
+      <ul className={`${styles.navLinks} ${isOpen ? styles.active : ''}`}>
+        <li><Link to="/" className={styles.link} onClick={() => setIsOpen(false)}>Home</Link></li>
+        <li><Link to="/about" className={styles.link} onClick={() => setIsOpen(false)}>About</Link></li>
+
         {((user && user.role !== 'admin') || !user) && (
           <>
-            <li>
-              <Link to="/products" className={styles.link}>Products</Link>
-            </li>
-            <li>
-              <Link to="/cart" className={styles.link}>Cart</Link>
-            </li>
+            <li><Link to="/products" className={styles.link} onClick={() => setIsOpen(false)}>Products</Link></li>
+            <li><Link to="/cart" className={styles.link} onClick={() => setIsOpen(false)}>Cart</Link></li>
           </>
         )}
-        <li>
-          <Link to="/contact" className={styles.link}>Contact</Link>
-        </li>
-        {/* Only show links after authentication state is loaded */}
+
+        <li><Link to="/contact" className={styles.link} onClick={() => setIsOpen(false)}>Contact</Link></li>
+
+        {/* Authenticated user */}
         {isAuthenticated ? (
           <>
-            {/* Show Admin Dashboard button if the user is an admin */}
             {user.role === 'admin' && (
-              <li>
-                <Link to="/admin/dashboard" className={styles.link}>Admin Dashboard</Link>
-                <Link to="/admin/orders" >Orders</Link>
-              </li>
+              <>
+                <li>
+                  <Link to="/admin/dashboard" className={styles.link} onClick={() => setIsOpen(false)}>Dashboard</Link>
+                </li>
+                <li className={styles.ordersLink}>
+                  <Link to="/admin/orders" className={styles.link} onClick={() => setIsOpen(false)}>Orders</Link>
+                </li>
+              </>
             )}
             <li className={styles.userInfo}>
               Welcome, {user.displayName || user.email}
             </li>
             <li>
-              <button onClick={handleSignOut} className={styles.link}>
-                Sign Out
-              </button>
+              <button onClick={handleSignOut} className={styles.link}>Sign Out</button>
             </li>
           </>
         ) : (
           !loading && (
             <>
-              <li>
-                <Link to="/auth/signin" className={styles.link}>Sign In</Link>
-              </li>
-              <li>
-                <Link to="/auth/signup" className={styles.link}>Sign Up</Link>
-              </li>
+              <li><Link to="/auth/signin" className={styles.link} onClick={() => setIsOpen(false)}>Sign In</Link></li>
+              <li><Link to="/auth/signup" className={styles.link} onClick={() => setIsOpen(false)}>Sign Up</Link></li>
             </>
           )
         )}

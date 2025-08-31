@@ -39,7 +39,7 @@ const ContactPage = () => {
           <div className={styles.contactFormWrapper}>
             <div className={styles.contactForm}>
               <h2>Send Us a Message</h2>
-              <div>
+              <div className={styles.formContainer}>
                 <input type="text" placeholder="Name" />
                 <input type="email" placeholder="Email" />
                 <input type="tel" placeholder="Phone" />

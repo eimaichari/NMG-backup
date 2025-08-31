@@ -162,4 +162,9 @@ a:hover {
   .contactSection {
     padding-top: 80px;
   }
+
+  .formContainer {
+    position: relative;
+    right: 1rem;
+  }
 }

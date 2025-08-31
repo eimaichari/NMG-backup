@@ -42,6 +42,7 @@
   text-align: center;
   z-index: 3;
   margin-top: 0;
+  width: 95vw;
   height: 100vh;
   display: flex;
   flex-direction: column;

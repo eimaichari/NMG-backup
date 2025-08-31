@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,14 +63,20 @@
 .hamburgerMenu {
   display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   gap: 5px;
+  padding: 5px;
+  right: 10px;
+  z-index: 200;        /* 🔹 ensure it's above navLinks */
 }
 
 .bar {
-  width: 25px;
+  width: 28px;
   height: 3px;
-  background-color: var(--text-light, #E6E6E6);
+  background-color: #fff; /* 🔹 force white so it's visible */
+  border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -130,6 +136,10 @@
 
 /* Responsive nav */
 @media (max-width: 768px) {
+  .nav {
+    width: 90vw;
+  }
+
   .navLinks {
     position: fixed;
     top: 60px;
@@ -143,6 +153,7 @@
     transition: transform 0.3s ease-in-out;
     border-bottom: 1px solid var(--card-border, rgba(255,255,255,0.1));
     z-index: 99;
+    display: flex; /* 🔹 now it shows up properly on small screens */
   }
 
   .navLinks.active {
@@ -151,9 +162,15 @@
 
   .hamburgerMenu {
     display: flex;
+    
   }
 
   .search {
     display: none;
   }
+}
+
+/* Extra space between Dashboard & Orders */
+.ordersLink {
+  margin-left: 1.5rem;
 }

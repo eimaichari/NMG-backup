@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.footerSection}>
-          <h3>MyEcommerce</h3>
+          <h3>NMG-Zembeta</h3>
           <p>Quality products, delivered to your door.</p>
         </div>
         <div className={styles.footerSection}>

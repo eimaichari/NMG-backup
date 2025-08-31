@@ -23,6 +23,7 @@
 .testimonialsCarousel {
   position: relative;
   overflow: hidden;
+  width: 90%;
   height: 350px;
 }
 
@@ -39,7 +40,7 @@
   top: 6%;
   left: 35%;
   transform: translate(-50%, -50%);
-  width: 80%;
+  width: 100%;
   max-width: 600px;
   opacity: 0;
 }
@@ -75,10 +76,11 @@
 @media (max-width: 768px) {
   .testimonialsCarousel {
     height: auto;
+    left: 1.5rem;
   }
   .testimonialItem {
     position: static;
     transform: none;
-    width: 100%;
+    width: 80%;
   }
 }
