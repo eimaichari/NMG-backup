@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { 
+  getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc 
+} from 'firebase/firestore';
 import { db } from '../utils/firebase';
 
 const ProductsContext = createContext();
@@ -14,9 +16,9 @@ export const useProducts = () => {
 
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
 
   // Fetch products from Firestore
   const fetchProducts = async () => {
@@ -27,14 +29,25 @@ export const ProductsProvider = ({ children }) => {
         ...doc.data(),
       }));
       setProducts(productsData);
-
-      // test 
-      console.log("Fetched products:", productsData);
-
       setLoading(false);
     } catch (err) {
       setError('Failed to fetch products');
       setLoading(false);
+      console.error(err);
+    }
+  };
+
+  // Fetch categories from Firestore
+  const fetchCategories = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'categories'));
+      const categoriesData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCategories(categoriesData);
+    } catch (err) {
+      setError('Failed to fetch categories');
       console.error(err);
     }
   };
@@ -50,6 +63,20 @@ export const ProductsProvider = ({ children }) => {
       setProducts([...products, { id: docRef.id, ...productData, available: true }]);
     } catch (err) {
       setError('Failed to add product');
+      console.error(err);
+    }
+  };
+
+  // Add a new category
+  const addCategory = async (categoryName) => {
+    try {
+      const docRef = await addDoc(collection(db, 'categories'), {
+        name: categoryName,
+        createdAt: new Date().toISOString(),
+      });
+      setCategories([...categories, { id: docRef.id, name: categoryName }]);
+    } catch (err) {
+      setError('Failed to add category');
       console.error(err);
     }
   };
@@ -82,18 +109,25 @@ export const ProductsProvider = ({ children }) => {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const value = {
     products,
+    categories,
     loading,
     error,
     addProduct,
+    addCategory,
     deleteProduct,
     toggleAvailability,
   };
 
-  return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>;
+  return (
+    <ProductsContext.Provider value={value}>
+      {children}
+    </ProductsContext.Provider>
+  );
 };
 
 export default ProductsContext;

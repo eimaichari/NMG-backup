@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import styles from './SignupPage.module.css';
 
 const SignupPage = () => {
@@ -22,41 +22,35 @@ const SignupPage = () => {
   const handleSignUp = async () => {
     if (!fullName || !email || !password || !confirmPassword) {
       setStatusMessage('Please fill in all fields');
-      setTimeout(() => setStatusMessage(''), 3000);
       return;
     }
     if (password !== confirmPassword) {
       setStatusMessage('Passwords do not match');
-      setTimeout(() => setStatusMessage(''), 3000);
       return;
     }
     if (!agreeTerms) {
       setStatusMessage('Please agree to the Terms & Privacy Policy');
-      setTimeout(() => setStatusMessage(''), 3000);
       return;
     }
 
     setIsSigningUp(true);
 
     try {
-      // 1. Create a new user with Firebase Authentication
+      // 1. Create new user with Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // 2. Create a new document in the 'users' collection using the user's UID as the document ID
+      // 2. Create Firestore profile for the user
       const userDocRef = doc(db, 'users', user.uid);
-
       await setDoc(userDocRef, {
-        fullName: fullName,
-        email: email,
-        createdAt: new Date(),
+        fullName,
+        email,
+        role: 'user', // default role
+        createdAt: serverTimestamp(),
       });
 
-      setStatusMessage('Sign-up successful!');
-      setTimeout(() => {
-        navigate('/');
-      }, 3000);
-
+      setStatusMessage('Sign-up successful 🎉');
+      navigate('/'); // redirect immediately
     } catch (error) {
       console.error('Error signing up:', error);
       let errorMessage = 'An error occurred during sign-up.';
@@ -72,19 +66,8 @@ const SignupPage = () => {
     }
   };
 
-  const handleGoogleSignUp = () => {
-    setStatusMessage('Google sign-up initiated (mock). Firebase integration needed.');
-    setTimeout(() => setStatusMessage(''), 3000);
-    // TODO: Add Google sign-in integration here
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
-
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prev) => !prev);
-  };
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
 
   return (
     <main>
@@ -130,10 +113,7 @@ const SignupPage = () => {
                     className={styles.input}
                     disabled={isSigningUp}
                   />
-                  <span
-                    className={styles.togglePassword}
-                    onClick={togglePasswordVisibility}
-                  >
+                  <span className={styles.togglePassword} onClick={togglePasswordVisibility}>
                     👁️
                   </span>
                 </div>
@@ -150,10 +130,7 @@ const SignupPage = () => {
                     className={styles.input}
                     disabled={isSigningUp}
                   />
-                  <span
-                    className={styles.toggleConfirmPassword}
-                    onClick={toggleConfirmPasswordVisibility}
-                  >
+                  <span className={styles.toggleConfirmPassword} onClick={toggleConfirmPasswordVisibility}>
                     👁️
                   </span>
                 </div>
@@ -169,8 +146,8 @@ const SignupPage = () => {
                   I agree to the Terms & Privacy Policy
                 </label>
               </div>
-              <button 
-                className={styles.submitButton} 
+              <button
+                className={styles.submitButton}
                 onClick={handleSignUp}
                 disabled={isSigningUp}
               >
@@ -179,18 +156,18 @@ const SignupPage = () => {
               <div className={styles.divider}>
                 <span>or</span>
               </div>
-              <button
-                className={styles.googleButton}
-                onClick={handleGoogleSignUp}
-                disabled={isSigningUp}
-              >
+              <button className={styles.googleButton} disabled={isSigningUp}>
                 Continue with Google
               </button>
               <p className={styles.signInLink}>
                 Already have an account? <Link to={'/auth/signin'} className={styles.link}>Sign in</Link>
               </p>
               {statusMessage && (
-                <div className={`${styles.statusMessage} ${statusMessage.includes('successful') ? styles.success : ''}`}>
+                <div
+                  className={`${styles.statusMessage} ${
+                    statusMessage.includes('successful') ? styles.success : ''
+                  }`}
+                >
                   {statusMessage}
                 </div>
               )}

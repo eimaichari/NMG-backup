@@ -64,55 +64,43 @@
 }
 
 .tourButton {
-  background: linear-gradient(90deg, #84a98c 0%, #a4c3b2 100%);
-  border: none;
-  padding: 16px 36px;
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #E6E6E6;
-  cursor: pointer;
-  border-radius: 50px;
-  text-decoration: none;
   display: inline-block;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.tourButton::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -75%;
-  width: 50%;
-  height: 100%;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  color: #1E2A38;
+  text-decoration: none;
   background: linear-gradient(
     120deg,
-    transparent,
-    rgba(255, 255, 255, 0.6),
-    transparent
+    #2EC4B6,
+    #FFB703,
+    #E6E6E6,
+    #2EC4B6
   );
-  transform: skewX(-20deg);
+  background-size: 300% 300%;
+  transition: transform 0.3s ease;
+  animation: shimmer 3s linear infinite;
 }
 
 .tourButton:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 25px rgba(255, 255, 255, 0.3);
-  background: linear-gradient(90deg, #2EC4B6, #FFB703);
+  transform: scale(1.05);
 }
 
-.tourButton:hover::after {
-  animation: shine 1s forwards;
-}
-
-@keyframes shine {
+@keyframes shimmer {
   0% {
-    left: -75%;
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
   100% {
-    left: 125%;
+    background-position: 0% 50%;
   }
 }
+
 
 .lottieAnimation {
   position: absolute;
