@@ -24,7 +24,7 @@ const Footer = () => {
         </div>
       </div>
       <div className={styles.footerBottom}>
-        <p>&copy; {new Date().getFullYear()} NMG-Zembeta. All rights reserved. Built By<a href="https://www.linkedin.com/in/jeremie-kazadi-013a55372?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" style="color: inherit; text-decoration: underline;">INFINITY V1</a></p>
+        <p>&copy; {new Date().getFullYear()} NMG-Zembeta. All rights reserved. Built By </p>
       </div>
     </footer>
   );
