@@ -147,3 +147,78 @@
     background-color: #f44336;
     color: white;
 }
+
+/* Proof of Payment Thumbnail */
+.proofSection {
+  margin-top: 1rem;
+}
+
+.proofImage {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #4a90e2;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.proofImage:hover {
+  transform: scale(1.05);
+}
+
+.clickHint {
+  font-size: 0.75rem;
+  color: #aaa;
+  margin-top: 0.25rem;
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modalContent {
+  position: relative;
+  background: #222;
+  padding: 1rem;
+  border-radius: 12px;
+  max-width: 90%;
+  max-height: 90%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.modalImage {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 8px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton:hover {
+  background: #d32f2f;
+}
+
+

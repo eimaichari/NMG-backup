@@ -8,6 +8,7 @@ const OrdersPage = () => {
   const { orders, loading, error } = useOrders();
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [statusMessage, setStatusMessage] = useState('');
+  const [modalImage, setModalImage] = useState(null); // for enlarged proof image
 
   const statusOptions = ['All', 'Pending Payment', 'Pending Delivery', 'Complete', 'Cancelled'];
 
@@ -69,6 +70,7 @@ const OrdersPage = () => {
                 <p><strong>Total:</strong> R{order.totalAmount}</p>
                 <p><strong>Placed:</strong> {new Date(order.orderDate).toLocaleDateString()}</p>
               </div>
+
               <div className={styles.orderItems}>
                 <p><strong>Items:</strong></p>
                 <ul>
@@ -77,6 +79,21 @@ const OrdersPage = () => {
                   ))}
                 </ul>
               </div>
+
+              {/* ✅ Proof of Payment Thumbnail */}
+              {order.proofOfPayment && (
+                <div className={styles.proofSection}>
+                  <p><strong>Proof of Payment:</strong></p>
+                  <img
+                    src={order.proofOfPayment}
+                    alt="Proof of Payment"
+                    className={styles.proofImage}
+                    onClick={() => setModalImage(order.proofOfPayment)}
+                  />
+                  <p className={styles.clickHint}>(click to enlarge)</p>
+                </div>
+              )}
+
               <div className={styles.statusUpdate}>
                 <strong>Status:</strong>
                 <select
@@ -95,6 +112,16 @@ const OrdersPage = () => {
         </div>
       )}
       
+      {/* ✅ Modal for enlarged proof image */}
+      {modalImage && (
+        <div className={styles.modalOverlay} onClick={() => setModalImage(null)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <img src={modalImage} alt="Proof of Payment Enlarged" className={styles.modalImage} />
+            <button className={styles.closeButton} onClick={() => setModalImage(null)}>✕</button>
+          </div>
+        </div>
+      )}
+
       {statusMessage && (
         <div className={`${styles.statusMessage} ${statusMessage.includes('Failed') ? styles.error : styles.success}`}>
           {statusMessage}

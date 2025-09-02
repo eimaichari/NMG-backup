@@ -14,7 +14,7 @@ const HomePage = () => {
           <p className={styles.heroSubtitle}>
             Premium Cleaning, Catering, Branding & Supply Solutions
           </p>
-          <a href="#" className={styles.tourButton}>Explore Services</a>
+          <a href="../ProductsPage/ProductsPage.jsx" className={styles.tourButton}>Explore Services</a>
         </div>
         <div id="lottie-animation" className={styles.lottieAnimation}></div>
       </section>
@@ -98,7 +98,7 @@ const HomePage = () => {
           </div>
         </div>
         <div className={styles.servicesFooter}>
-          <a href="#" className={styles.moreServicesButton}>More Services</a>
+          <a href="../ProductsPage/ProductsPage.jsx" className={styles.moreServicesButton}>More Services</a>
         </div>
       </section>
 

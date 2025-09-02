@@ -16,14 +16,11 @@ const SignInPage = () => {
   if (email && password) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      await signInWithEmailAndPassword(auth, email, password);
-      setStatusMessage('Sign-in successful');
-      setTimeout(() => setStatusMessage(''), 3000);
-      navigate('/'); // Redirect to home or desired page after sign-in
-      setStatusMessage(`Error: ${error.message}`);
-      setTimeout(() => setStatusMessage(''), 3000);
+      setStatusMessage('Sign-in successful ✅');
+      navigate('/'); // immediately redirect
     } catch (error) {
       setStatusMessage(`Error: ${error.message}`);
+    } finally {
       setTimeout(() => setStatusMessage(''), 3000);
     }
   } else {
