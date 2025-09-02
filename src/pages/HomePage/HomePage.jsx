@@ -28,12 +28,12 @@ const HomePage = () => {
               We set new standards for quality, reliability, and innovation by offering essential services under one unified,
               professional brand.
             </p>
-            <img src="/src/assets/images/risk.jpg" alt="Team" />
+            <img src="../src/assets/images/lunch-box.jpg" alt="Team" />
           </div>
           <div className={styles.rightSection}>
             <h1 className={styles.gradientText}>WELCOME TO NMG ZEMBETA</h1>
             <p>
-              We are committed to delivering high-quality services that meet the everyday needs of our clients — from cleaning
+              We are committed to delivering high-quality services that meet the everyday needs of our clients, from cleaning
               and laundry to catering, embroidery, branding, consulting, and supplies.
             </p>
             <button className={styles.readMoreButton}>Read More</button>
@@ -97,9 +97,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-        <div className={styles.servicesFooter}>
-          <a href="../ProductsPage/ProductsPage.jsx" className={styles.moreServicesButton}>More Services</a>
-        </div>
+       
       </section>
 
       {/* Testimonials Section */}
