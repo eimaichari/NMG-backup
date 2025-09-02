@@ -14,17 +14,17 @@ const ContactPage = () => {
             </p>
             <div className={styles.infoItem}>
               <h4>Address</h4>
-              <p>123 Business Avenue, JHB, South Africa</p>
+              <p>Randburg, JHB, South Africa</p>
             </div>
             <div className={styles.infoItem}>
               <h4>Phone</h4>
-              <p>+27 12 345 6789</p>
+              <p>+27 73 974 0331</p>
             </div>
             <div className={styles.infoItem}>
               <h4>Email</h4>
               <p>
-                <a href="mailto:info@nmgzembeta.co.za" className={styles.linkStyle}>
-                  info@nmgzembeta.co.za
+                <a href="mailto:nasiphizembeta@gmail.com" className={styles.linkStyle}>
+                  nasiphizembeta@gmail.com
                 </a>
               </p>
             </div>
@@ -32,7 +32,7 @@ const ContactPage = () => {
               <div className={styles.socialLinks}>
                 <a href="#" className={styles.linkStyle}>IG</a>
                 <a href="#" className={styles.linkStyle}>WHATSAPP</a>
-                <a href="#" className={styles.linkStyle}>EMAIL</a>
+                <a href="nasiphizembeta@gmail.com" className={styles.linkStyle}>EMAIL</a>
               </div>
             </div>
           </div>

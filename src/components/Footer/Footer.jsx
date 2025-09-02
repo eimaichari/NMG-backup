@@ -19,12 +19,12 @@ const Footer = () => {
         </div>
         <div className={styles.footerSection}>
           <h4>Contact Info</h4>
-          <p>Email: support@myecommerce.com</p>
-          <p>Phone: (123) 456-7890</p>
+          <p>Email: nasiphizembeta@gmail.com</p>
+          <p>Phone: (+27)73 974-0331</p>
         </div>
       </div>
       <div className={styles.footerBottom}>
-        <p>&copy; {new Date().getFullYear()} MyEcommerce. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} NMG-Zembeta. All rights reserved.</p>
         <p>version 1.0.2</p>
       </div>
     </footer>
