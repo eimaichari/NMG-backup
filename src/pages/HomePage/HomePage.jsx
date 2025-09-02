@@ -28,7 +28,6 @@ const HomePage = () => {
               We set new standards for quality, reliability, and innovation by offering essential services under one unified,
               professional brand.
             </p>
-            <img src="lunch-box.jpg" alt="Team" />
           </div>
           <div className={styles.rightSection}>
             <h1 className={styles.gradientText}>WELCOME TO NMG ZEMBETA</h1>
