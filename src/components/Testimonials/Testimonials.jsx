@@ -5,20 +5,20 @@ import styles from "./Testimonials.module.css";
 const testimonialsData = [
   {
     id: 1,
-    text: "NMG Zembeta transformed our office with their exceptional cleaning services.",
-    author: "Jane Doe",
+    text: "The lunchbox packs came in handyyyy! Delicious and convenient.!",
+    author: "Suzanne",
     rating: "★★★★★",
   },
   {
     id: 2,
-    text: "The catering for our event was flawless. Highly recommend!",
-    author: "John Smith",
+    text: "The embroidery service was top-notch. Highly recommend!",
+    author: "Junior",
     rating: "★★★★☆",
   },
   {
     id: 3,
-    text: "Their branding gave our business a fresh look. Outstanding work!",
-    author: "Emily Johnson",
+    text: "My kids love the lunchbox packs!Thank you for making mealtime fun.",
+    author: "Jenifer",
     rating: "★★★★★",
   },
 ];

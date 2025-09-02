@@ -2,9 +2,59 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NMG-Zembeta</title>
+    
+    <!-- SEO Meta Tags (base; override dynamically with React Helmet) -->
+    <title>NMG Zembeta Pty Ltd - One-Stop Multi-Services in Randburg, South Africa</title>
+    <meta name="description" content="NMG Zembeta Pty Ltd: Leading provider of cleaning, laundry, catering, embroidery, branding, risk consulting, and supplies in Randburg. Affordable, reliable services for homes, businesses, and events. Contact: 073 974 0331." />
+    <meta name="keywords" content="NMG Zembeta, cleaning services Randburg, laundry South Africa, pies noodles bulk, lunchbox treats, party packs, risk consulting, embroidery branding, company diaries, custom car stickers, supply delivery Johannesburg, multi-service provider" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="NMG Zembeta Pty Ltd" />
+    <meta name="geo.region" content="ZA-GP" /> <!-- this one is for the local SEO: Gauteng, South Africa -->
+    <meta name="geo.placename" content="Randburg" />
+    
+    <!-- Open Graph for Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="NMG Zembeta Pty Ltd - Your Trusted Multi-Service Partner" />
+    <meta property="og:description" content="From cleaning and catering to branding and consulting – all under one roof in Randburg. 'One Company, One Stop Services — My World. Your World. Our World.'" />
+    <meta property="og:image" content="/logo.svg" /> 
+    <meta property="og:url" content="https://your-domain.com" />
+    <meta property="og:site_name" content="NMG Zembeta Pty Ltd" />
+    <meta property="og:locale" content="en_ZA" />
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NMG Zembeta Pty Ltd - Multi-Services in South Africa" />
+    <meta name="twitter:description" content="Professional, affordable services including cleaning, laundry, and more in Randburg." />
+    <meta name="twitter:image" content="/logo.svg" />
+    
+    <!-- Favicons for All Devices (minimal set; generate from logo.svg) -->
+    <link rel="icon" href="favicon.ico" sizes="32x32" /> <!-- Legacy browsers -->
+    <link rel="icon" href="favicon-16x16.png" type="image/png+xml" /> <!-- Modern browsers, scalable -->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180" /> <!-- iOS devices -->
+    <link rel="manifest" href="site.webmanifest" /> <!-- For PWA support -->
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "NMG Zembeta Pty Ltd",
+      "image": "/logo.svg",
+      "telephone": "073 974 0331",
+      "email": "nasiphizembeta@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Randburg",
+        "addressLocality": "Randburg",
+        "addressRegion": "Gauteng",
+        "postalCode": "",
+        "addressCountry": "ZA"
+      },
+      "description": "Multi-service provider offering cleaning, laundry, catering, embroidery, branding, consulting, and supplies.",
+      "openingHours": "Mo-Sat appointments only", 
+      "url": "https://your-domain.com" // will change to actual URL
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
