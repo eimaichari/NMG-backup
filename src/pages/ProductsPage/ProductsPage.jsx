@@ -14,7 +14,7 @@ const ProductsPage = () => {
   const [statusMessage, setStatusMessage] = useState('');
   const [addingProducts, setAddingProducts] = useState(new Set()); 
 
-  const categories = ['All', 'Laundry', 'Pies & Noodles', 'Lunchbox', 'Gifts', 'Supply'];
+  const categories = ['All', ...new Set(products.map((p) => p.category).filter(Boolean))];
 
   const addToCart = async (product) => {
     if (!isAuthenticated) {
