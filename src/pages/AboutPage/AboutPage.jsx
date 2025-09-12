@@ -49,62 +49,44 @@ const AboutPage = () => {
         </div>
       </section>
 
-    {/* Why Choose Us Section */}
-      <section className="whyChooseUs bg-[#1E2A38] py-20 px-6">
-        <h2 className="sectionTitle text-3xl md:text-4xl text-center text-[#2EC4B6] mb-12 font-bold">
-          Why Choose NMG Zembeta?
-        </h2>
-        <div className="featuresGrid container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="featureItem group relative bg-[#2F3E46]/80 border border-[#2EC4B6]/30 rounded-xl p-6 text-center hover:bg-[#2EC4B6]/20 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
-            <div className="icon mb-4">
-              <svg className="w-4 h-4 mx-auto text-[#FFB703] group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16zm-1-7h2v4h-2zm0-6h2v4h-2z"/>
-              </svg>
+      {/* Why Choose Us Section */}
+      <section className={styles.whyChooseUs}>
+        <h2 className={styles.sectionTitle}>Why Choose NMG Zembeta?</h2>
+        <div className={styles.featuresGrid}>
+          <div className={styles.featureItem}>
+            <h3 className={styles.cardTitle}>One-Stop Shop</h3>
+            <div className={styles.card}>
+              <p>
+                A diverse range of solutions, all under one reliable brand.
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-[#FFB703] mb-3 group-hover:text-white">One-Stop Shop</h3>
-            <p className="text-[#E6E6E6] text-sm leading-relaxed">
-              A diverse range of solutions, all under one reliable brand.
-            </p>
           </div>
-
-          <div className="featureItem group relative bg-[#2F3E46]/80 border border-[#2EC4B6]/30 rounded-xl p-6 text-center hover:bg-[#2EC4B6]/20 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
-            <div className="icon mb-4">
-              <svg className="w-4 h-4 mx-auto text-[#FFB703] group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
+          <div className={styles.featureItem}>
+            <h3 className={styles.cardTitle}>Skilled & Experienced Team</h3>
+            <div className={styles.card}>
+              <p>
+                Staff carefully selected, trained, and equipped to deliver every service with professionalism and efficiency.
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-[#FFB703] mb-3 group-hover:text-white">Skilled & Experienced Team</h3>
-            <p className="text-[#E6E6E6] text-sm leading-relaxed">
-              Staff carefully selected, trained, and equipped to deliver every service with professionalism and efficiency.
-            </p>
           </div>
-
-          <div className="featureItem group relative bg-[#2F3E46]/80 border border-[#2EC4B6]/30 rounded-xl p-6 text-center hover:bg-[#2EC4B6]/20 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
-            <div className="icon mb-4">
-              <svg className="w-4 h-4 mx-auto text-[#FFB703] group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2L2 7v7.5a10 10 0 0010 10 10 10 0 0010-10V7l-10-5zm0 18a8 8 0 01-8-8V9.5l8-4 8 4V12a8 8 0 01-8 8z"/>
-              </svg>
+          <div className={styles.featureItem}>
+            <h3 className={styles.cardTitle}>Reliable & Affordable</h3>
+            <div className={styles.card}>
+              <p>
+                Consistent quality at competitive prices, making our services both accessible and dependable.
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-[#FFB703] mb-3 group-hover:text-white">Reliable & Affordable</h3>
-            <p className="text-[#E6E6E6] text-sm leading-relaxed">
-              Consistent quality at competitive prices, making our services both accessible and dependable.
-            </p>
           </div>
-
-          <div className="featureItem group relative bg-[#2F3E46]/80 border border-[#2EC4B6]/30 rounded-xl p-6 text-center hover:bg-[#2EC4B6]/20 transition-all duration-300 hover:-translate-y-2 hover:shadow-lg">
-            <div className="icon mb-4">
-              <svg className="w-4 h-4 mx-auto text-[#FFB703] group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-              </svg>
+          <div className={styles.featureItem}>
+            <h3 className={styles.cardTitle}>Client-Focused</h3>
+            <div className={styles.card}>
+              <p>
+                Flexible and adaptable to your needs, budget, and expectations with excellent customer support.
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-[#FFB703] mb-3 group-hover:text-white">Client-Focused</h3>
-            <p className="text-[#E6E6E6] text-sm leading-relaxed">
-              Flexible and adaptable to your needs, budget, and expectations with excellent customer support.
-            </p>
           </div>
         </div>
       </section>
-
     </main>
   );
 };

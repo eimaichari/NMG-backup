@@ -41,27 +41,27 @@ a {
 
 /* Sections */
 .section {
-  padding: 6rem 0;
+  padding: 6rem 0; /* more breathing space */
 }
 
 .section + .section {
-  margin-top: 2rem;
+  margin-top: 2rem; /* spacing between stacked sections */
 }
 
 .sectionTitle {
   font-size: 2rem;
   text-align: center;
   color: #2EC4B6;
-  margin-bottom: 3rem;
+  margin-bottom: 3rem; /* more spacing below titles */
 }
 
-/* Card Style (used elsewhere, not for Why Choose Us) */
+/* Card Style */
 .card {
   background: rgba(74, 78, 105, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   backdrop-filter: blur(10px);
-  padding: 3rem 2rem;
+  padding: 3rem 2rem; /* more inside padding */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -112,7 +112,7 @@ a {
 /* Company Overview */
 .companyOverview .card {
   max-width: 850px;
-  margin: 0 auto 4rem;
+  margin: 0 auto 4rem; /* added margin below */
   text-align: center;
 }
 
@@ -123,13 +123,13 @@ a {
 /* Vision & Mission */
 .visionMission {
   background-color: #2F3E46;
-  padding: 5rem 2rem;
+  padding: 5rem 2rem; /* more section padding */
 }
 
 .visionMissionWrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 3rem;
+  gap: 3rem; /* more spacing between columns */
   justify-content: center;
 }
 
@@ -157,21 +157,38 @@ a {
   margin: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  gap: 1.5rem; /* increased gap */
 }
 
 .servicesListCard li {
   background: rgba(255, 255, 255, 0.07);
-  padding: 1.25rem;
+  padding: 1.25rem; /* increased padding */
   border-radius: 10px;
   transition: background 0.3s ease, transform 0.3s ease;
   font-size: 1.05rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
+  min-height: 120px; /* taller for more space */
   position: relative;
   overflow: hidden;
+}
+
+/* Why Choose Us */
+.whyChooseUs {
+  background-color: #1E2A38;
+  padding: 5rem 2rem;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2.5rem; /* more space between feature cards */
+}
+
+.featureItem {
+  text-align: center;
+  padding: 2rem;
 }
 
 /* Responsive */
@@ -186,32 +203,4 @@ a {
   .heroSubtitle { font-size: 1rem; }
   .servicesListCard ul { grid-template-columns: 1fr; }
   .section { padding: 4rem 1.5rem; }
-}
-
-/* Why Choose Us — tiny icons & clean spacing */
-.whyChooseUs .featureItem .icon {
-  line-height: 0;    /* remove baseline whitespace under SVG */
-  font-size: 0;      /* prevent font-size from affecting SVG */
-  display: block;    /* predictable spacing */
-}
-
-.whyChooseUs .featureItem .icon svg {
-  width: 12px !important;   /* TINY — change to 16px if you want slightly bigger */
-  height: 12px !important;
-  display: block;
-  margin: 0 auto;
-}
-
-.whyChooseUs .featureItem .icon.mb-4 {
-  margin-bottom: 0.45rem;   /* tighter spacing for small icons */
-}
-
-.whyChooseUs .featureItem h3 {
-  font-size: 1.25rem;       /* balanced with tiny icons */
-  margin-bottom: 0.75rem;
-}
-.whyChooseUs .featureItem p {
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #CCCCCC;
 }
