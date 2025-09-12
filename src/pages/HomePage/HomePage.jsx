@@ -58,6 +58,12 @@ const HomePage = () => {
                     services tailored for businesses and events. We will help you hire trusted personnel
                     and reduce potential business risks.</p>
               </div>
+               <div className={styles.serviceItem}>
+                <h3>Company Diaries, Tags & Pens</h3>
+                <p>Order customized corporate diaries, staff ID tags, and branded pens to
+                    professionally represent your business. Great for end-of-year gifts, branding, or
+                    corporate identity.</p>
+              </div>
             </div>
           </div>
           <div className={styles.servicesRight}>
@@ -73,12 +79,6 @@ const HomePage = () => {
                 <p>We source and deliver a variety of goods — from office supplies to school packs and
                     bulk snacks. Whether for homes, schools, or businesses, we ensure timely and
                     affordable delivery</p>
-              </div>
-              <div className={styles.serviceItem}>
-                <h3>Company Diaries, Tags & Pens</h3>
-                <p>Order customized corporate diaries, staff ID tags, and branded pens to
-                    professionally represent your business. Great for end-of-year gifts, branding, or
-                    corporate identity.</p>
               </div>
               <div className={styles.serviceItem}>
                 <h3>Custom Car Stickers & Gifts</h3>
