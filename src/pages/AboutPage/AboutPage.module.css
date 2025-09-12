@@ -188,19 +188,30 @@ a {
   .section { padding: 4rem 1.5rem; }
 }
 
-/* Why Choose Us — fixed small icon size */
+/* Why Choose Us — tiny icons & clean spacing */
+.whyChooseUs .featureItem .icon {
+  line-height: 0;    /* remove baseline whitespace under SVG */
+  font-size: 0;      /* prevent font-size from affecting SVG */
+  display: block;    /* predictable spacing */
+}
+
 .whyChooseUs .featureItem .icon svg {
-  width: 20px !important;
-  height: 20px !important;
+  width: 12px !important;   /* TINY — change to 16px if you want slightly bigger */
+  height: 12px !important;
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 
 .whyChooseUs .featureItem .icon.mb-4 {
-  margin-bottom: 0.6rem; /* tighten spacing since icons are smaller */
+  margin-bottom: 0.45rem;   /* tighter spacing for small icons */
 }
+
 .whyChooseUs .featureItem h3 {
-  font-size: 1.25rem;
+  font-size: 1.25rem;       /* balanced with tiny icons */
   margin-bottom: 0.75rem;
+}
+.whyChooseUs .featureItem p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #CCCCCC;
 }
