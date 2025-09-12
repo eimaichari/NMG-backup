@@ -187,34 +187,20 @@ a {
   .servicesListCard ul { grid-template-columns: 1fr; }
   .section { padding: 4rem 1.5rem; }
 }
-/* ----------------------------
-   Why Choose Us — icon sizing
-   ---------------------------- */
 
-/* Ensure the icon wrapper doesn't add extra line-height */
-.whyChooseUs .featureItem .icon {
-  line-height: 0;
-}
-
-/* Responsive SVG sizing: scales with viewport, but has min/max limits.
-   This overrides the Tailwind classes like w-12 h-12 without touching JSX. */
+/* Why Choose Us — fixed small icon size */
 .whyChooseUs .featureItem .icon svg {
-  width: clamp(40px, 6vw, 64px); /* min 40px, scales with viewport, max 64px */
-  height: auto;                  /* keep aspect ratio */
+  width: 20px !important;
+  height: 20px !important;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  /* keep using currentColor from your inline classes */
 }
 
-/* Slight vertical spacing tweak so heading and text align nicely with new icon size */
 .whyChooseUs .featureItem .icon.mb-4 {
-  margin-bottom: 0.9rem; /* preserves spacing but keeps things tighter if needed */
+  margin-bottom: 0.6rem; /* tighten spacing since icons are smaller */
 }
-
-/* Optional: scale down icon slightly on very small screens */
-@media (max-width: 420px) {
-  .whyChooseUs .featureItem .icon svg {
-    width: 40px;
-  }
+.whyChooseUs .featureItem h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
 }
