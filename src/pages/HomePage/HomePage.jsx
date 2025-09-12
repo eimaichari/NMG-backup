@@ -24,7 +24,7 @@ const HomePage = () => {
         <div className={styles.aboutWrapper}>
           <div className={styles.leftSection}>
             <p>
-              At NMG Zembeta Pty Ltd, our vision is to become a leading and trusted multi-service provider across South Africa.
+              Our vision is to become a leading and trusted multi-service provider across South Africa.
               We set new standards for quality, reliability, and innovation by offering essential services under one unified,
               professional brand.
             </p>
@@ -48,11 +48,15 @@ const HomePage = () => {
             <div className={styles.servicesList}>
               <div className={styles.serviceItem}>
                 <h3>Cleaning & Laundry</h3>
-                <p>Affordable and reliable residential, commercial, and industrial cleaning services.</p>
+                <p>We offer affordable and reliable residential, commercial, and industrial cleaning
+                  services. Our laundry solutions include washing, dry, iron, and folding for both
+                  individual and bulk orders, perfect for households, offices, and uniforms.</p>
               </div>
               <div className={styles.serviceItem}>
                 <h3>Risk Consulting & Recruitment</h3>
-                <p>Professional risk assessments, security consulting, and recruitment services.</p>
+                <p>Our team offers professional risk assessments, security consulting, and recruitment
+                    services tailored for businesses and events. We will help you hire trusted personnel
+                    and reduce potential business risks.</p>
               </div>
             </div>
           </div>
@@ -60,15 +64,31 @@ const HomePage = () => {
             <div className={styles.servicesList}>
               <div className={styles.serviceItem}>
                 <h3>Embroidery & Branding</h3>
-                <p>Custom embroidery, branding, and personalised promotional gifts.</p>
+                <p>We specialize in custom embroidery for uniforms, caps, aprons, and promotional
+                    items. We also offer branding services to help businesses stand out with custom
+                    logos on apparel, gifts, and corporate wear</p>
               </div>
               <div className={styles.serviceItem}>
                 <h3>Supply & Corporate Stationery</h3>
-                <p>Branded corporate packs, office supplies, and deliveries for all your business needs.</p>
+                <p>We source and deliver a variety of goods — from office supplies to school packs and
+                    bulk snacks. Whether for homes, schools, or businesses, we ensure timely and
+                    affordable delivery</p>
+              </div>
+              <div className={styles.serviceItem}>
+                <h3>Company Diaries, Tags & Pens</h3>
+                <p>Order customized corporate diaries, staff ID tags, and branded pens to
+                    professionally represent your business. Great for end-of-year gifts, branding, or
+                    corporate identity.</p>
+              </div>
+              <div className={styles.serviceItem}>
+                <h3>Custom Car Stickers & Gifts</h3>
+                <p>We design and print personalized car decals, bumper stickers, and thoughtful gifts
+                    for all occasions. Perfect for personal use, small businesses, or promotional events.</p>
               </div>
             </div>
           </div>
         </div>
+
         <h2 className={styles.gradientText}>Our Products</h2>
         <div className={styles.servicesWrapper}>
           <div className={styles.servicesLeft}>
@@ -96,7 +116,6 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-       
       </section>
 
       {/* Testimonials Section */}
