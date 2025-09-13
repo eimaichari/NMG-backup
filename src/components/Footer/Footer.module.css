@@ -85,8 +85,8 @@
 .footerBottom {
   text-align: center;
   margin-top: 2rem;
-  border-top: 1px solid var(--card-border, rgba(255,255,255,0.2));
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   padding-top: 1rem;
   font-size: 0.9rem;
-  color: var(--text-light, #cccccc);
+  color: #cccccc;
 }
