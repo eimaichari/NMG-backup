@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './HomePage.module.css';
 import Testimonials from '../../components/Testimonials/Testimonials';
 
 const HomePage = () => {
+  const [activeImageIndex, setActiveImageIndex] = useState({});
+
+  const handleImageChange = (itemId, direction) => {
+    setActiveImageIndex((prev) => ({
+      ...prev,
+      [itemId]: (prev[itemId] || 0) + direction,
+    }));
+  };
+
   return (
     <main>
       {/* Hero Section */}
@@ -46,44 +55,104 @@ const HomePage = () => {
         <div className={styles.servicesWrapper}>
           <div className={styles.servicesLeft}>
             <div className={styles.servicesList}>
-              <div className={styles.serviceItem}>
+              <div className={styles.serviceItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['service0']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['service0']: undefined }))}>
                 <h3>Cleaning & Laundry</h3>
                 <p>We offer affordable and reliable residential, commercial, and industrial cleaning
                   services. Our laundry solutions include washing, dry, iron, and folding for both
                   individual and bulk orders, perfect for households, offices, and uniforms.</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['service0'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/cleaning-laundry-1.jpg" alt="Cleaning & Laundry 1" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/cleaning-laundry-2.jpg" alt="Cleaning & Laundry 2" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
-              <div className={styles.serviceItem}>
+              <div className={styles.serviceItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['service1']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['service1']: undefined }))}>
                 <h3>Risk Consulting & Recruitment</h3>
                 <p>Our team offers professional risk assessments, security consulting, and recruitment
                     services tailored for businesses and events. We will help you hire trusted personnel
                     and reduce potential business risks.</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['service1'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/risk-consulting-1.jpg" alt="Risk Consulting 1" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/risk-consulting-2.jpg" alt="Risk Consulting 2" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
-               <div className={styles.serviceItem}>
+              <div className={styles.serviceItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['service2']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['service2']: undefined }))}>
                 <h3>Company Diaries, Tags & Pens</h3>
                 <p>Order customized corporate diaries, staff ID tags, and branded pens to
                     professionally represent your business. Great for end-of-year gifts, branding, or
                     corporate identity.</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['service2'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/diaries-tags-1.jpg" alt="Diaries & Tags 1" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/diaries-tags-2.jpg" alt="Diaries & Tags 2" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
           <div className={styles.servicesRight}>
             <div className={styles.servicesList}>
-              <div className={styles.serviceItem}>
+              <div className={styles.serviceItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['service3']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['service3']: undefined }))}>
                 <h3>Embroidery & Branding</h3>
                 <p>We specialize in custom embroidery for uniforms, caps, aprons, and promotional
                     items. We also offer branding services to help businesses stand out with custom
                     logos on apparel, gifts, and corporate wear</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['service3'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/embroidery-1.jpg" alt="Embroidery 1" className={`${styles.serviceImage} ${activeImageIndex['service3'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/embroidery-2.jpg" alt="Embroidery 2" className={`${styles.serviceImage} ${activeImageIndex['service3'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
-              <div className={styles.serviceItem}>
+              <div className={styles.serviceItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['service4']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['service4']: undefined }))}>
                 <h3>Supply & Corporate Stationery</h3>
                 <p>We source and deliver a variety of goods — from office supplies to school packs and
                     bulk snacks. Whether for homes, schools, or businesses, we ensure timely and
                     affordable delivery</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['service4'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/stationery-1.jpg" alt="Stationery 1" className={`${styles.serviceImage} ${activeImageIndex['service4'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/stationery-2.jpg" alt="Stationery 2" className={`${styles.serviceImage} ${activeImageIndex['service4'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
-              <div className={styles.serviceItem}>
+              <div className={styles.serviceItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['service5']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['service5']: undefined }))}>
                 <h3>Custom Car Stickers & Gifts</h3>
                 <p>We design and print personalized car decals, bumper stickers, and thoughtful gifts
                     for all occasions. Perfect for personal use, small businesses, or promotional events.</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['service5'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/stickers-gifts-1.jpg" alt="Stickers & Gifts 1" className={`${styles.serviceImage} ${activeImageIndex['service5'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/stickers-gifts-2.jpg" alt="Stickers & Gifts 2" className={`${styles.serviceImage} ${activeImageIndex['service5'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -93,25 +162,65 @@ const HomePage = () => {
         <div className={styles.servicesWrapper}>
           <div className={styles.servicesLeft}>
             <div className={styles.productsList}>
-              <div className={styles.productItem}>
+              <div className={styles.productItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['product0']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['product0']: undefined }))}>
                 <h3>Pies</h3>
                 <p>Delicious homemade pies for resale, events, or meals.</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['product0'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/pies-1.jpg" alt="Pies 1" className={`${styles.serviceImage} ${activeImageIndex['product0'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/pies-2.jpg" alt="Pies 2" className={`${styles.serviceImage} ${activeImageIndex['product0'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
-              <div className={styles.productItem}>
+              <div className={styles.productItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['product1']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['product1']: undefined }))}>
                 <h3>Noodles</h3>
                 <p>Quick and tasty instant noodles for everyday convenience.</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['product1'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/noodles-1.jpg" alt="Noodles 1" className={`${styles.serviceImage} ${activeImageIndex['product1'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/noodles-2.jpg" alt="Noodles 2" className={`${styles.serviceImage} ${activeImageIndex['product1'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
           <div className={styles.servicesRight}>
             <div className={styles.productsList}>
-              <div className={styles.productItem}>
+              <div className={styles.productItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['product2']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['product2']: undefined }))}>
                 <h3>Lunchbox Treats</h3>
                 <p>Snack packs designed for school or office lunchboxes.</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['product2'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/lunchbox-1.jpg" alt="Lunchbox Treats 1" className={`${styles.serviceImage} ${activeImageIndex['product2'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/lunchbox-2.jpg" alt="Lunchbox Treats 2" className={`${styles.serviceImage} ${activeImageIndex['product2'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
-              <div className={styles.productItem}>
+              <div className={styles.productItem}
+                onMouseEnter={() => setActiveImageIndex((prev) => ({ ...prev, ['product3']: 0 }))}
+                onMouseLeave={() => setActiveImageIndex((prev) => ({ ...prev, ['product3']: undefined }))}>
                 <h3>Party Packs</h3>
                 <p>Custom party packs for birthdays, schools, and events.</p>
+                <div className={styles.imageContainer}>
+                  {activeImageIndex['product3'] !== undefined && (
+                    <>
+                      <img src="../srs/assets/images/party-packs-1.jpg" alt="Party Packs 1" className={`${styles.serviceImage} ${activeImageIndex['product3'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="../srs/assets/images/party-packs-2.jpg" alt="Party Packs 2" className={`${styles.serviceImage} ${activeImageIndex['product3'] === 1 ? styles.activeImage : ''}`} />
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -121,7 +230,6 @@ const HomePage = () => {
       {/* Testimonials Section */}
       <section className={styles.testimonialsSection}>
         <div className={styles.testimonialsContent}>
-          <h2 className={styles.testimonialsTitle}>What Our Clients Say</h2>
           <Testimonials/>
         </div>
       </section>
