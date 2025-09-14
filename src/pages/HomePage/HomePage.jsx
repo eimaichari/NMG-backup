@@ -65,8 +65,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['service0'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/cleaning-laundry-1.jpg" alt="Cleaning & Laundry 1" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/cleaning-laundry-2.jpg" alt="Cleaning & Laundry 2" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-09-12 at 13.05.51 (1).jpeg" alt="Cleaning & Laundry 1" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-09-12 at 13.05.51.jpeg" alt="Cleaning & Laundry 2" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -81,8 +81,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['service1'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/risk-consulting-1.jpg" alt="Risk Consulting 1" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/risk-consulting-2.jpg" alt="Risk Consulting 2" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-08-06 at 15.17.28.jpeg" alt="Risk Consulting 1" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/team-at-work.jpg" alt="Risk Consulting 2" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -97,8 +97,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['service2'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/diaries-tags-1.jpg" alt="Diaries & Tags 1" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/diaries-tags-2.jpg" alt="Diaries & Tags 2" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/diaries.jpeg" alt="Diaries & Tags 1" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/diarriesss.jpeg" alt="Diaries & Tags 2" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -117,8 +117,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['service3'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/embroidery-1.jpg" alt="Embroidery 1" className={`${styles.serviceImage} ${activeImageIndex['service3'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/embroidery-2.jpg" alt="Embroidery 2" className={`${styles.serviceImage} ${activeImageIndex['service3'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-08-06 at 15.17.25 (2).jpeg" alt="Embroidery 1" className={`${styles.serviceImage} ${activeImageIndex['service3'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-08-06 at 15.17.24 (1).jpeg" alt="Embroidery 2" className={`${styles.serviceImage} ${activeImageIndex['service3'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -133,8 +133,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['service4'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/stationery-1.jpg" alt="Stationery 1" className={`${styles.serviceImage} ${activeImageIndex['service4'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/stationery-2.jpg" alt="Stationery 2" className={`${styles.serviceImage} ${activeImageIndex['service4'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-09-14 at 21.33.48.jpeg" alt="Stationery 1" className={`${styles.serviceImage} ${activeImageIndex['service4'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-09-14 at 21.33.48 (1).jpeg" alt="Stationery 2" className={`${styles.serviceImage} ${activeImageIndex['service4'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -148,8 +148,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['service5'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/stickers-gifts-1.jpg" alt="Stickers & Gifts 1" className={`${styles.serviceImage} ${activeImageIndex['service5'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/stickers-gifts-2.jpg" alt="Stickers & Gifts 2" className={`${styles.serviceImage} ${activeImageIndex['service5'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-08-06 at 15.17.26.jpeg" alt="Stickers & Gifts 1" className={`${styles.serviceImage} ${activeImageIndex['service5'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-08-06 at 15.17.29 (1).jpeg" alt="Stickers & Gifts 2" className={`${styles.serviceImage} ${activeImageIndex['service5'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -170,8 +170,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['product0'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/pies-1.jpg" alt="Pies 1" className={`${styles.serviceImage} ${activeImageIndex['product0'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/pies-2.jpg" alt="Pies 2" className={`${styles.serviceImage} ${activeImageIndex['product0'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/pies.jpg" alt="Pies 1" className={`${styles.serviceImage} ${activeImageIndex['product0'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-09-12 at 13.11.18 (2).jpeg" alt="Pies 2" className={`${styles.serviceImage} ${activeImageIndex['product0'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -184,8 +184,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['product1'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/noodles-1.jpg" alt="Noodles 1" className={`${styles.serviceImage} ${activeImageIndex['product1'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/noodles-2.jpg" alt="Noodles 2" className={`${styles.serviceImage} ${activeImageIndex['product1'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-09-12 at 13.10.11.jpeg" alt="Noodles 1" className={`${styles.serviceImage} ${activeImageIndex['product1'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-09-12 at 13.07.55.jpeg" alt="Noodles 2" className={`${styles.serviceImage} ${activeImageIndex['product1'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -202,8 +202,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['product2'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/lunchbox-1.jpg" alt="Lunchbox Treats 1" className={`${styles.serviceImage} ${activeImageIndex['product2'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/lunchbox-2.jpg" alt="Lunchbox Treats 2" className={`${styles.serviceImage} ${activeImageIndex['product2'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-08-06 at 09.48.10.jpeg" alt="Lunchbox Treats 1" className={`${styles.serviceImage} ${activeImageIndex['product2'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-08-06 at 09.48.11.jpeg" alt="Lunchbox Treats 2" className={`${styles.serviceImage} ${activeImageIndex['product2'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -216,8 +216,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['product3'] !== undefined && (
                     <>
-                      <img src="../srs/assets/images/party-packs-1.jpg" alt="Party Packs 1" className={`${styles.serviceImage} ${activeImageIndex['product3'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="../srs/assets/images/party-packs-2.jpg" alt="Party Packs 2" className={`${styles.serviceImage} ${activeImageIndex['product3'] === 1 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-09-14 at 21.38.22 (1).jpeg" alt="Party Packs 1" className={`${styles.serviceImage} ${activeImageIndex['product3'] === 0 ? styles.activeImage : ''}`} />
+                      <img src="src/assets/images/WhatsApp Image 2025-08-06 at 09.48.10 (1).jpeg" className={`${styles.serviceImage} ${activeImageIndex['product3'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
