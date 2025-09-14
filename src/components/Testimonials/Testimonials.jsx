@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 import styles from "./Testimonials.module.css";
 
@@ -17,7 +17,7 @@ const testimonialsData = [
   },
   {
     id: 3,
-    text: "My kids love the lunchbox packs!Thank you for making mealtime fun.",
+    text: "My kids love the lunchbox packs! Thank you for making mealtime fun.",
     author: "Jenifer",
     rating: "★★★★★",
   },
@@ -26,6 +26,31 @@ const testimonialsData = [
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
   const testimonialRef = useRef(null);
+  const dotsRef = useRef([]);
+
+  // Animation function
+  const animateTestimonial = useCallback(() => {
+    if (testimonialRef.current) {
+      gsap.fromTo(
+        testimonialRef.current,
+        { x: current === 0 ? 0 : 100, opacity: 0, rotationY: 10 },
+        {
+          x: 0,
+          opacity: 1,
+          rotationY: 0,
+          duration: 1,
+          ease: "power3.out",
+          onComplete: () => {
+            gsap.fromTo(
+              [testimonialRef.current.querySelector(`.${styles.author}`), testimonialRef.current.querySelector(`.${styles.rating}`)],
+              { y: 20, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.5, stagger: 0.2 }
+            );
+          },
+        }
+      );
+    }
+  }, [current]);
 
   // Cycle through testimonials
   useEffect(() => {
@@ -36,23 +61,45 @@ export default function Testimonials() {
     return () => clearInterval(interval);
   }, []);
 
-  // Animate on change
+  // Trigger animation on current change
   useEffect(() => {
-    if (testimonialRef.current) {
-      gsap.fromTo(
-        testimonialRef.current,
-        { x: 100, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
-      );
-    }
-  }, [current]);
+    animateTestimonial();
+  }, [current, animateTestimonial]);
+
+  // Handle dot click
+  const handleDotClick = (index) => {
+    setCurrent(index);
+  };
 
   return (
-    <div className={styles.testimonialsCarousel}>
-      <div className={`${styles.testimonialItem} ${styles.active}`} ref={testimonialRef}>
-        <p className={styles.text}>{testimonialsData[current].text}</p>
-        <div className={styles.rating}>{testimonialsData[current].rating}</div>
-        <h4 className={styles.author}>{testimonialsData[current].author}</h4>
+    <div className={styles.testimonialsSection}>
+      <div className={styles.testimonialsContent}>
+        <h2 className={styles.testimonialsTitle}>What Our Customers Say</h2>
+        <div className={styles.testimonialsCarousel}>
+          <div
+            className={`${styles.testimonialItem} ${styles.active}`}
+            ref={testimonialRef}
+            onMouseEnter={(e) => gsap.to(e.currentTarget, { scale: 1.05, rotationY: 5, duration: 0.3 })}
+            onMouseLeave={(e) => gsap.to(e.currentTarget, { scale: 1, rotationY: 0, duration: 0.3 })}
+          >
+            <p className={styles.text}>{testimonialsData[current].text}</p>
+            <div className={styles.rating}>{testimonialsData[current].rating}</div>
+            <h4 className={styles.author}>{testimonialsData[current].author}</h4>
+            <svg className={styles.wave} viewBox="0 0 1440 100" preserveAspectRatio="none">
+              <path d="M0,50 C300,150 600,-50 900,50 L900,100 L0,100 Z" fill="#2EC4B6" opacity="0.3" />
+            </svg>
+          </div>
+        </div>
+        <div className={styles.dots}>
+          {testimonialsData.map((_, index) => (
+            <span
+              key={index}
+              ref={(el) => (dotsRef.current[index] = el)}
+              className={`${styles.dot} ${current === index ? styles.activeDot : ""}`}
+              onClick={() => handleDotClick(index)}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
