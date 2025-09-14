@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import styles from './HomePage.module.css';
 import Testimonials from '../../components/Testimonials/Testimonials';
 
+import serviceImageOne from '../../assets/images/WhatsApp Image 2025-09-12 at 13.05.51 (1).jpeg'
+import serviceImageTwo from '../../assets/images/WhatsApp Image 2025-09-12 at 13.05.51.jpeg'
+import serviceImageThree from '../../assets/images/WhatsApp Image 2025-08-06 at 15.17.28.jpeg'
+import serviceImageFour from '../../assets/images/team-at-work.jpg'
+import serviceImageFive from '../../assets/images/diaries.jpeg'
+import serviceImageSix from '../../assets/images/diarriesss.jpeg'
+
+
 const HomePage = () => {
   const [activeImageIndex, setActiveImageIndex] = useState({});
 
@@ -65,8 +73,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['service0'] !== undefined && (
                     <>
-                      <img src="src/assets/images/WhatsApp Image 2025-09-12 at 13.05.51 (1).jpeg" alt="Cleaning & Laundry 1" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="src/assets/images/WhatsApp Image 2025-09-12 at 13.05.51.jpeg" alt="Cleaning & Laundry 2" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 1 ? styles.activeImage : ''}`} />
+                      <img src={serviceImageOne} alt="Cleaning & Laundry 1" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 0 ? styles.activeImage : ''}`} />
+                      <img src={serviceImageTwo} alt="Cleaning & Laundry 2" className={`${styles.serviceImage} ${activeImageIndex['service0'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -81,8 +89,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['service1'] !== undefined && (
                     <>
-                      <img src="src/assets/images/WhatsApp Image 2025-08-06 at 15.17.28.jpeg" alt="Risk Consulting 1" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="src/assets/images/team-at-work.jpg" alt="Risk Consulting 2" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 1 ? styles.activeImage : ''}`} />
+                      <img src={serviceImageThree} alt="Risk Consulting 1" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 0 ? styles.activeImage : ''}`} />
+                      <img src={serviceImageFour} alt="Risk Consulting 2" className={`${styles.serviceImage} ${activeImageIndex['service1'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
@@ -97,8 +105,8 @@ const HomePage = () => {
                 <div className={styles.imageContainer}>
                   {activeImageIndex['service2'] !== undefined && (
                     <>
-                      <img src="src/assets/images/diaries.jpeg" alt="Diaries & Tags 1" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 0 ? styles.activeImage : ''}`} />
-                      <img src="src/assets/images/diarriesss.jpeg" alt="Diaries & Tags 2" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 1 ? styles.activeImage : ''}`} />
+                      <img src={serviceImageFive} alt="Diaries & Tags 1" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 0 ? styles.activeImage : ''}`} />
+                      <img src={serviceImageSix} alt="Diaries & Tags 2" className={`${styles.serviceImage} ${activeImageIndex['service2'] === 1 ? styles.activeImage : ''}`} />
                     </>
                   )}
                 </div>
