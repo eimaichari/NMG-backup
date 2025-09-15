@@ -12,38 +12,38 @@ const AdminDashboard = () => {
   
   const [showForm, setShowForm] = useState(false);
   const [newCategory, setNewCategory] = useState("");
+  const [editProductId, setEditProductId] = useState(null);
   const [formData, setFormData] = useState({
     id: '',
     name: '',
     description: '',
     price_rands: '',
-    image_urls: ['', '', ''], // CHANGED: Initialized as array for multiple images
+    image_urls: ['', '', ''],
     category: '',
   });
-  const [imageFiles, setImageFiles] = useState([null, null, null]); // CHANGED: Array for multiple image files
+  const [imageFiles, setImageFiles] = useState([null, null, null]);
   const [formError, setFormError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Handle text inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle file upload
-  const handleImageChange = (e) => {
+  const handleImageChange = (e, index) => {
     if (e.target.files[0]) {
-      setImageFile(e.target.files[0]);
+      const newImageFiles = [...imageFiles];
+      newImageFiles[index] = e.target.files[0];
+      setImageFiles(newImageFiles);
     }
   };
 
-  // Submit product
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return;
 
-    if (!formData.name || !formData.price_rands || !imageFile || !formData.category) {
-      setFormError('Name, price, image, and category are required');
+    if (!formData.name || !formData.price_rands || !formData.category || !imageFiles.some(file => file !== null)) {
+      setFormError('Name, price, category, and at least one image are required');
       return;
     }
 
@@ -51,30 +51,30 @@ const AdminDashboard = () => {
     setFormError(null);
 
     try {
-      // Upload image to Firebase Storage
       const imageUrls = await Promise.all(imageFiles.map(async (file, index) => {
         if (file) {
           const imageRef = ref(storage, `products-services/${Date.now()}_${index}_${file.name}`);
           await uploadBytes(imageRef, file);
           return await getDownloadURL(imageRef);
         }
-        return formData.image_urls[index] || ''; // CHANGED: Preserve existing URLs if no new file
+        return formData.image_urls[index] || '';
       }));
 
       const productData = { ...formData, image_urls: imageUrls.filter(url => url) };
 
       if (editProductId) {
-        await updateProduct(editProductId, productData); // CHANGED: Use updateProduct for editing
+        await updateProduct(editProductId, productData);
         setEditProductId(null);
       } else {
-        await addProduct(productData); // CHANGED: Pass object with image_urls
+        await addProduct(productData);
       }
 
       setFormData({ id: '', name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' });
       setImageFiles([null, null, null]);
       setShowForm(false);
     } catch (err) {
-      setFormError('Failed to save product');
+      setFormError('Failed to save product: ' + err.message);
+      console.error(err);
     } finally {
       setIsSubmitting(false);
     }
@@ -87,7 +87,7 @@ const AdminDashboard = () => {
       name: product.name,
       description: product.description,
       price_rands: product.price_rands,
-      image_urls: product.image_urls || [product.image_url || '', '', ''], // CHANGED: Handle single image_url or array
+      image_urls: product.image_urls || [product.image_url || '', '', ''],
       category: product.category,
     });
     setImageFiles([null, null, null]);
@@ -108,7 +108,7 @@ const AdminDashboard = () => {
     <div className={styles.container}>
       <h2 className={styles.sectionTitle}>Admin Dashboard</h2>
 
-      <button className={styles.addButton} onClick={() => { setShowForm(!showForm); setEditProductId(null); }}>
+      <button className={styles.addButton} onClick={() => { setShowForm(true); setEditProductId(null); }}>
         {showForm ? 'Cancel' : 'Add Product +'}
       </button>
 
@@ -142,6 +142,10 @@ const AdminDashboard = () => {
           {formError && <p className={styles.error}>{formError}</p>}
           <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : editProductId ? 'Update Product' : 'Add Product'}
+          </button>
+          {/* ADDED: Cancel button to reset and hide form */}
+          <button type="button" className={styles.addButton} onClick={() => { setShowForm(false); setFormData({ id: '', name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' }); setImageFiles([null, null, null]); setEditProductId(null); }}>
+            Cancel
           </button>
         </form>
       )}
