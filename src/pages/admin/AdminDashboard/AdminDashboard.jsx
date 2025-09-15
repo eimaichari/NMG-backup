@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { useProducts } from '../../../context/ProductContext';
 import { Link, Navigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import styles from './AdminDashboard.module.css';
 
 const AdminDashboard = () => {
   const { isAuthenticated, loading: authLoading } = useAuth();
-  const { products, categories, loading: productsLoading, error, addProduct, addCategory, deleteProduct, toggleAvailability, updateProduct } = useProducts();
+  const { products, categories, loading: productsLoading, error, addProduct, addCategory, deleteProduct, toggleAvailability, updateProduct, fetchProducts } = useProducts(); // ADDED: fetchProducts from context
   
   const [showForm, setShowForm] = useState(false);
   const [newCategory, setNewCategory] = useState("");
@@ -24,6 +24,10 @@ const AdminDashboard = () => {
   const [imageFiles, setImageFiles] = useState([null, null, null]);
   const [formError, setFormError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetchProducts(); // ENSURE: Initial fetch on mount
+  }, [fetchProducts]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -72,6 +76,7 @@ const AdminDashboard = () => {
       setFormData({ id: '', name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' });
       setImageFiles([null, null, null]);
       setShowForm(false);
+      fetchProducts(); // ADDED: Refresh products after submission
     } catch (err) {
       setFormError('Failed to save product: ' + err.message);
       console.error(err);
@@ -94,11 +99,19 @@ const AdminDashboard = () => {
     setShowForm(true);
   };
 
+  const handleCancel = () => {
+    setFormData({ id: '', name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' });
+    setImageFiles([null, null, null]);
+    setEditProductId(null);
+    setShowForm(false);
+  };
+
   const handleAddCategory = async (e) => {
     e.preventDefault();
     if (!newCategory) return;
     await addCategory(newCategory);
     setNewCategory("");
+    fetchProducts(); // ADDED: Refresh categories/products
   };
 
   if (authLoading) return <div className={styles.loading}>Authenticating...</div>;
@@ -109,9 +122,8 @@ const AdminDashboard = () => {
       <h2 className={styles.sectionTitle}>Admin Dashboard</h2>
 
       <button className={styles.addButton} onClick={() => { setShowForm(true); setEditProductId(null); }}>
-        {showForm ? 'Cancel' : 'Add Product +'}
+        Add Product +
       </button>
-
       {showForm && (
         <form className={styles.productForm} onSubmit={handleSubmit}>
           <input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="Product Name" className={styles.input} />
@@ -143,8 +155,7 @@ const AdminDashboard = () => {
           <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : editProductId ? 'Update Product' : 'Add Product'}
           </button>
-          {/* ADDED: Cancel button to reset and hide form */}
-          <button type="button" className={styles.addButton} onClick={() => { setShowForm(false); setFormData({ id: '', name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' }); setImageFiles([null, null, null]); setEditProductId(null); }}>
+          <button type="button" className={styles.cancelButton} onClick={handleCancel}>
             Cancel
           </button>
         </form>
@@ -173,10 +184,10 @@ const AdminDashboard = () => {
                 </div>
                 <div className={styles.actions}>
                   <button onClick={() => handleEdit(product)} className={styles.toggleButton}>Edit</button>
-                  <button onClick={() => toggleAvailability(product.id, product.available)} className={styles.toggleButton}>
+                  <button onClick={() => { toggleAvailability(product.id, product.available); fetchProducts(); }} className={styles.toggleButton}>
                     {product.available ? 'Set Unavailable' : 'Set Available'}
                   </button>
-                  <button onClick={() => deleteProduct(product.id)} className={styles.deleteButton}>Delete</button>
+                  <button onClick={() => { deleteProduct(product.id); fetchProducts(); }} className={styles.deleteButton}>Delete</button>
                 </div>
               </div>
             ))

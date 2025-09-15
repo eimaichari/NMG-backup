@@ -12,29 +12,6 @@ const ContactPage = () => {
             <p>
               We'd love to hear from you! Please fill out the form or use the contact details below to get in touch with our team.
             </p>
-            <div className={styles.infoItem}>
-              <h4>Address</h4>
-              <p>Randburg, JHB, South Africa</p>
-            </div>
-            <div className={styles.infoItem}>
-              <h4>Phone</h4>
-              <p>+27 73 974 0331</p>
-            </div>
-            <div className={styles.infoItem}>
-              <h4>Email</h4>
-              <p>
-                <a href="mailto:nasiphizembeta@gmail.com" className={styles.linkStyle}>
-                  nasiphizembeta@gmail.com
-                </a>
-              </p>
-            </div>
-            <div className={styles.infoItem}>
-              <div className={styles.socialLinks}>
-                <a href="#" className={styles.linkStyle}>IG</a>
-                <a href="#" className={styles.linkStyle}>WHATSAPP</a>
-                <a href="nasiphizembeta@gmail.com" className={styles.linkStyle}>EMAIL</a>
-              </div>
-            </div>
           </div>
           <div className={styles.contactFormWrapper}>
             <div className={styles.contactForm}>

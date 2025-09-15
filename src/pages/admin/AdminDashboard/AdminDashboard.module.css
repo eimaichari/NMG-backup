@@ -35,6 +35,8 @@
   flex-direction: column;
   gap: 12px;
   max-width: 400px;
+  transition: height 0.3s ease, opacity 0.3s ease; /* ADDED: Smooth transition for stability */
+  overflow: hidden;
 }
 
 .input {
@@ -75,6 +77,21 @@
   color: var(--text-muted, #9ca3af);
 }
 
+.cancelButton { /* ADDED: Style for cancel button */
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border, #374151);
+  background: var(--secondary-dark, #2F3E46);
+  color: var(--text, #e5e7eb);
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+.cancelButton:hover {
+  transform: scale(1.05);
+}
+
 .error {
   color: var(--yellow-accent, #FBBF24);
   font-size: 0.9rem;
@@ -98,6 +115,7 @@
   border: 1px solid var(--card-border, #374151);
   border-radius: 10px;
   margin-bottom: 12px;
+  transition: transform 0.3s ease; /* ADDED: Smooth transition for item stability */
 }
 
 .productItem:hover {
@@ -169,7 +187,7 @@
 .imageUploads {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Space between each image upload input */
+  gap: 8px;
 }
 
 .imageUpload {
