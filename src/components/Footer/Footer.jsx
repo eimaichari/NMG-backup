@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
+import facebookIcon from '../../assets/images/favicon-facebook.ico';
+import instagramIcon from '../../assets/images/favicon-ig.ico';
+import tiktokIcon from '../../assets/images/favicon-tiktok.ico';
+import youtubeIcon from '../../assets/images/favicon-youtube.ico';
 
 const Footer = () => {
   return (
@@ -23,16 +27,16 @@ const Footer = () => {
           <p>Phone: (+27)73 974-0331</p>
           <div className={styles.footerSocials}>
             <a href="https://www.facebook.com/share/1F33u4amC7/" target="_blank" rel="noopener noreferrer">
-              <img src="src/assets/images/favicon-facebook.ico" alt="Facebook icon" />
+              <img src={facebookIcon} alt="Facebook icon" />
             </a>
             <a href="https://www.instagram.com/nmgm439?utm_source=qr&igsh=NmZyZW9rNnZuaGd1" target="_blank" rel="noopener noreferrer">
-              <img src="/src/assets/images/favicon-ig.ico" alt="Instagram icon" />
+              <img src={instagramIcon} alt="Instagram icon" />
             </a>
             <a href="https://www.tiktok.com/@nasie325?_t=ZS-8z96uUQ1TeB&_r=1" target="_blank" rel="noopener noreferrer">
-              <img src="src/assets/images/favicon-tiktok.ico" alt="TikTok icon" />
+              <img src={tiktokIcon} alt="TikTok icon" />
             </a>
             <a href="https://youtube.com/@nasie6302/community?si=Oglk3z9MhHV0yr3L" target="_blank" rel="noopener noreferrer">
-              <img src="src/assets/images/favicon-youtube.ico" alt="YouTube icon" />
+              <img src={youtubeIcon} alt="YouTube icon" />
             </a>
           </div>
         </div>
