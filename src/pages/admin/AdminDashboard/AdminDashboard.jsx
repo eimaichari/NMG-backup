@@ -12,6 +12,7 @@ const AdminDashboard = () => {
   
   const [showForm, setShowForm] = useState(false);
   const [newCategory, setNewCategory] = useState("");
+  const [editProductId, setEditProductId] = useState(null); // State to track which product is being edited
   const [formData, setFormData] = useState({
     id: '',
     name: '',
@@ -30,20 +31,25 @@ const AdminDashboard = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle file upload
-  const handleImageChange = (e) => {
+  // Handle file upload for multiple images
+  // REMOVED: Old handleImageChange that only handled one file
+  // ADDED: New handleImageChange to support multiple image uploads
+  const handleImageChange = (e, index) => {
     if (e.target.files[0]) {
-      setImageFile(e.target.files[0]);
+      const newImageFiles = [...imageFiles];
+      newImageFiles[index] = e.target.files[0];
+      setImageFiles(newImageFiles);
     }
   };
 
-  // Submit product
+  // Submit product (add or update)
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return;
 
-    if (!formData.name || !formData.price_rands || !imageFile || !formData.category) {
-      setFormError('Name, price, image, and category are required');
+    // CHANGED: Updated validation to check at least one image file
+    if (!formData.name || !formData.price_rands || !formData.category || !imageFiles.some(file => file !== null)) {
+      setFormError('Name, price, category, and at least one image are required');
       return;
     }
 
@@ -51,35 +57,39 @@ const AdminDashboard = () => {
     setFormError(null);
 
     try {
-      // Upload image to Firebase Storage
+      // Upload images to Firebase Storage
       const imageUrls = await Promise.all(imageFiles.map(async (file, index) => {
         if (file) {
           const imageRef = ref(storage, `products-services/${Date.now()}_${index}_${file.name}`);
           await uploadBytes(imageRef, file);
           return await getDownloadURL(imageRef);
         }
-        return formData.image_urls[index] || ''; // CHANGED: Preserve existing URLs if no new file
+        return formData.image_urls[index] || ''; // Preserve existing URLs if no new file
       }));
 
       const productData = { ...formData, image_urls: imageUrls.filter(url => url) };
 
       if (editProductId) {
-        await updateProduct(editProductId, productData); // CHANGED: Use updateProduct for editing
+        await updateProduct(editProductId, productData);
         setEditProductId(null);
       } else {
-        await addProduct(productData); // CHANGED: Pass object with image_urls
+        await addProduct(productData);
       }
 
+      // RESET FORM: Clear form data after submission
       setFormData({ id: '', name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' });
       setImageFiles([null, null, null]);
       setShowForm(false);
     } catch (err) {
-      setFormError('Failed to save product');
+      setFormError('Failed to save product: ' + err.message); // ADDED: Include error message for debugging
+      console.error(err);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // Handle edit button click
+  // CHANGED: Ensure form is shown and pre-filled when editing
   const handleEdit = (product) => {
     setEditProductId(product.id);
     setFormData({
@@ -87,11 +97,11 @@ const AdminDashboard = () => {
       name: product.name,
       description: product.description,
       price_rands: product.price_rands,
-      image_urls: product.image_urls || [product.image_url || '', '', ''], // CHANGED: Handle single image_url or array
+      image_urls: product.image_urls || [product.image_url || '', '', ''], // Handle single image_url or array
       category: product.category,
     });
-    setImageFiles([null, null, null]);
-    setShowForm(true);
+    setImageFiles([null, null, null]); // Clear image files for new uploads
+    setShowForm(true); // Ensure form is visible
   };
 
   const handleAddCategory = async (e) => {
@@ -108,7 +118,7 @@ const AdminDashboard = () => {
     <div className={styles.container}>
       <h2 className={styles.sectionTitle}>Admin Dashboard</h2>
 
-      <button className={styles.addButton} onClick={() => { setShowForm(!showForm); setEditProductId(null); }}>
+      <button className={styles.addButton} onClick={() => { setShowForm(true); setEditProductId(null); }}>
         {showForm ? 'Cancel' : 'Add Product +'}
       </button>
 
