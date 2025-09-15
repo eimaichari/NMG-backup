@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useProducts } from '../../context/ProductContext';
@@ -7,18 +7,25 @@ import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import styles from './ProductDetails.module.css';
 
 const ProductDetailsPage = () => {
-  const { id } = useParams(); // Get the ID from the URL
+  const { id } = useParams();
   const { products, loading: productsLoading, error } = useProducts();
   const { user, isAuthenticated } = useAuth();
   
   const [statusMessage, setStatusMessage] = useState('');
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Find the product that matches the URL ID
   const product = products.find(p => p.id === id);
-
-  // Filter for related products (excluding the current one)
   const relatedProducts = products.filter(p => p.id !== id).slice(0, 3);
+
+  useEffect(() => {
+    if ((product?.image_urls || [product?.image_url]).length > 1) {
+      const interval = setInterval(() => {
+        setCurrentSlide(prev => (prev + 1) % (product.image_urls || [product.image_url]).length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [product]);
 
   const addToCart = async (item) => {
     if (!isAuthenticated) {
@@ -44,7 +51,7 @@ const ProductDetailsPage = () => {
           productId: item.id,
           name: item.name,
           price: item.price_rands,
-          image: item.image_url,
+          image: item.image_urls?.[0] || item.image_url, // CHANGED: Use first image_url if available
           quantity: 1,
           addedAt: new Date().toISOString(),
         });
@@ -60,7 +67,6 @@ const ProductDetailsPage = () => {
     }
   };
 
-  // Handle loading and product not found states
   if (productsLoading) {
     return <div>Loading product details...</div>;
   }
@@ -68,18 +74,37 @@ const ProductDetailsPage = () => {
     return <div>Product not found.</div>;
   }
 
+  const handlePrev = () => {
+    setCurrentSlide(prev => (prev - 1 < 0 ? (product.image_urls || [product.image_url]).length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentSlide(prev => (prev + 1) % (product.image_urls || [product.image_url]).length);
+  };
+
   return (
     <main>
-      {/* Product Details Section */}
       <section className={styles.productDetailsSection}>
         <div className={styles.container}>
           <div className={styles.detailsWrap}>
             <div className={styles.productImageWrapper}>
-              <img
-                src={product.image_url}
-                alt={product.name}
-                className={styles.productImage}
-              />
+              <div className={styles.carousel}>
+                {(product.image_urls || [product.image_url]).map((url, index) => (
+                  <img
+                    key={index}
+                    src={url}
+                    alt={`${product.name} ${index + 1}`}
+                    className={`${styles.productImage} ${currentSlide === index ? styles.active : ''}`} // CHANGED: Added active class for carousel
+                    style={{ display: currentSlide === index ? 'block' : 'none' }}
+                  />
+                ))}
+                {(product.image_urls || [product.image_url]).length > 1 && (
+                  <>
+                    <button className={styles.prev} onClick={handlePrev}>❮</button>
+                    <button className={styles.next} onClick={handleNext}>❯</button>
+                  </>
+                )}
+              </div>
             </div>
             <div className={styles.productInfo}>
               <h1 className={styles.productName}>{product.name}</h1>
@@ -104,7 +129,6 @@ const ProductDetailsPage = () => {
         </div>
       </section>
 
-      {/* Related Products Section */}
       <section className={styles.relatedProductsSection}>
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>You may also like</h2>
@@ -113,7 +137,7 @@ const ProductDetailsPage = () => {
               <div key={item.id} className={styles.productCard}>
                 <Link to={`/products/${item.id}`}>
                   <img
-                    src={item.image_url}
+                    src={item.image_urls?.[0] || item.image_url} // CHANGED: Use first image_url if available
                     alt={item.name}
                     className={styles.productImage}
                   />

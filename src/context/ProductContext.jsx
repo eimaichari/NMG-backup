@@ -107,6 +107,25 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
+  // NEW: Add updateProduct function to handle editing products
+  const updateProduct = async (id, productData) => {
+    try {
+      const productRef = doc(db, 'products', id);
+      await updateDoc(productRef, {
+        ...productData,
+        updatedAt: new Date().toISOString(),
+      });
+      setProducts(
+        products.map((product) =>
+          product.id === id ? { ...product, ...productData } : product
+        )
+      );
+    } catch (err) {
+      setError('Failed to update product');
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
     fetchCategories();
@@ -121,6 +140,7 @@ export const ProductsProvider = ({ children }) => {
     addCategory,
     deleteProduct,
     toggleAvailability,
+    updateProduct, // NEW: Expose updateProduct function in context
   };
 
   return (

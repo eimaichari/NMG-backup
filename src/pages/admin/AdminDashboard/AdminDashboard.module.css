@@ -53,7 +53,6 @@
   border-color: var(--primary-color, #22C55E);
 }
 
-/* New CSS for the submit button */
 .submitButton {
   cursor: pointer;
   padding: 10px 15px;
@@ -103,6 +102,11 @@
 
 .productItem:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.productImages {
+  display: flex;
+  gap: 4px;
 }
 
 .productThumb {
@@ -160,6 +164,25 @@
   text-align: center;
   color: var(--text-light, #e5e7eb);
   font-size: 1rem;
+}
+
+.imageUploads {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between each image upload input */
+}
+
+.imageUpload {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.imagePreview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 @media (max-width: 768px) {

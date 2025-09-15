@@ -8,18 +8,19 @@ import styles from './AdminDashboard.module.css';
 
 const AdminDashboard = () => {
   const { isAuthenticated, loading: authLoading } = useAuth();
-  const { products, categories, loading: productsLoading, error, addProduct, addCategory, deleteProduct, toggleAvailability } = useProducts();
+  const { products, categories, loading: productsLoading, error, addProduct, addCategory, deleteProduct, toggleAvailability, updateProduct } = useProducts();
   
   const [showForm, setShowForm] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [formData, setFormData] = useState({
+    id: '',
     name: '',
     description: '',
     price_rands: '',
-    image_url: '',
+    image_urls: ['', '', ''], // CHANGED: Initialized as array for multiple images
     category: '',
   });
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFiles, setImageFiles] = useState([null, null, null]); // CHANGED: Array for multiple image files
   const [formError, setFormError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -51,24 +52,48 @@ const AdminDashboard = () => {
 
     try {
       // Upload image to Firebase Storage
-      const imageRef = ref(storage, `products-services/${Date.now()}_${imageFile.name}`);
-      await uploadBytes(imageRef, imageFile);
-      const downloadURL = await getDownloadURL(imageRef);
+      const imageUrls = await Promise.all(imageFiles.map(async (file, index) => {
+        if (file) {
+          const imageRef = ref(storage, `products-services/${Date.now()}_${index}_${file.name}`);
+          await uploadBytes(imageRef, file);
+          return await getDownloadURL(imageRef);
+        }
+        return formData.image_urls[index] || ''; // CHANGED: Preserve existing URLs if no new file
+      }));
 
-      // Save product
-      await addProduct({ ...formData, image_url: downloadURL });
+      const productData = { ...formData, image_urls: imageUrls.filter(url => url) };
 
-      setFormData({ name: '', description: '', price_rands: '', image_url: '', category: '' });
-      setImageFile(null);
+      if (editProductId) {
+        await updateProduct(editProductId, productData); // CHANGED: Use updateProduct for editing
+        setEditProductId(null);
+      } else {
+        await addProduct(productData); // CHANGED: Pass object with image_urls
+      }
+
+      setFormData({ id: '', name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' });
+      setImageFiles([null, null, null]);
       setShowForm(false);
     } catch (err) {
-      setFormError('Failed to add product');
+      setFormError('Failed to save product');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Add new category
+  const handleEdit = (product) => {
+    setEditProductId(product.id);
+    setFormData({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price_rands: product.price_rands,
+      image_urls: product.image_urls || [product.image_url || '', '', ''], // CHANGED: Handle single image_url or array
+      category: product.category,
+    });
+    setImageFiles([null, null, null]);
+    setShowForm(true);
+  };
+
   const handleAddCategory = async (e) => {
     e.preventDefault();
     if (!newCategory) return;
@@ -83,7 +108,7 @@ const AdminDashboard = () => {
     <div className={styles.container}>
       <h2 className={styles.sectionTitle}>Admin Dashboard</h2>
 
-      <button className={styles.addButton} onClick={() => setShowForm(!showForm)}>
+      <button className={styles.addButton} onClick={() => { setShowForm(!showForm); setEditProductId(null); }}>
         {showForm ? 'Cancel' : 'Add Product +'}
       </button>
 
@@ -93,7 +118,6 @@ const AdminDashboard = () => {
           <textarea name="description" value={formData.description} onChange={handleInputChange} placeholder="Product Description" className={styles.input} />
           <input type="number" name="price_rands" value={formData.price_rands} onChange={handleInputChange} placeholder="Price (Rands)" className={styles.input} />
 
-          {/* Category Select */}
           <select name="category" value={formData.category} onChange={handleInputChange} className={styles.input}>
             <option value="">Select Category</option>
             {categories.map((cat) => (
@@ -101,18 +125,23 @@ const AdminDashboard = () => {
             ))}
           </select>
 
-          {/* Add new category */}
           <div className={styles.newCategory}>
             <input type="text" placeholder="New Category" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} className={styles.input} />
             <button onClick={handleAddCategory} type="button" className={styles.submitButton}>+ Add Category</button>
           </div>
 
-          {/* Image Upload */}
-          <input type="file" accept="image/*" onChange={handleImageChange} className={styles.input} />
+          <div className={styles.imageUploads}>
+            {formData.image_urls.map((url, index) => (
+              <div key={index} className={styles.imageUpload}>
+                <input type="file" accept="image/*" onChange={(e) => handleImageChange(e, index)} className={styles.input} />
+                {url && <img src={url} alt={`Preview ${index + 1}`} className={styles.imagePreview} />}
+              </div>
+            ))}
+          </div>
 
           {formError && <p className={styles.error}>{formError}</p>}
           <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-            {isSubmitting ? 'Adding...' : 'Add Product'}
+            {isSubmitting ? 'Saving...' : editProductId ? 'Update Product' : 'Add Product'}
           </button>
         </form>
       )}
@@ -126,7 +155,11 @@ const AdminDashboard = () => {
           products.length > 0 ? (
             products.map((product) => (
               <div key={product.id} className={styles.productItem}>
-                <img src={product.image_url} alt={product.name} className={styles.productThumb} />
+                <div className={styles.productImages}>
+                  {(product.image_urls || [product.image_url]).map((url, index) => (
+                    <img key={index} src={url} alt={`${product.name} ${index + 1}`} className={styles.productThumb} />
+                  ))}
+                </div>
                 <div>
                   <span className={styles.productName}>{product.name}</span>
                   <p>{product.description}</p>
@@ -135,6 +168,7 @@ const AdminDashboard = () => {
                   <p>Status: {product.available ? 'Available' : 'Unavailable'}</p>
                 </div>
                 <div className={styles.actions}>
+                  <button onClick={() => handleEdit(product)} className={styles.toggleButton}>Edit</button>
                   <button onClick={() => toggleAvailability(product.id, product.available)} className={styles.toggleButton}>
                     {product.available ? 'Set Unavailable' : 'Set Available'}
                   </button>

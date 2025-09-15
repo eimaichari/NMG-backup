@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useProducts } from '../../context/ProductContext';
 import { db } from '../../utils/firebase';
 import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import styles from './ProductsPage.module.css';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 
 const ProductsPage = () => {
   const { user, isAuthenticated } = useAuth();
@@ -13,8 +13,24 @@ const ProductsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [statusMessage, setStatusMessage] = useState('');
   const [addingProducts, setAddingProducts] = useState(new Set()); 
+  const [currentSlides, setCurrentSlides] = useState({});
 
   const categories = ['All', ...new Set(products.map((p) => p.category).filter(Boolean))];
+
+  useEffect(() => {
+    const intervals = {};
+    products.forEach((product) => {
+      if ((product.image_urls || [product.image_url]).length > 1) {
+        intervals[product.id] = setInterval(() => {
+          setCurrentSlides(prev => ({
+            ...prev,
+            [product.id]: (prev[product.id] || 0) + 1 >= (product.image_urls || [product.image_url]).length ? 0 : (prev[product.id] || 0) + 1
+          }));
+        }, 3000);
+      }
+    });
+    return () => Object.values(intervals).forEach(clearInterval);
+  }, [products]);
 
   const addToCart = async (product) => {
     if (!isAuthenticated) {
@@ -40,7 +56,7 @@ const ProductsPage = () => {
           productId: product.id,
           name: product.name,
           price: product.price_rands,
-          image: product.image_url,
+          image: product.image_urls?.[0] || product.image_url, // CHANGED: Use first image_url if available
           quantity: 1,
           addedAt: new Date().toISOString(),
         });
@@ -65,6 +81,20 @@ const ProductsPage = () => {
       return products;
     }
     return products.filter((product) => product.category === selectedCategory);
+  };
+
+  const handlePrev = (productId) => {
+    setCurrentSlides(prev => ({
+      ...prev,
+      [productId]: (prev[productId] || 0) - 1 < 0 ? (products.find(p => p.id === productId).image_urls || [products.find(p => p.id === productId).image_url]).length - 1 : (prev[productId] || 0) - 1
+    }));
+  };
+
+  const handleNext = (productId) => {
+    setCurrentSlides(prev => ({
+      ...prev,
+      [productId]: (prev[productId] || 0) + 1 >= (products.find(p => p.id === productId).image_urls || [products.find(p => p.id === productId).image_url]).length ? 0 : (prev[productId] || 0) + 1
+    }));
   };
 
   return (
@@ -101,18 +131,28 @@ const ProductsPage = () => {
               {filterProducts().length > 0 ? (
                 filterProducts().map((product) => (
                   <div key={product.id} className={styles.productCard}>
-                    {/* Wrap the product card content in a Link */}
                     <Link to={`/products/${product.id}`} className={styles.productLink}>
-                      <img
-                        src={product.image_url}
-                        alt={product.name}
-                        className={styles.productImage}
-                      />
+                      <div className={styles.carousel}>
+                        {(product.image_urls || [product.image_url]).map((url, index) => (
+                          <img
+                            key={index}
+                            src={url}
+                            alt={`${product.name} ${index + 1}`}
+                            className={`${styles.productImage} ${currentSlides[product.id] === index ? styles.active : ''}`} // CHANGED: Added active class for carousel
+                            style={{ display: currentSlides[product.id] === index ? 'block' : 'none' }}
+                          />
+                        ))}
+                        {(product.image_urls || [product.image_url]).length > 1 && (
+                          <>
+                            <button className={styles.prev} onClick={() => handlePrev(product.id)}>❮</button>
+                            <button className={styles.next} onClick={() => handleNext(product.id)}>❯</button>
+                          </>
+                        )}
+                      </div>
                       <h3 className={styles.productName}>{product.name}</h3>
                       <p className={styles.productDescription}>{product.description}</p>
                       <p className={styles.productPrice}>R{product.price_rands}</p>
                     </Link>
-                    {/* Keep the button outside the link */}
                     <button
                       className={styles.addToCart}
                       disabled={addingProducts.has(product.id)} 
