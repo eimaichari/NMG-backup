@@ -141,6 +141,8 @@ export const ProductsProvider = ({ children }) => {
     deleteProduct,
     toggleAvailability,
     updateProduct, // NEW: Expose updateProduct function in context
+    fetchProducts, // Expose fetchProducts to allow manual refresh
+    fetchCategories, // Expose fetchCategories to allow manual refresh
   };
 
   return (
