@@ -146,7 +146,19 @@ const AdminDashboard = () => {
             {formData.image_urls.map((url, index) => (
               <div key={index} className={styles.imageUpload}>
                 <input type="file" accept="image/*" onChange={(e) => handleImageChange(e, index)} className={styles.input} />
-                {url && <img src={url} alt={`Preview ${index + 1}`} className={styles.imagePreview} />}
+                {url && 
+                  <>
+                    <img src={url} alt={`Preview ${index + 1}`} className={styles.imagePreview} />
+                    <button
+                      type="button"
+                      className={styles.removeImageBtn}
+                      onClick={() => handleRemoveImage(index)}
+                      aria-label="Remove image"
+                    >
+                      &#10005;
+                    </button>
+                  </>
+                }
               </div>
             ))}
           </div>

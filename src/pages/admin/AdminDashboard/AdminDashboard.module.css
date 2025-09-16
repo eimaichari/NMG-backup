@@ -191,9 +191,38 @@
 }
 
 .imageUpload {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.removeImageBtn {
+  position: relative;
+  top: 8px;
+  right: 8px;
+  background: rgba(17, 24, 39, 0.8);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  width: 28px;
+  height: 28px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.2s;
+}
+
+.imageUpload:hover .removeImageBtn {
+  display: flex;
+}
+
+.removeImageBtn:hover {
+  background: #FBBF24;
+  color: #111827;
 }
 
 .imagePreview {
