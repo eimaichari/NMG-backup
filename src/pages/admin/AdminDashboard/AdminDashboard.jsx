@@ -46,7 +46,7 @@ const AdminDashboard = () => {
     e.preventDefault();
     if (isSubmitting) return;
 
-    if (!formData.name || !formData.price_rands || !formData.category || !imageFiles.some(file => file !== null)) {
+    if (!formData.name || !formData.price_rands || !formData.category || !(formData.image_urls.some(url => url) || imageFiles.some(file => file !== null))) {
       setFormError('Name, price, category, and at least one image are required');
       return;
     }
@@ -97,6 +97,16 @@ const AdminDashboard = () => {
     });
     setImageFiles([null, null, null]);
     setShowForm(true);
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImageUrls = [...formData.image_urls];
+    newImageUrls[index] = '';
+    setFormData({ ...formData, image_urls: newImageUrls });
+
+    const newImageFiles = [...imageFiles];
+    newImageFiles[index] = null;
+    setImageFiles(newImageFiles);
   };
 
   const handleCancel = () => {
