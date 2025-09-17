@@ -14,7 +14,6 @@ const AdminDashboard = () => {
   const [newCategory, setNewCategory] = useState("");
   const [editProductId, setEditProductId] = useState(null);
   const [formData, setFormData] = useState({
-    id: '',
     name: '',
     description: '',
     price_rands: '',
@@ -76,7 +75,7 @@ const AdminDashboard = () => {
       setFormData({ id: '', name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' });
       setImageFiles([null, null, null]);
       setShowForm(false);
-      fetchProducts(); // ADDED: Refresh products after submission
+      await fetchProducts(); // ADDED: Refresh products after submission
     } catch (err) {
       setFormError('Failed to save product: ' + err.message);
       console.error(err);
@@ -193,9 +192,16 @@ const AdminDashboard = () => {
             products.map((product) => (
               <div key={product.id} className={styles.productItem}>
                 <div className={styles.productImages}>
-                  {(product.image_urls || [product.image_url]).map((url, index) => (
-                    <img key={index} src={url} alt={`${product.name} ${index + 1}`} className={styles.productThumb} />
-                  ))}
+                  {(product.image_urls || [product.image_url])
+                    .filter(Boolean)
+                    .map((url, index) => (
+                      <img
+                        key={`${product.id}-${url}-${index}`}
+                        src={url}
+                        alt={`${product.name} ${index + 1}`}
+                        className={styles.productThumb}
+                      />
+                    ))}
                 </div>
                 <div>
                   <span className={styles.productName}>{product.name}</span>
@@ -209,7 +215,7 @@ const AdminDashboard = () => {
                   <button onClick={() => { toggleAvailability(product.id, product.available); fetchProducts(); }} className={styles.toggleButton}>
                     {product.available ? 'Set Unavailable' : 'Set Available'}
                   </button>
-                  <button onClick={() => { deleteProduct(product.id); fetchProducts(); }} className={styles.deleteButton}>Delete</button>
+                  <button onClick={() => { deleteProduct(product.id); }} className={styles.deleteButton}>Delete</button>
                 </div>
               </div>
             ))

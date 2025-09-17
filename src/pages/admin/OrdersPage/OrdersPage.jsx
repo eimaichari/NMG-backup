@@ -80,6 +80,8 @@ const OrdersPage = () => {
                 </ul>
               </div>
 
+              {console.log(order.id, order.proofOfPayment)}
+
               {/* ✅ Proof of Payment Thumbnail */}
               {order.proofOfPayment && (
                 <div className={styles.proofSection}>

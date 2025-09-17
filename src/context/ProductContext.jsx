@@ -55,12 +55,12 @@ export const ProductsProvider = ({ children }) => {
   // Add a new product
   const addProduct = async (productData) => {
     try {
-      const docRef = await addDoc(collection(db, 'products'), {
+      await addDoc(collection(db, 'products'), {
         ...productData,
         available: true,
         createdAt: new Date().toISOString(),
       });
-      setProducts([...products, { id: docRef.id, ...productData, available: true }]);
+      await fetchProducts();
     } catch (err) {
       setError('Failed to add product');
       console.error(err);
@@ -90,6 +90,9 @@ export const ProductsProvider = ({ children }) => {
       setError('Failed to delete product');
       console.error(err);
     }
+
+    fetchProducts();
+
   };
 
   // Toggle product availability
