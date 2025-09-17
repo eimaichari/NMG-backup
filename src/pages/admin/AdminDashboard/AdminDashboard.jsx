@@ -72,7 +72,7 @@ const AdminDashboard = () => {
         await addProduct(productData);
       }
 
-      setFormData({ id: '', name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' });
+      setFormData({ name: '', description: '', price_rands: '', image_urls: ['', '', ''], category: '' });
       setImageFiles([null, null, null]);
       setShowForm(false);
       await fetchProducts(); // ADDED: Refresh products after submission
