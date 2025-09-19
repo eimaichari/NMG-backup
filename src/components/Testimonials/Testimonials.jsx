@@ -21,6 +21,30 @@ const testimonialsData = [
     author: "Jenifer",
     rating: "★★★★★",
   },
+   {
+    id: 4,
+    text: "I  recently tried Golf 's noodles, and I was blown away! The flavors were rich and savory, and the texture was just right.The portion size was generous, and the price was reasonable.",
+    author: "Bennie",
+    rating: "★★★★★",
+  },
+  {
+    id: 5,
+    text: "If you're a noodle lover like me, you should definitely give Golf Noodles a try. The service was friendly and attentive.",
+    author: "Bennie",
+    rating: "★★★★★",
+  },
+  {
+    id: 6,
+    text: "This pie tastes so good! I love the fact that it's easy to make in the microwave. The crust is perfectly flaky, and the filling is rich and flavorful. A true culinary gem! Highly recommended!",
+    author: "Sharon",
+    rating: "★★★★★",
+  },
+  {
+    id: 7,
+    text: "Yooh friends , pies are yummy very nice and noodles that's my bestie now 😋 so delish.",
+    author: "Doris",
+    rating: "★★★★★",
+  },
 ];
 
 export default function Testimonials() {
