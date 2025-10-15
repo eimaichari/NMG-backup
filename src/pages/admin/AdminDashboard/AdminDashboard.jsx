@@ -56,7 +56,7 @@ const AdminDashboard = () => {
     try {
       const imageUrls = await Promise.all(imageFiles.map(async (file, index) => {
         if (file) {
-          const imageRef = ref(storage, `products-services/${Date.now()}_${index}_${file.name}`);
+          const imageRef = ref(storage, `products_images/${Date.now()}_${index}_${file.name}`);
           await uploadBytes(imageRef, file);
           return await getDownloadURL(imageRef);
         }
