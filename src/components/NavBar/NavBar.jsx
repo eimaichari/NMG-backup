@@ -35,7 +35,7 @@ const Nav = () => {
         <span className={styles.bar}></span>
       </div>
 
-      {/* Nav links */}
+      {/* Nav links (Main Menu) */}
       <ul className={`${styles.navLinks} ${isOpen ? styles.active : ''}`}>
         <li><Link to="/" className={styles.link} onClick={() => setIsOpen(false)}>Home</Link></li>
         <li><Link to="/about" className={styles.link} onClick={() => setIsOpen(false)}>About</Link></li>
@@ -49,36 +49,56 @@ const Nav = () => {
 
         <li><Link to="/contact" className={styles.link} onClick={() => setIsOpen(false)}>Contact</Link></li>
 
-        {/* Authenticated user */}
+        {/* Admin Links - These remain with the main links for consistent ordering */}
+        {isAuthenticated && user.role === 'admin' && (
+          <>
+            <li>
+              <Link to="/admin/dashboard" className={styles.link} onClick={() => setIsOpen(false)}>Dashboard</Link>
+            </li>
+            <li className={styles.ordersLink}>
+              <Link to="/admin/orders" className={styles.link} onClick={() => setIsOpen(false)}>Orders</Link>
+            </li>
+          </>
+        )}
+      </ul>
+      
+      {/* 🚀 NEW: AUTHENTICATION ACTIONS CONTAINER 🚀 */}
+      <div className={`${styles.authActions} ${isOpen ? styles.active : ''}`}>
         {isAuthenticated ? (
           <>
-            {user.role === 'admin' && (
-              <>
-                <li>
-                  <Link to="/admin/dashboard" className={styles.link} onClick={() => setIsOpen(false)}>Dashboard</Link>
-                </li>
-                <li className={styles.ordersLink}>
-                  <Link to="/admin/orders" className={styles.link} onClick={() => setIsOpen(false)}>Orders</Link>
-                </li>
-              </>
-            )}
-            <li className={styles.userInfo}>
+            <span className={styles.userInfo}>
               Welcome, {user.displayName || user.email}
-            </li>
-            <li>
-              <button onClick={handleSignOut} className={styles.link}>Sign Out</button>
-            </li>
+            </span>
+            <button
+              onClick={handleSignOut}
+              className={`${styles.link} ${styles.primaryButton}`}
+            >
+              Sign Out
+            </button>
           </>
         ) : (
           !loading && (
             <>
-              <li><Link to="/auth/signin" className={styles.link} onClick={() => setIsOpen(false)}>Sign In</Link></li>
-              <li><Link to="/auth/signup" className={styles.link} onClick={() => setIsOpen(false)}>Sign Up</Link></li>
+              <Link
+                to="/auth/signin"
+                className={`${styles.link} ${styles.primaryButton}`}
+                onClick={() => setIsOpen(false)}
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/auth/signup"
+                className={`${styles.link} ${styles.primaryButton}`}
+                onClick={() => setIsOpen(false)}
+              >
+                Sign Up
+              </Link>
             </>
           )
         )}
-      </ul>
-    </nav>
+      </div>
+      {/* ------------------------------------------- */}
+  </nav>
   );
 };
 

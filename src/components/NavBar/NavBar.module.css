@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 97vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,7 +27,8 @@
 
 .navLinks {
   display: flex;
-   list-style-type: none;
+  list-style-type: none;
+  width: 30vw;
   gap: 2rem;
   margin: 0 auto;
   align-items: center;
@@ -47,6 +48,43 @@
 .link:hover {
   color: var(--primary-color, #2EC4B6);
 }
+
+/* 🚀 NEW PRIMARY BUTTON STYLE 🚀 */
+.primaryButton {
+  /* Inherit link properties, but override for button look */
+  padding: 8px 16px;
+  border-radius: 6px; /* Slightly rounded corners */
+  background-color: var(--primary-color, #2EC4B6); /* Solid primary color background */
+  color: var(--background-dark, #111827); /* Dark text for contrast */
+  font-weight: 700;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  white-space: nowrap; /* Prevent wrapping on smaller screens */
+}
+
+.primaryButton:hover {
+  background-color: var(--primary-dark, #249c91); /* Darker shade on hover */
+  color: var(--background-dark, #111827); /* Keep text dark */
+  /* Ensure the button hover overrides the general link hover */
+}
+
+.primaryButtonRed {
+  padding: 8px 16px;
+  border-radius: 6px; /* Slightly rounded corners */
+  background-color: var(--red-accent, #EF4444); /* Red background */
+  color: var(--background-dark, #111827); /* Dark text for contrast */
+  font-weight: 700;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  white-space: nowrap; /* Prevent wrapping on smaller screens */
+  position: relative;
+  right: 0px;
+}
+
+.primaryButtonRed:hover {
+  background-color: var(--red-dark, #DC2626); /* Darker red on hover */
+  color: var(--background-dark, #111827); /* Keep text dark */
+}
+/* ---------------------------------- */
+
 
 .search {
   margin-left: auto;
@@ -70,7 +108,7 @@
   gap: 5px;
   padding: 5px;
   right: 10px;
-  z-index: 200;        /* 🔹 ensure it's above navLinks */
+  z-index: 200; 		/* 🔹 ensure it's above navLinks */
 }
 
 .bar {
@@ -143,7 +181,6 @@
 
   .navLinks {
     position: fixed;
-    
     top: 60px;
     left: 0;
     width: 100%;
@@ -164,15 +201,102 @@
 
   .hamburgerMenu {
     display: flex;
-    
   }
 
   .search {
     display: none;
   }
+
+  /* 🚀 PRIMARY BUTTON ADJUSTMENTS FOR MOBILE 🚀 */
+  .primaryButton {
+    display: block;
+    width: 80%;
+    margin: 0.5rem auto;
+  }
+  
+  .navLinks li {
+    padding: 0.25rem 0;
+  }
+  /* ---------------------------------- */
 }
 
 /* Extra space between Dashboard & Orders */
 .ordersLink {
   margin-left: 1.5rem;
+}
+
+/* 🚀 NEW: Authentication Actions Container 🚀 */
+.authActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  /* Removed margin-left:auto to prevent pushing too far right */
+  margin-left: 0.5rem; /* Add a small gap from navLinks */
+}
+
+/* Ensure the user info looks right in the new container */
+.userInfo {
+  color: var(--text-light, #E6E6E6);
+  font-size: 1rem;
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+/* Remove the margin from the main navLinks since we don't need to center it anymore */
+.navLinks {
+  /* ... existing styles ... */
+  /* margin: 0 auto; 👈 REMOVE THIS LINE */
+  /* Removed margin-right: 2rem; to keep authActions closer */
+}
+
+/* Responsive adjustment for Mobile */
+@media (max-width: 768px) {
+    /* The authActions container needs to be hidden on mobile 
+    when the menu is closed, and styled to stack vertically when open.
+    */
+    .authActions {
+        display: none; /* Hide by default on mobile */
+        
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        flex-direction: column; /* Stack items */
+        background-color: var(--primary-dark, #1E2A38); /* Same as navLinks */
+        text-align: center;
+        padding: 1rem 0;
+        z-index: 99;
+        /* Start it off-screen, right below navLinks */
+        transform: translateY(-150%); 
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* Show and position the authActions only when the menu is open */
+    .authActions.active {
+        /* To position it after the main nav links, you'll need to 
+        adjust the `top` position dynamically based on the height 
+        of the `.navLinks.active` menu. 
+        
+        A simpler approach is to merge the main links and auth actions 
+        back into one mobile-only container, or position this one lower.
+        
+        Since they are in separate containers now, you might need 
+        to calculate the height of .navLinks.active in JS 
+        for a perfect offset. 
+        
+        For CSS-only, let's keep it simple by stacking them inside a 
+        single mobile-friendly container, which we've done in the JSX by
+        placing the auth links in the new div which will now be styled 
+        to appear below the navLinks on mobile.
+        
+        Let's give it a fixed offset, assuming the navLinks are about 400px tall.
+        */
+        display: flex; /* Show it */
+        transform: translateY(200px); /* Adjust this value */
+    }
+
+    /* Mobile Auth Button Styling */
+    .authActions .primaryButton {
+      width: 80%;
+      margin: 0.5rem auto;
+    }
 }
