@@ -17,14 +17,29 @@ const ProductsPage = () => {
 
   const categories = ['All', ...new Set(products.map((p) => p.category).filter(Boolean))];
 
+  // Helper function to get product images safely
+  const getProductImages = (product) => {
+    // Check if image_urls exists and is an array with items
+    if (Array.isArray(product.image_urls) && product.image_urls.length > 0) {
+      return product.image_urls.filter(url => url); // Filter out any null/undefined
+    }
+    // Fallback to single image_url if it exists
+    if (product.image_url) {
+      return [product.image_url];
+    }
+    // Return placeholder if no images
+    return ['/placeholder-image.png']; // Make sure you have a placeholder image
+  };
+
   useEffect(() => {
     const intervals = {};
     products.forEach((product) => {
-      if ((product.image_urls || [product.image_url]).length > 1) {
+      const images = getProductImages(product);
+      if (images.length > 1) {
         intervals[product.id] = setInterval(() => {
           setCurrentSlides(prev => ({
             ...prev,
-            [product.id]: (prev[product.id] || 0) + 1 >= (product.image_urls || [product.image_url]).length ? 0 : (prev[product.id] || 0) + 1
+            [product.id]: ((prev[product.id] || 0) + 1) % images.length
           }));
         }, 3000);
       }
@@ -46,6 +61,10 @@ const ProductsPage = () => {
       const productRef = doc(userCartRef, String(product.id));
 
       const docSnap = await getDoc(productRef);
+      
+      // Get the first valid image
+      const productImages = getProductImages(product);
+      const productImage = productImages[0];
 
       if (docSnap.exists()) {
         const newQuantity = docSnap.data().quantity + 1;
@@ -56,7 +75,7 @@ const ProductsPage = () => {
           productId: product.id,
           name: product.name,
           price: product.price_rands,
-          image: product.image_urls?.[0] || product.image_url, // CHANGED: Use first image_url if available
+          image: productImage,
           quantity: 1,
           addedAt: new Date().toISOString(),
         });
@@ -83,17 +102,25 @@ const ProductsPage = () => {
     return products.filter((product) => product.category === selectedCategory);
   };
 
-  const handlePrev = (productId) => {
+  const handlePrev = (productId, e) => {
+    e.preventDefault(); // Prevent link navigation
+    e.stopPropagation();
+    const product = products.find(p => p.id === productId);
+    const images = getProductImages(product);
     setCurrentSlides(prev => ({
       ...prev,
-      [productId]: (prev[productId] || 0) - 1 < 0 ? (products.find(p => p.id === productId).image_urls || [products.find(p => p.id === productId).image_url]).length - 1 : (prev[productId] || 0) - 1
+      [productId]: ((prev[productId] || 0) - 1 + images.length) % images.length
     }));
   };
 
-  const handleNext = (productId) => {
+  const handleNext = (productId, e) => {
+    e.preventDefault(); // Prevent link navigation
+    e.stopPropagation();
+    const product = products.find(p => p.id === productId);
+    const images = getProductImages(product);
     setCurrentSlides(prev => ({
       ...prev,
-      [productId]: (prev[productId] || 0) + 1 >= (products.find(p => p.id === productId).image_urls || [products.find(p => p.id === productId).image_url]).length ? 0 : (prev[productId] || 0) + 1
+      [productId]: ((prev[productId] || 0) + 1) % images.length
     }));
   };
 
@@ -129,39 +156,60 @@ const ProductsPage = () => {
           ) : (
             <div className={styles.productGrid}>
               {filterProducts().length > 0 ? (
-                filterProducts().map((product) => (
-                  <div key={product.id} className={styles.productCard}>
-                    <Link to={`/products/${product.id}`} className={styles.productLink}>
-                      <div className={styles.carousel}>
-                        {(product.image_urls || [product.image_url]).map((url, index) => (
-                          <img
-                            key={index}
-                            src={url}
-                            alt={`${product.name} ${index + 1}`}
-                            className={`${styles.productImage} ${currentSlides[product.id] === index ? styles.active : ''}`} // CHANGED: Added active class for carousel
-                            style={{ display: currentSlides[product.id] === index ? 'block' : 'none' }}
-                          />
-                        ))}
-                        {(product.image_urls || [product.image_url]).length > 1 && (
-                          <>
-                            <button className={styles.prev} onClick={() => handlePrev(product.id)}>❮</button>
-                            <button className={styles.next} onClick={() => handleNext(product.id)}>❯</button>
-                          </>
-                        )}
-                      </div>
-                      <h3 className={styles.productName}>{product.name}</h3>
-                      <p className={styles.productDescription}>{product.description}</p>
-                      <p className={styles.productPrice}>R{product.price_rands}</p>
-                    </Link>
-                    <button
-                      className={styles.addToCart}
-                      disabled={addingProducts.has(product.id)} 
-                      onClick={() => addToCart(product)}
-                    >
-                      {addingProducts.has(product.id) ? 'Adding to Cart...' : 'Add to Cart'}
-                    </button>
-                  </div>
-                ))
+                filterProducts().map((product) => {
+                  const images = getProductImages(product);
+                  const currentSlide = currentSlides[product.id] || 0;
+                  
+                  return (
+                    <div key={product.id} className={styles.productCard}>
+                      <Link to={`/products/${product.id}`} className={styles.productLink}>
+                        <div className={styles.carousel}>
+                          {images.map((url, index) => (
+                            <img
+                              key={index}
+                              src={url}
+                              alt={`${product.name} ${index + 1}`}
+                              className={`${styles.productImage} ${currentSlide === index ? styles.active : ''}`}
+                              style={{ display: currentSlide === index ? 'block' : 'none' }}
+                              onError={(e) => {
+                                console.error(`Failed to load image: ${url}`);
+                                e.target.src = '/placeholder-image.png'; // Fallback image
+                              }}
+                            />
+                          ))}
+                          {images.length > 1 && (
+                            <>
+                              <button 
+                                className={styles.prev} 
+                                onClick={(e) => handlePrev(product.id, e)}
+                                type="button"
+                              >
+                                ❮
+                              </button>
+                              <button 
+                                className={styles.next} 
+                                onClick={(e) => handleNext(product.id, e)}
+                                type="button"
+                              >
+                                ❯
+                              </button>
+                            </>
+                          )}
+                        </div>
+                        <h3 className={styles.productName}>{product.name}</h3>
+                        <p className={styles.productDescription}>{product.description}</p>
+                        <p className={styles.productPrice}>R{product.price_rands}</p>
+                      </Link>
+                      <button
+                        className={styles.addToCart}
+                        disabled={addingProducts.has(product.id)} 
+                        onClick={() => addToCart(product)}
+                      >
+                        {addingProducts.has(product.id) ? 'Adding to Cart...' : 'Add to Cart'}
+                      </button>
+                    </div>
+                  );
+                })
               ) : (
                 <p>No products found for this category.</p>
               )}
