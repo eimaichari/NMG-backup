@@ -1,7 +1,8 @@
+// AuthContext.jsx
 import { createContext, useContext, useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore'; // Import Firestore functions
-import { app, db } from '../utils/firebase'; // Make sure to import the 'db' instance
+import { doc, getDoc } from 'firebase/firestore';
+import { app, db } from '../utils/firebase';
 
 // Create AuthContext
 const AuthContext = createContext();
@@ -33,23 +34,27 @@ export const AuthProvider = ({ children }) => {
             setUser({
               uid: firebaseUser.uid,
               email: firebaseUser.email,
-              displayName: firebaseUser.displayName || null,
-              role: userData.role || 'user', // Add the role to the user object
+              // IMPORTANT: Use displayName from Firebase Auth OR fullName from Firestore
+              displayName: firebaseUser.displayName || userData.fullName || null,
+              fullName: userData.fullName || firebaseUser.displayName || null,
+              role: userData.role || 'user',
             });
 
+            console.log("User logged in:", firebaseUser.displayName || userData.fullName);
             console.log("User role:", userData.role);
           } else {
-            // Document doesn't exist, assume a basic 'user' role
+            // Document doesn't exist, use Firebase Auth data
             setUser({
               uid: firebaseUser.uid,
               email: firebaseUser.email,
               displayName: firebaseUser.displayName || null,
+              fullName: firebaseUser.displayName || null,
               role: 'user',
             });
           }
         } catch (error) {
           console.error("Error fetching user role:", error);
-          setUser(null); // Set user to null on error
+          setUser(null);
         }
       } else {
         // No user is logged in

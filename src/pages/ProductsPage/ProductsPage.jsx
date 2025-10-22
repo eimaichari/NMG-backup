@@ -47,9 +47,10 @@ const ProductsPage = () => {
     return () => Object.values(intervals).forEach(clearInterval);
   }, [products]);
 
-  const addToCart = async (product) => {
+   const addToCart = async (product) => {
     if (!isAuthenticated) {
-      setStatusMessage('Please sign in to add items to your cart.');
+      // ✅ CHANGED: Added emoji and better message
+      setStatusMessage('❌ Please sign in to add items to your cart.');
       setTimeout(() => setStatusMessage(''), 3000);
       return;
     }
@@ -69,7 +70,8 @@ const ProductsPage = () => {
       if (docSnap.exists()) {
         const newQuantity = docSnap.data().quantity + 1;
         await updateDoc(productRef, { quantity: newQuantity });
-        setStatusMessage(`${product.name} quantity updated in cart.`);
+        // ✅ CHANGED: Updated message with emoji and urgency
+        setStatusMessage(`✅ ${product.name} quantity updated! Checkout now before we run out of stock! 🔥`);
       } else {
         await setDoc(productRef, {
           productId: product.id,
@@ -79,19 +81,22 @@ const ProductsPage = () => {
           quantity: 1,
           addedAt: new Date().toISOString(),
         });
-        setStatusMessage(`${product.name} added to cart.`);
+        // ✅ CHANGED: Updated message with emoji and urgency
+        setStatusMessage(`✅ ${product.name} added to cart! Checkout now before we run out of stock! 🔥`);
       }
 
     } catch (err) {
       console.error("Error adding to cart:", err);
-      setStatusMessage('Failed to add item to cart. Please try again.');
+      // ✅ CHANGED: Added emoji for consistency
+      setStatusMessage('❌ Failed to add item to cart. Please try again.');
     } finally {
       setAddingProducts(prev => {
         const newSet = new Set(prev);
         newSet.delete(product.id);
         return newSet;
       });
-      setTimeout(() => setStatusMessage(''), 3000);
+      // ✅ CHANGED: Extended timeout from 3000 to 5000 (5 seconds)
+      setTimeout(() => setStatusMessage(''), 5000);
     }
   };
 
