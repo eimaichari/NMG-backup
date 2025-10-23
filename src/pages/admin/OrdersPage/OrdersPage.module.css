@@ -221,4 +221,12 @@
   background: #d32f2f;
 }
 
-
+.badge {
+  background-color: #4CAF50; /* Green like success */
+  color: white;
+  border-radius: 9999px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}

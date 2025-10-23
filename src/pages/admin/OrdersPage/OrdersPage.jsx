@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../../../utils/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useOrders } from '../../../utils/useOrders';
@@ -9,14 +9,35 @@ const OrdersPage = () => {
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [statusMessage, setStatusMessage] = useState('');
   const [modalImage, setModalImage] = useState(null); // for enlarged proof image
+  const [pendingCount, setPendingCount] = useState(0); // NEW: State for pending badge
 
   const statusOptions = ['All', 'Pending Payment', 'Pending Delivery', 'Complete', 'Cancelled'];
+
+  // NEW: Calculate pending count and initial toast
+  useEffect(() => {
+    if (!loading && orders) {
+      const pendings = orders.filter(order => order.status === 'Pending Payment').length;
+      setPendingCount(pendings);
+      
+      // Show toast if any pending (live-updates on new orders via hook)
+      if (pendings > 0) {
+        setStatusMessage(`🔔 ${pendings} new order(s) pending!`);
+        setTimeout(() => setStatusMessage(''), 5000); // Auto-hide after 5s
+      }
+    }
+  }, [orders, loading]); // Re-runs on orders change (real-time from hook)
 
   const handleUpdateStatus = async (orderId, newStatus) => {
     try {
       const orderDocRef = doc(db, 'orders', orderId);
       await updateDoc(orderDocRef, { status: newStatus });
       setStatusMessage(`Order ${orderId} status updated to ${newStatus}.`);
+      
+      // NEW: Recalc pending count after status change
+      setTimeout(() => {
+        const updatedPendings = orders.filter(order => order.status === 'Pending Payment').length;
+        setPendingCount(updatedPendings);
+      }, 100);
     } catch (err) {
       console.error('Error updating order status:', err);
       setStatusMessage('Failed to update order status. Please try again.');
@@ -25,6 +46,7 @@ const OrdersPage = () => {
     }
   };
 
+  // UPDATED: Filter only (hook sorts newest-first)
   const filteredOrders = orders.filter(order => {
     if (selectedStatus === 'All') {
       return true;
@@ -43,7 +65,10 @@ const OrdersPage = () => {
   return (
     <main className={styles.ordersPage}>
       <div className={styles.ordersHeader}>
-        <h1 className={styles.pageTitle}>Order Management</h1>
+        {/* UPDATED: Title with pending badge */}
+        <h1 className={styles.pageTitle}>
+          Order Management {pendingCount > 0 && <span className={styles.badge}>( {pendingCount} )</span>}
+        </h1>
         <div className={styles.statusFilters}>
           {statusOptions.map(status => (
             <button
@@ -68,7 +93,8 @@ const OrdersPage = () => {
                 <p><strong>Customer:</strong> {order.userName}</p>
                 <p><strong>Email:</strong> {order.userEmail}</p>
                 <p><strong>Total:</strong> R{order.totalAmount}</p>
-                <p><strong>Placed:</strong> {new Date(order.orderDate).toLocaleDateString()}</p>
+                {/* UPDATED: Full date & time */}
+                <p><strong>Placed:</strong> {new Date(order.orderDate).toLocaleString()}</p>
               </div>
 
               <div className={styles.orderItems}>
