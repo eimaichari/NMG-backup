@@ -34,73 +34,58 @@
 
 // The Firebase Admin SDK to access Firestore.
 const functions = require("firebase-functions");
-const admin = require("firebase-admin");
-const nodemailer = require("nodemailer");
+const axios = require('axios');
 
-admin.initializeApp();
-
-// Configure the email transport using Nodemailer
-// Replace with your own email service credentials.
-const mailTransport = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: functions.config().email.user,
-    pass: functions.config().email.pass,
-  },
-});
+// Get your UniOne API Key from Firebase environment config
+// Run: firebase functions:config:set unione.key="YOUR_UNIONE_API_KEY"
+const UNIONE_API_KEY = functions.config().unione.key;
+const UNIONE_API_URL = 'https://api.unione.io/en/transactional/api/v1/email/send.json';
 
 /**
- * Sends an email to the user and the admin when a new order is created.
+ * Sends an order confirmation email using UniOne when a new order is created.
  */
-exports.sendOrderConfirmationEmail = functions.firestore
-  .document("orders/{orderId}")
+exports.sendOrderConfirmation = functions.firestore
+  .document('orders/{orderId}')
   .onCreate(async (snap, context) => {
     const orderData = snap.data();
+    const customerEmail = orderData.userEmail;
+    const customerName = orderData.userName;
+    const orderTotal = orderData.totalAmount;
     const orderId = context.params.orderId;
 
-    // Email to the user
-    const userMailOptions = {
-      from: "Your Store Name <yekhutiel@example.com>", // Replace with your store's email
-      to: orderData.userEmail,
-      subject: `Order Confirmation: ${orderId}`,
-      html: `
-        <p>Hi ${orderData.userName},</p>
-        <p>Thank you for your order! Your order number is <strong>${orderId}</strong>.</p>
-        <p>We will notify you once your payment has been processed.</p>
-        <p>Order Summary:</p>
-        <ul>
-          ${orderData.items.map(item => `<li>${item.name} (x${item.quantity}) - R${item.price}</li>`).join('')}
-        </ul>
-        <p>Total: <strong>R${orderData.totalAmount}</strong></p>
-        <p>Sincerely,</p>
-        <p>The NMG Team</p>
-      `,
+    // 1. Construct the UniOne API Payload
+    const payload = {
+      message: {
+        // Your verified sending email address
+        from_email: "noreply@nmgzembeta.com", 
+        subject: `Your Order ${orderId} is Confirmed!`,
+        recipients: [{ email: customerEmail }],
+
+        // Use your UniOne Template
+        template_id: 'your_order_confirmation_template_id', // Replace with your template ID
+        // Pass dynamic data to your template
+        global_substitutions: {
+          ORDER_ID: orderId,
+          CUSTOMER_NAME: customerName,
+          ORDER_TOTAL: orderTotal,
+        }
+      }
     };
 
-    // Email to the admin
-    const adminMailOptions = {
-      from: "Your Store Name <yekhutiel@example.com>", // Replace with your store's email
-      to: "kutigrace9@gmail.com",
-      subject: `New Order Received: ${orderId}`,
-      html: `
-        <p>A new order has been placed!</p>
-        <p><strong>Order ID:</strong> ${orderId}</p>
-        <p><strong>Customer:</strong> ${orderData.userName} (${orderData.userEmail})</p>
-        <p><strong>Total Amount:</strong> R${orderData.totalAmount}</p>
-        <p><strong>Items:</strong></p>
-        <ul>
-          ${orderData.items.map(item => `<li>${item.name} (x${item.quantity}) - R${item.price}</li>`).join('')}
-        </ul>
-      `,
-    };
-
+    // 2. Send the Request to UniOne
     try {
-      await mailTransport.sendMail(userMailOptions);
-      functions.logger.log('Confirmation email sent to user:', orderData.userEmail);
-      await mailTransport.sendMail(adminMailOptions);
-      functions.logger.log('Order notification email sent to admin.');
+      const response = await axios.post(UNIONE_API_URL, payload, {
+        headers: {
+          'X-API-KEY': UNIONE_API_KEY,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log(`Email sent successfully for Order ${orderId}:`, response.data);
+      return response.data;
+
     } catch (error) {
-      functions.logger.error('Failed to send email:', error);
+      console.error(`Error sending email for Order ${orderId}:`, error.message);
+      return null;
     }
-    return null;
   });
