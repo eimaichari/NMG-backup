@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styles from './HomePage.module.css';
 import Testimonials from '../../components/Testimonials/Testimonials';
+import { Link } from 'react-router-dom';
+
 
 import serviceImageOne from '../../assets/images/WhatsApp Image 2025-09-12 at 13.05.51 (1).jpeg'
 import serviceImageTwo from '../../assets/images/WhatsApp Image 2025-09-12 at 13.05.51.jpeg'
@@ -45,7 +47,7 @@ const HomePage = () => {
           <p className={styles.heroSubtitle}>
             Premium Cleaning, Catering, Branding & Supply Solutions
           </p>
-          <a href="../ProductsPage/ProductsPage.jsx" className={styles.tourButton}>Explore Services</a>
+          <Link to="/products" className={styles.tourButton}>Explore Services</Link>
         </div>
         <div id="lottie-animation" className={styles.lottieAnimation}></div>
       </section>
@@ -66,7 +68,7 @@ const HomePage = () => {
               We are committed to delivering high-quality services that meet the everyday needs of our clients, from cleaning
               and laundry to catering, embroidery, branding, consulting, and supplies.
             </p>
-            <button className={styles.readMoreButton}>Read More</button>
+            <Link to="/about" className={styles.readMoreButton}>Read More</Link>
           </div>
         </div>
       </section>

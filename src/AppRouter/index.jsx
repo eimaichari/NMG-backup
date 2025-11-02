@@ -1,8 +1,10 @@
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from '../context/AuthContext.jsx';
 import UserRoute from '../components/auth/UserRoute.jsx';
 import AdminRoute from '../components/auth/AdminRoute.jsx';
 import { ProductsProvider } from '../context/ProductContext.jsx';
+import ScrollToTop from '../components/scrollToTop.js';
 
 import NavBar from '../components/NavBar/NavBar.jsx';
 import Footer from '../components/Footer/Footer.jsx';
@@ -20,37 +22,42 @@ import AdminDashboard from '../pages/admin/AdminDashboard/AdminDashboard.jsx';
 import OrdersPage from '../pages/admin/OrdersPage/OrdersPage.jsx';
 
 import ProductDetailsPage from '../pages/ProductDetails/ProductDetails.jsx';
- 
+
 const AppRouter = () => {
   return (
     <AuthProvider>
       <ProductsProvider>
         <Router>
           <NavBar />
-          <Routes>
+          <ScrollToTop /> {/* Add ScrollToTop here */}
+          <div style={{ minHeight: "80vh" }}>
+            <Suspense fallback={<div style={{ textAlign: "center", marginTop: "2rem" }}>Loading...</div>}>
+              <Routes>
 
-            {/* Public Routes */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/products/:id" element={<ProductDetailsPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/auth/signin" element={<SignInPage />} />
-            <Route path="/auth/signup" element={<SignupPage />} />
+                {/* Public Routes */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/products/:id" element={<ProductDetailsPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/auth/signin" element={<SignInPage />} />
+                <Route path="/auth/signup" element={<SignupPage />} />
 
-            {/* User Routes */}
-            <Route element={<UserRoute />}>
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-            </Route>
+                {/* User Routes */}
+                <Route element={<UserRoute />}>
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                </Route>
 
-            {/* Admin Routes */}
-            <Route element={<AdminRoute />}>
-              <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/orders" element={<OrdersPage />} />
-            </Route>
-          </Routes>
+                {/* Admin Routes */}
+                <Route element={<AdminRoute />}>
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  <Route path="/admin/orders" element={<OrdersPage />} />
+                </Route>
+              </Routes>
+            </Suspense>
+          </div>
           <Footer />
         </Router>
       </ProductsProvider>
