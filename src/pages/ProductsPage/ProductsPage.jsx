@@ -153,6 +153,13 @@ const ProductsPage = () => {
               </button>
             ))}
           </div>
+
+          {statusMessage && (
+          <div className={`${styles.statusMessage} ${statusMessage.includes('Failed') ? styles.error : styles.success}`}>
+            {statusMessage}
+          </div>
+          )}
+
           <h2 className={styles.sectionTitle}>Featured Products</h2>
           {productsLoading ? (
             <div className={styles.loading}>Loading products...</div>
@@ -218,11 +225,6 @@ const ProductsPage = () => {
               ) : (
                 <p>No products found for this category.</p>
               )}
-            </div>
-          )}
-          {statusMessage && (
-            <div className={`${styles.statusMessage} ${statusMessage.includes('Failed') ? styles.error : styles.success}`}>
-              {statusMessage}
             </div>
           )}
         </div>

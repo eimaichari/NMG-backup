@@ -5,13 +5,19 @@ import styles from './CartPage.module.css';
 
 const CartPage = () => {
   const { cartItems, loading, error, removeItem, increaseQuantity, decreaseQuantity } = useCart();
-  const [statusMessage, setStatusMessage] = useState('');
+  const [status, setStatus] = useState({ message: '', type: null }); // type will be 'success' or 'error'
   const navigate = useNavigate();
 
   const handleRemoveItem = async (id) => {
-    await removeItem(id);
-    setStatusMessage('Item removed from cart');
-    setTimeout(() => setStatusMessage(''), 3000);
+    try {
+      await removeItem(id);
+      // Set a success message with the 'success' type
+      setStatus({ message: 'Item removed from cart', type: 'success' });
+    } catch (err) {
+      // Handle potential error from useCart hook
+      setStatus({ message: 'Failed to remove item.', type: 'error' });
+    }
+    setTimeout(() => setStatus({ message: '', type: null }), 3000);
   };
 
   const handleIncreaseQuantity = async (id) => {
@@ -39,6 +45,11 @@ const CartPage = () => {
       <section className={styles.cartSection}>
         <div className={styles.container}>
           <h1 className={styles.sectionTitle}>Your Cart</h1>
+          {status.message && (
+            <div className={`${styles.statusMessage} ${styles[status.type]}`}>
+              {status.message}
+            </div>
+          )}
           <div className={styles.cartItems}>
             {cartItems.length === 0 ? (
               <p>Your cart is empty</p>
@@ -85,11 +96,7 @@ const CartPage = () => {
           <div className={styles.cartTotal}>
             Total: R{calculateTotal()}
           </div>
-          {statusMessage && (
-            <div className={`${styles.statusMessage} ${statusMessage.includes('removed') ? styles.success : styles.error}`}>
-              {statusMessage}
-            </div>
-          )}
+          
           <div className={styles.cartActions}>
             <button 
               className={styles.submitButton}

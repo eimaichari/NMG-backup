@@ -166,16 +166,37 @@ a:hover {
   margin-top: 1.5rem;
 }
 
+/* --- DISCRETE STATUS MESSAGE STYLES --- */
 .statusMessage {
   text-align: center;
   margin-top: 1rem;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  line-height: 1.3;
 }
 
 .statusMessage.success {
+  background-color: rgba(46, 196, 182, 0.15); /* #2EC4B6 theme color */
   color: #2EC4B6;
-  font-weight: 700;
+  border: 1px solid #2EC4B6;
 }
+
+.statusMessage.error {
+  background-color: rgba(255, 0, 0, 0.15);
+  color: #FF6B6B; /* Soft red for visibility */
+  border: 1px solid #FF6B6B;
+}
+
+.statusMessage.warning {
+  background: rgba(255, 183, 3, 0.15); /* #FFB703 theme color */
+  border: 1px solid #FFB703;
+  color: #FFB703;
+}
+/* --- END DISCRETE STATUS MESSAGE STYLES --- */
+
 
 /* Media Queries */
 @media (max-width: 768px) {

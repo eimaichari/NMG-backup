@@ -1,8 +1,8 @@
-// SignInPage.jsx
 import React, { useState } from 'react';
 import styles from './SignInPage.module.css';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '../../../utils/firebase';
+// Assuming the path to firebase utils and auth is correct
+import { auth } from '../../../utils/firebase'; 
 import { Link, useNavigate } from 'react-router-dom';
 
 const SignInPage = () => {
@@ -10,23 +10,31 @@ const SignInPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [statusMessage, setStatusMessage] = useState('');
+  
+  // Refactored state: tracks message content and its type for styling
+  const [status, setStatus] = useState({ message: '', type: null }); 
+  
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [attemptCount, setAttemptCount] = useState(0);
 
   const navigate = useNavigate();
 
+  // Helper to clear the status message after a duration
+  const clearStatus = (duration = 3000) => {
+    setTimeout(() => setStatus({ message: '', type: null }), duration);
+  };
+
   const handleSignIn = async () => {
     // Check if too many attempts
     if (attemptCount >= 5) {
-      setStatusMessage('⚠️ Too many attempts. Please wait a few minutes before trying again.');
-      setTimeout(() => setStatusMessage(''), 5000);
+      setStatus({ message: 'Too many attempts. Please wait a few minutes before trying again.', type: 'warning' });
+      clearStatus(5000);
       return;
     }
 
     if (!email || !password) {
-      setStatusMessage('❌ Please fill in all fields');
-      setTimeout(() => setStatusMessage(''), 3000);
+      setStatus({ message: 'Please fill in all fields', type: 'error' });
+      clearStatus(3000);
       return;
     }
 
@@ -35,45 +43,51 @@ const SignInPage = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setStatusMessage('✅ Sign-in successful! Redirecting...');
+      // Success
+      setStatus({ message: 'Sign-in successful! Redirecting...', type: 'success' });
       setAttemptCount(0); // Reset on success
       setTimeout(() => {
         navigate('/');
       }, 1000);
     } catch (error) {
       console.error('Error signing in:', error);
-      let errorMessage = '❌ Sign-in failed. Please try again.';
+      let errorMessage = 'Sign-in failed. Please try again.';
+      let errorType = 'error'; // Default to error
 
       switch (error.code) {
         case 'auth/user-not-found':
-          errorMessage = '❌ No account found with this email. Please sign up first.';
+          errorMessage = 'No account found with this email. Please sign up first.';
           break;
         case 'auth/wrong-password':
-          errorMessage = '❌ Incorrect password. Please try again or reset your password.';
+          errorMessage = 'Incorrect password. Please try again or reset your password.';
           break;
         case 'auth/invalid-email':
-          errorMessage = '❌ Invalid email format. Please check and try again.';
+          errorMessage = 'Invalid email format. Please check and try again.';
           break;
         case 'auth/user-disabled':
-          errorMessage = '❌ This account has been disabled. Please contact support.';
+          errorMessage = 'This account has been disabled. Please contact support.';
           break;
         case 'auth/too-many-requests':
-          errorMessage = '⚠️ Too many failed login attempts. Your account has been temporarily locked. Please try again in 15-30 minutes or reset your password.';
-          setTimeout(() => setStatusMessage(''), 8000);
+          errorMessage = 'Too many failed login attempts. Your account has been temporarily locked. Please try again in 15-30 minutes or reset your password.';
+          errorType = 'warning'; // Treat this as a strong warning
+          setStatus({ message: errorMessage, type: errorType });
+          clearStatus(8000);
           setIsSigningIn(false);
           return;
         case 'auth/network-request-failed':
-          errorMessage = '❌ Network error. Please check your internet connection.';
+          errorMessage = 'Network error. Please check your internet connection.';
           break;
         case 'auth/invalid-credential':
-          errorMessage = '❌ Invalid email or password. Please check your credentials and try again.';
+          errorMessage = 'Invalid email or password. Please check your credentials and try again.';
           break;
         default:
-          errorMessage = `❌ Error: ${error.message}`;
+          errorMessage = `Error: ${error.message}`;
       }
 
-      setStatusMessage(errorMessage);
-      setTimeout(() => setStatusMessage(''), 6000);
+      // Set the error/warning status
+      setStatus({ message: errorMessage, type: errorType });
+      clearStatus(6000);
+
     } finally {
       setIsSigningIn(false);
     }
@@ -85,30 +99,33 @@ const SignInPage = () => {
 
     try {
       await signInWithPopup(auth, provider);
-      setStatusMessage('✅ Google sign-in successful!');
+      // Success
+      setStatus({ message: 'Google sign-in successful!', type: 'success' });
       setTimeout(() => {
         navigate('/');
       }, 1000);
     } catch (error) {
       console.error('Error with Google sign-in:', error);
-      let errorMessage = '❌ Google sign-in failed.';
-
+      let errorMessage = 'Google sign-in failed.';
+      
       switch (error.code) {
         case 'auth/popup-closed-by-user':
-          errorMessage = '❌ Sign-in cancelled. Please try again.';
+          errorMessage = 'Sign-in cancelled. Please try again.';
           break;
         case 'auth/popup-blocked':
-          errorMessage = '❌ Pop-up blocked by browser. Please allow pop-ups and try again.';
+          errorMessage = 'Pop-up blocked by browser. Please allow pop-ups and try again.';
           break;
         case 'auth/account-exists-with-different-credential':
-          errorMessage = '❌ An account already exists with this email using a different sign-in method.';
+          errorMessage = 'An account already exists with this email using a different sign-in method.';
           break;
         default:
-          errorMessage = `❌ Error: ${error.message}`;
+          errorMessage = `Error: ${error.message}`;
       }
+      
+      // Set the error status
+      setStatus({ message: errorMessage, type: 'error' });
+      clearStatus(5000);
 
-      setStatusMessage(errorMessage);
-      setTimeout(() => setStatusMessage(''), 5000);
     } finally {
       setIsSigningIn(false);
     }
@@ -184,6 +201,15 @@ const SignInPage = () => {
               >
                 {isSigningIn ? 'Signing In...' : attemptCount >= 5 ? 'Too Many Attempts' : 'Sign In'}
               </button>
+
+              {/* --- UPDATED STATUS RENDERING --- */}
+              {status.message && (
+                <div className={`${styles.statusMessage} ${styles[status.type]}`}>
+                  {status.message}
+                </div>
+              )}
+              {/* --- END UPDATED STATUS RENDERING --- */}
+
               <div className={styles.divider}>
                 <span>or</span>
               </div>
@@ -197,11 +223,8 @@ const SignInPage = () => {
               <p className={styles.createAccount}>
                 Don't have an account? <Link to={'/auth/signup'} className={styles.link}>Create one</Link>
               </p>
-              {statusMessage && (
-                <div className={`${styles.statusMessage} ${statusMessage.includes('✅') ? styles.success : ''}`}>
-                  {statusMessage}
-                </div>
-              )}
+              
+
             </div>
           </div>
         </div>

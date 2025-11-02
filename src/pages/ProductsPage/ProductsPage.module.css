@@ -195,16 +195,35 @@ h1, h2, h3 {
   transform: scale(1.05);
 }
 
+/* CSS for a more discrete, top-center status message */
 .statusMessage {
-  text-align: center;
-  margin-top: 16px;
-  font-size: 1rem;
-  color: #E6E6E6;
+    position: fixed;
+    top: 10px; /* Moves it close to the top edge */
+    left: 50%;
+    transform: translateX(-50%); /* Centers horizontally */
+    
+    /* Simplified and lighter style */
+    padding: 0.5rem 1rem; /* Reduced padding */
+    border-radius: 4px; 
+    font-size: 0.95rem; /* Slightly smaller text */
+    color: #333; /* Default text color, subtle */
+    background-color: #fff; /* White background for default */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for lift */
+    
+    z-index: 1000;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; /* Quicker transition */
+    opacity: 1;
+}
+
+/* Specific styles for feedback types */
+.statusMessage.error {
+    background-color: #f44336; /* Solid, standard error red */
+    color: white; 
 }
 
 .statusMessage.success {
-  color: #2EC4B6;
-  font-weight: 700;
+    background-color: #4CAF50; /* Solid, standard success green */
+    color: white;
 }
 
 /* Responsive Adjustments */
