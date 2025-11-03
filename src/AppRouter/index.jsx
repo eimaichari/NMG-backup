@@ -4,7 +4,7 @@ import { AuthProvider } from '../context/AuthContext.jsx';
 import UserRoute from '../components/auth/UserRoute.jsx';
 import AdminRoute from '../components/auth/AdminRoute.jsx';
 import { ProductsProvider } from '../context/ProductContext.jsx';
-import ScrollToTop from '../components/scrollToTop.js';
+import ScrollToTop from '../components/ScrollToTop.js';
 
 import NavBar from '../components/NavBar/NavBar.jsx';
 import Footer from '../components/Footer/Footer.jsx';
