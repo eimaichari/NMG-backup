@@ -1,15 +1,16 @@
-//import './App.css'
-import AppRouter from './AppRouter/index'
-import CustomCursor from './components/CustomCursor/CustomCursor'
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider }  from './context/CartContext';
+import { ToastProvider } from './context/ToastContext';
+import AppRouter         from './AppRouter';
 
-function App() {
-
+export default function App() {
   return (
-    <div className='app-container'>
-      <CustomCursor/>
-        <AppRouter />
-    </div>
-  )
+    <AuthProvider>
+      <CartProvider>
+        <ToastProvider>
+          <AppRouter />
+        </ToastProvider>
+      </CartProvider>
+    </AuthProvider>
+  );
 }
-
-export default App

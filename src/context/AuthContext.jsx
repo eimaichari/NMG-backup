@@ -1,83 +1,103 @@
-// AuthContext.jsx
-import { createContext, useContext, useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { app, db } from '../utils/firebase';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+} from 'firebase/auth';
+import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
+import { auth, db, googleProvider } from '../firebase/config';
 
-// Create AuthContext
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
-// Custom hook to use AuthContext
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export function AuthProvider({ children }) {
+  const [user,     setUser]     = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [loading,  setLoading]  = useState(true); // stays true until BOTH auth + Firestore are ready
 
-// AuthProvider component to wrap the app
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const auth = getAuth(app);
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        // User is logged in, now fetch their custom data from Firestore
-        const userDocRef = doc(db, 'users', firebaseUser.uid);
-        try {
-          const userDoc = await getDoc(userDocRef);
-          if (userDoc.exists()) {
-            const userData = userDoc.data();
-            setUser({
-              uid: firebaseUser.uid,
-              email: firebaseUser.email,
-              // IMPORTANT: Use displayName from Firebase Auth OR fullName from Firestore
-              displayName: firebaseUser.displayName || userData.fullName || null,
-              fullName: userData.fullName || firebaseUser.displayName || null,
-              role: userData.role || 'user',
-            });
-
-            console.log("User logged in:", firebaseUser.displayName || userData.fullName);
-            console.log("User role:", userData.role);
-          } else {
-            // Document doesn't exist, use Firebase Auth data
-            setUser({
-              uid: firebaseUser.uid,
-              email: firebaseUser.email,
-              displayName: firebaseUser.displayName || null,
-              fullName: firebaseUser.displayName || null,
-              role: 'user',
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching user role:", error);
-          setUser(null);
-        }
-      } else {
-        // No user is logged in
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
+  const fetchUserData = useCallback(async (firebaseUser) => {
+    if (!firebaseUser) { setUserData(null); return null; }
+    const snap = await getDoc(doc(db, 'users', firebaseUser.uid));
+    const data = snap.exists() ? snap.data() : null;
+    setUserData(data);
+    return data;
   }, []);
 
-  const value = {
-    user,
-    isAuthenticated: !!user,
-    loading,
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setUser(firebaseUser);
+      await fetchUserData(firebaseUser); // wait for Firestore before clearing loading
+      setLoading(false);                 // only NOW is the app ready to make auth decisions
+    });
+    return unsubscribe;
+  }, [fetchUserData]);
+
+  /* ── Sign Up ── */
+  const signUp = async ({ fullName, email, password }) => {
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(cred.user, { displayName: fullName });
+    const profile = {
+      fullName,
+      email,
+      role:          'user',
+      agreedToTerms: true,
+      createdAt:     serverTimestamp(),
+    };
+    await setDoc(doc(db, 'users', cred.user.uid), profile);
+    setUserData(profile);
+    return cred.user;
   };
 
+  /* ── Sign In (email/password) ── */
+  const signIn = async ({ email, password }) => {
+    const cred = await signInWithEmailAndPassword(auth, email, password);
+    const data = await fetchUserData(cred.user);
+    // Attach userData to the returned user object so SignInPage can read fullName
+    cred.user._userData = data;
+    return cred.user;
+  };
+
+  /* ── Sign In (Google) ── */
+  const signInWithGoogle = async () => {
+    const cred = await signInWithPopup(auth, googleProvider);
+    const ref  = doc(db, 'users', cred.user.uid);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) {
+      const profile = {
+        fullName:      cred.user.displayName || '',
+        email:         cred.user.email,
+        role:          'user',
+        agreedToTerms: true,
+        createdAt:     serverTimestamp(),
+      };
+      await setDoc(ref, profile);
+      setUserData(profile);
+    } else {
+      setUserData(snap.data());
+    }
+    return cred.user;
+  };
+
+  /* ── Sign Out ── */
+  const logOut = async () => {
+    await signOut(auth);
+    setUser(null);
+    setUserData(null);
+  };
+
+  const isAdmin = userData?.role === 'admin';
+
   return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
+    <AuthContext.Provider value={{ user, userData, loading, isAdmin, signUp, signIn, signInWithGoogle, logOut }}>
+      {children}
     </AuthContext.Provider>
   );
-};
+}
 
-export default AuthContext;
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+  return ctx;
+}

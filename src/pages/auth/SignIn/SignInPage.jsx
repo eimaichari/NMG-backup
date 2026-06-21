@@ -1,236 +1,195 @@
-import React, { useState } from 'react';
-import styles from './SignInPage.module.css';
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-// Assuming the path to firebase utils and auth is correct
-import { auth } from '../../../utils/firebase'; 
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
+import { useToast } from '../../../context/ToastContext';
+import styles from './SignInPage.module.css';
 
-const SignInPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  
-  // Refactored state: tracks message content and its type for styling
-  const [status, setStatus] = useState({ message: '', type: null }); 
-  
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const [attemptCount, setAttemptCount] = useState(0);
-
+export default function SignInPage() {
+  const { signIn, signInWithGoogle } = useAuth();
+  const toast    = useToast();
   const navigate = useNavigate();
 
-  // Helper to clear the status message after a duration
-  const clearStatus = (duration = 3000) => {
-    setTimeout(() => setStatus({ message: '', type: null }), duration);
+  const [form, setForm]         = useState({ email: '', password: '' });
+  const [loading, setLoading]   = useState(false);
+  const [gLoading, setGLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+  const [errors, setErrors]     = useState({});
+
+  const update = (field) => (e) => {
+    setForm(p => ({ ...p, [field]: e.target.value }));
+    if (errors[field]) setErrors(p => ({ ...p, [field]: '' }));
   };
 
-  const handleSignIn = async () => {
-    // Check if too many attempts
-    if (attemptCount >= 5) {
-      setStatus({ message: 'Too many attempts. Please wait a few minutes before trying again.', type: 'warning' });
-      clearStatus(5000);
-      return;
-    }
+  const validate = () => {
+    const errs = {};
+    if (!form.email)    errs.email    = 'Email is required.';
+    if (!form.password) errs.password = 'Password is required.';
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
 
-    if (!email || !password) {
-      setStatus({ message: 'Please fill in all fields', type: 'error' });
-      clearStatus(3000);
-      return;
-    }
-
-    setIsSigningIn(true);
-    setAttemptCount(prev => prev + 1);
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+    setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // Success
-      setStatus({ message: 'Sign-in successful! Redirecting...', type: 'success' });
-      setAttemptCount(0); // Reset on success
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
-    } catch (error) {
-      console.error('Error signing in:', error);
-      let errorMessage = 'Sign-in failed. Please try again.';
-      let errorType = 'error'; // Default to error
-
-      switch (error.code) {
-        case 'auth/user-not-found':
-          errorMessage = 'No account found with this email. Please sign up first.';
-          break;
-        case 'auth/wrong-password':
-          errorMessage = 'Incorrect password. Please try again or reset your password.';
-          break;
-        case 'auth/invalid-email':
-          errorMessage = 'Invalid email format. Please check and try again.';
-          break;
-        case 'auth/user-disabled':
-          errorMessage = 'This account has been disabled. Please contact support.';
-          break;
-        case 'auth/too-many-requests':
-          errorMessage = 'Too many failed login attempts. Your account has been temporarily locked. Please try again in 15-30 minutes or reset your password.';
-          errorType = 'warning'; // Treat this as a strong warning
-          setStatus({ message: errorMessage, type: errorType });
-          clearStatus(8000);
-          setIsSigningIn(false);
-          return;
-        case 'auth/network-request-failed':
-          errorMessage = 'Network error. Please check your internet connection.';
-          break;
-        case 'auth/invalid-credential':
-          errorMessage = 'Invalid email or password. Please check your credentials and try again.';
-          break;
-        default:
-          errorMessage = `Error: ${error.message}`;
-      }
-
-      // Set the error/warning status
-      setStatus({ message: errorMessage, type: errorType });
-      clearStatus(6000);
-
+      const user = await signIn(form);
+      // Get name from Firestore userData (attached by signIn) or Firebase displayName
+      const fullName = user._userData?.fullName || user.displayName || '';
+      const firstName = fullName.split(' ')[0] || 'there';
+      toast.success(`Welcome back, ${firstName}! 👋`);
+      navigate('/');
+    } catch (err) {
+      const msg = err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password'
+        ? 'Incorrect email or password. Please try again.'
+        : err.code === 'auth/too-many-requests'
+        ? 'Too many attempts. Please try again later.'
+        : 'Sign in failed. Please try again.';
+      toast.error(msg);
     } finally {
-      setIsSigningIn(false);
+      setLoading(false);
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-    setIsSigningIn(true);
-
+  const handleGoogle = async () => {
+    setGLoading(true);
     try {
-      await signInWithPopup(auth, provider);
-      // Success
-      setStatus({ message: 'Google sign-in successful!', type: 'success' });
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
-    } catch (error) {
-      console.error('Error with Google sign-in:', error);
-      let errorMessage = 'Google sign-in failed.';
-      
-      switch (error.code) {
-        case 'auth/popup-closed-by-user':
-          errorMessage = 'Sign-in cancelled. Please try again.';
-          break;
-        case 'auth/popup-blocked':
-          errorMessage = 'Pop-up blocked by browser. Please allow pop-ups and try again.';
-          break;
-        case 'auth/account-exists-with-different-credential':
-          errorMessage = 'An account already exists with this email using a different sign-in method.';
-          break;
-        default:
-          errorMessage = `Error: ${error.message}`;
+      const user = await signInWithGoogle();
+      const firstName = user.displayName?.split(' ')[0] || 'there';
+      toast.success(`Welcome back, ${firstName}! 👋`);
+      navigate('/');
+    } catch (err) {
+      // Silently ignore popup closed by user — not an error
+      if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+        return;
       }
-      
-      // Set the error status
-      setStatus({ message: errorMessage, type: 'error' });
-      clearStatus(5000);
-
+      toast.error('Google sign in failed. Please try again.');
     } finally {
-      setIsSigningIn(false);
+      setGLoading(false);
     }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
   };
 
   return (
-    <main>
-      <section className={styles.signInSection}>
-        <div className={styles.container}>
-          <div className={styles.card}>
-            <h1 className={styles.gradientText}>Welcome back</h1>
-            <p>Sign in to continue</p>
-
-            {attemptCount >= 3 && attemptCount < 5 && (
-              <div className={styles.warningMessage}>
-                ⚠️ Warning: {5 - attemptCount} attempt{5 - attemptCount > 1 ? 's' : ''} remaining before temporary lockout
+    <div className={styles.page}>
+      {/* Left panel — branding */}
+      <div className={styles.brand} aria-hidden="true">
+        <div className={styles.brandInner}>
+          <div className={styles.brandLogo}>
+            <span className={styles.brandLogoMark}>NMG</span>
+            <span className={styles.brandLogoDivider} />
+            <span className={styles.brandLogoSub}>Zembeta</span>
+          </div>
+          <p className={styles.brandTagline}>My World. Your World. Our World.</p>
+          <div className={styles.brandFeatures}>
+            {['Cleaning & Laundry', 'Catering Services', 'Embroidery & Branding', 'Corporate Stationery'].map(f => (
+              <div key={f} className={styles.brandFeature}>
+                <span className={styles.brandFeatureDot} />
+                {f}
               </div>
-            )}
-
-            <div className={styles.signInForm}>
-              <div className={styles.formGroup}>
-                <label htmlFor="email">Email</label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={styles.input}
-                  disabled={isSigningIn}
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="password">Password</label>
-                <div className={styles.passwordWrapper}>
-                  <input
-                    id="password"
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className={styles.input}
-                    disabled={isSigningIn}
-                  />
-                  <span
-                    className={styles.togglePassword}
-                    onClick={togglePasswordVisibility}
-                  >
-                    {showPassword ? '🙈' : '👁️'}
-                  </span>
-                </div>
-              </div>
-              <div className={styles.formOptions}>
-                <label className={styles.checkboxLabel}>
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={() => setRememberMe((prev) => !prev)}
-                    disabled={isSigningIn}
-                  />
-                  Remember me
-                </label>
-                <a href="#" className={styles.link}>Forgot password?</a>
-              </div>
-              <button 
-                className={styles.submitButton} 
-                onClick={handleSignIn}
-                disabled={isSigningIn || attemptCount >= 5}
-              >
-                {isSigningIn ? 'Signing In...' : attemptCount >= 5 ? 'Too Many Attempts' : 'Sign In'}
-              </button>
-
-              {/* --- UPDATED STATUS RENDERING --- */}
-              {status.message && (
-                <div className={`${styles.statusMessage} ${styles[status.type]}`}>
-                  {status.message}
-                </div>
-              )}
-              {/* --- END UPDATED STATUS RENDERING --- */}
-
-              <div className={styles.divider}>
-                <span>or</span>
-              </div>
-              <button
-                className={styles.googleButton}
-                onClick={handleGoogleSignIn}
-                disabled={isSigningIn}
-              >
-                Continue with Google
-              </button>
-              <p className={styles.createAccount}>
-                Don't have an account? <Link to={'/auth/signup'} className={styles.link}>Create one</Link>
-              </p>
-              
-
-            </div>
+            ))}
           </div>
         </div>
-      </section>
-    </main>
-  );
-};
+        <div className={styles.brandOrb1} />
+        <div className={styles.brandOrb2} />
+      </div>
 
-export default SignInPage;
+      {/* Right panel — form */}
+      <div className={styles.formPanel}>
+        <div className={styles.formWrap}>
+          <div className={styles.formHeader}>
+            <h1 className={styles.formTitle}>Welcome back</h1>
+            <p className={styles.formSubtitle}>Sign in to your NMG Zembeta account</p>
+          </div>
+
+          {/* Google button */}
+          <button
+            className={styles.googleBtn}
+            onClick={handleGoogle}
+            disabled={gLoading}
+            type="button"
+          >
+            {gLoading ? <Spinner /> : <GoogleIcon />}
+            Continue with Google
+          </button>
+
+          <div className={styles.divider}>
+            <span className={styles.dividerLine} />
+            <span className={styles.dividerText}>or continue with email</span>
+            <span className={styles.dividerLine} />
+          </div>
+
+          <form onSubmit={handleSubmit} className={styles.form} noValidate>
+            <div className="form-group">
+              <label className="form-label" htmlFor="email">Email Address</label>
+              <input
+                id="email"
+                type="email"
+                className={`form-input ${errors.email ? 'error' : ''}`}
+                value={form.email}
+                onChange={update('email')}
+                placeholder="your@email.com"
+                autoComplete="email"
+                required
+                aria-describedby={errors.email ? 'email-error' : undefined}
+              />
+              {errors.email && <span id="email-error" className="form-error" role="alert">{errors.email}</span>}
+            </div>
+
+            <div className="form-group">
+              <div className={styles.passwordLabel}>
+                <label className="form-label" htmlFor="password">Password</label>
+              </div>
+              <div className={styles.passwordWrap}>
+                <input
+                  id="password"
+                  type={showPass ? 'text' : 'password'}
+                  className={`form-input ${errors.password ? 'error' : ''}`}
+                  value={form.password}
+                  onChange={update('password')}
+                  placeholder="••••••••"
+                  autoComplete="current-password"
+                  required
+                  aria-describedby={errors.password ? 'password-error' : undefined}
+                />
+                <button
+                  type="button"
+                  className={styles.eyeBtn}
+                  onClick={() => setShowPass(v => !v)}
+                  aria-label={showPass ? 'Hide password' : 'Show password'}
+                >
+                  {showPass ? <EyeOffIcon /> : <EyeIcon />}
+                </button>
+              </div>
+              {errors.password && <span id="password-error" className="form-error" role="alert">{errors.password}</span>}
+            </div>
+
+            <button
+              type="submit"
+              className={`btn btn-primary btn-lg btn-full`}
+              disabled={loading}
+            >
+              {loading ? <><Spinner /> Signing in…</> : 'Sign In'}
+            </button>
+          </form>
+
+          <p className={styles.switchText}>
+            Don't have an account?{' '}
+            <Link to="/signup" className={styles.switchLink}>Create one</Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const GoogleIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+  </svg>
+);
+const EyeIcon    = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>;
+const EyeOffIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>;
+const Spinner    = () => <span style={{ display:'inline-block', width:16, height:16, border:'2px solid rgba(13,17,23,0.3)', borderTopColor:'var(--ink)', borderRadius:'50%', animation:'spin 0.7s linear infinite' }} aria-hidden="true" />;
