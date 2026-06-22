@@ -1,302 +1,393 @@
-.nav {
+/* NavBar — NMG Zembeta Redesign */
+
+.header {
   position: fixed;
   top: 0;
   left: 0;
-  width: 97vw;
+  right: 0;
+  height: var(--nav-height);
+  z-index: var(--z-nav);
+  transition: background var(--transition-base), border-color var(--transition-base);
+  border-bottom: 1px solid transparent;
+}
+
+.topRule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 1;
+  transition: opacity var(--transition-base);
+}
+
+.header.scrolled {
+  background: rgba(10, 10, 10, 0.95);
+  border-bottom-color: var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.header.scrolled .topRule { opacity: 0; }
+
+.adminMode {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.adminMode .topRule { display: none; }
+
+.nav {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 2rem;
-  background-color: rgba(43, 45, 66, 0.7); /* semi-transparent */
-  backdrop-filter: blur(10px);
-  z-index: 100;
-  transition: background-color 0.3s ease;
-}
-
-.logo {
-  font-size: 1rem;
-  margin-right: auto;
-}
-
-.logo img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.navLinks {
-  display: flex;
-  list-style-type: none;
-  width: 30vw;
-  gap: 2rem;
+  height: 100%;
+  max-width: var(--max-width);
   margin: 0 auto;
+  padding: 0 var(--space-8);
+  gap: var(--space-10);
+}
+
+/* ── Logo ─────────────────────────────────────────────────────── */
+.logo {
+  display: flex;
   align-items: center;
-}
-
-.link {
-  color: var(--text-light, #E6E6E6);
+  gap: var(--space-3);
+  flex-shrink: 0;
   text-decoration: none;
-  font-size: 1rem;
+}
+
+.logoImg { height: 32px; width: auto; }
+
+.logoMark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--cream);
+  line-height: 1;
+}
+
+.logoDivider {
+  width: 1px;
+  height: 18px;
+  background: var(--border-2);
+  flex-shrink: 0;
+}
+
+.logoSub {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
   font-weight: 500;
-  transition: color 0.3s ease;
-  background: none;
-  border: none;
-  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-.link:hover {
-  color: var(--primary-color, #2EC4B6);
+/* ── Desktop Links ────────────────────────────────────────────── */
+.desktopLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 1;
 }
 
-/* 🚀 NEW PRIMARY BUTTON STYLE 🚀 */
-.primaryButton {
-  /* Inherit link properties, but override for button look */
-  padding: 8px 16px;
-  border-radius: 6px; /* Slightly rounded corners */
-  background-color: var(--primary-color, #2EC4B6); /* Solid primary color background */
-  color: var(--background-dark, #111827); /* Dark text for contrast */
-  font-weight: 700;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  white-space: nowrap; /* Prevent wrapping on smaller screens */
-}
-
-.primaryButton:hover {
-  background-color: var(--primary-dark, #249c91); /* Darker shade on hover */
-  color: var(--background-dark, #111827); /* Keep text dark */
-  /* Ensure the button hover overrides the general link hover */
-}
-
-.primaryButtonRed {
-  padding: 8px 16px;
-  border-radius: 6px; /* Slightly rounded corners */
-  background-color: var(--red-accent, #EF4444); /* Red background */
-  color: var(--background-dark, #111827); /* Dark text for contrast */
-  font-weight: 700;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  white-space: nowrap; /* Prevent wrapping on smaller screens */
+.navLink {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
   position: relative;
-  right: 0px;
 }
 
-.primaryButtonRed:hover {
-  background-color: var(--red-dark, #DC2626); /* Darker red on hover */
-  color: var(--background-dark, #111827); /* Keep text dark */
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: var(--space-3);
+  right: var(--space-3);
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform var(--transition-base);
+  transform-origin: left;
 }
-/* ---------------------------------- */
 
+.navLink:hover { color: var(--text); }
+.navLink:hover::after { transform: scaleX(1); }
+.navLink.active { color: var(--gold); }
+.navLink.active::after { transform: scaleX(1); }
 
-.search {
+/* ── Actions ──────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   margin-left: auto;
-  color: var(--yellow-accent, #FFB703);
-  font-size: 1.2rem;
+}
+
+.iconBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+}
+.iconBtn:hover { color: var(--text); }
+
+.cartBadge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 9px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.authBtns {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ── User menu ────────────────────────────────────────────────── */
+.userMenu { position: relative; }
+
+.avatarBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+}
+.avatarBtn:hover { color: var(--text); }
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-glow);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.avatarName {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  min-width: 220px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  z-index: var(--z-above);
+  animation: dropDown 0.18s var(--ease-out);
+}
+
+@keyframes dropDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.dropdownHeader { padding: var(--space-4); }
+
+.dropdownName {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.dropdownEmail {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: var(--border);
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  text-align: left;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
+.dropdownItem:hover { background: var(--surface-2); color: var(--text); }
+.signOut:hover { color: var(--error); }
 
-.search:hover {
-  transform: scale(1.1);
-}
-
-/* Hamburger menu styling */
-.hamburgerMenu {
+/* ── Hamburger ────────────────────────────────────────────────── */
+.hamburger {
   display: none;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  gap: 5px;
-  padding: 5px;
-  right: 10px;
-  z-index: 200; 		/* 🔹 ensure it's above navLinks */
+  gap: 7px;
+  width: 36px;
+  height: 36px;
+  padding: var(--space-2);
 }
 
 .bar {
-  width: 28px;
-  height: 3px;
-  background-color: #fff; /* 🔹 force white so it's visible */
-  border-radius: 2px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--text-muted);
+  transform-origin: center;
+  transition: transform var(--duration-base) var(--ease-premium), opacity var(--duration-base);
 }
 
-.hamburgerMenu.open .bar:nth-child(1) {
-  transform: rotate(-45deg) translate(-5px, 6px);
-}
+.barOpen1 { transform: translateY(4.25px) rotate(45deg); background: var(--text); }
+.barOpen2 { transform: translateY(-4.25px) rotate(-45deg); background: var(--text); }
 
-.hamburgerMenu.open .bar:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburgerMenu.open .bar:nth-child(3) {
-  transform: rotate(45deg) translate(-5px, -6px);
-}
-
-/* Profile dropdown */
-.profileDropdown {
-  position: relative;
-  display: none; /* shown when logged in */
-}
-
-.profileIcon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.dropdownMenu {
+/* ── Mobile ───────────────────────────────────────────────────── */
+.mobileOverlay {
   display: none;
-  position: absolute;
-  top: 60px;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: calc(var(--z-nav) - 1);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+.overlayOpen { opacity: 1; pointer-events: all; }
+
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 0;
   right: 0;
-  background: var(--card-bg, #111827);
-  border: 1px solid var(--card-border, #374151);
-  border-radius: 8px;
-  padding: 10px;
+  bottom: 0;
+  width: min(340px, 90vw);
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  z-index: var(--z-nav);
   flex-direction: column;
-  min-width: 120px;
-  z-index: 1000;
+  transform: translateX(100%);
+  transition: transform var(--duration-base) var(--ease-premium);
+  overflow-y: auto;
 }
+.mobileMenuOpen { transform: translateX(0); }
 
-.dropdownMenu.active {
-  display: flex;
-}
-
-.dropdownMenu a {
-  padding: 8px;
-  text-decoration: none;
-  color: var(--text-light, #E6E6E6);
-  border-radius: 5px;
-}
-
-.dropdownMenu a:hover {
-  background: var(--primary-dark, #1E2A38);
-}
-
-/* Responsive nav */
-@media (max-width: 768px) {
-  .nav {
-    width: 90vw;
-  }
-
-  .navLinks {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    flex-direction: column;
-    background-color: var(--primary-dark, #1E2A38);
-    text-align: center;
-    padding: 1rem 0;
-    transform: translateY(-150%);
-    transition: transform 0.3s ease-in-out;
-    border-bottom: 1px solid var(--card-border, rgba(255,255,255,0.1));
-    z-index: 99;
-    display: flex; /* 🔹 now it shows up properly on small screens */
-  }
-
-  .navLinks.active {
-    transform: translateY(0);
-  }
-
-  .hamburgerMenu {
-    display: flex;
-  }
-
-  .search {
-    display: none;
-  }
-
-  /* 🚀 PRIMARY BUTTON ADJUSTMENTS FOR MOBILE 🚀 */
-  .primaryButton {
-    display: block;
-    width: 80%;
-    margin: 0.5rem auto;
-  }
-  
-  .navLinks li {
-    padding: 0.25rem 0;
-  }
-  /* ---------------------------------- */
-}
-
-/* Extra space between Dashboard & Orders */
-.ordersLink {
-  margin-left: 1.5rem;
-}
-
-/* 🚀 NEW: Authentication Actions Container 🚀 */
-.authActions {
+.mobileHeader {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  /* Removed margin-left:auto to prevent pushing too far right */
-  margin-left: 0.5rem; /* Add a small gap from navLinks */
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--border);
 }
 
-/* Ensure the user info looks right in the new container */
-.userInfo {
-  color: var(--text-light, #E6E6E6);
-  font-size: 1rem;
-  white-space: nowrap; /* Prevent wrapping */
+.mobileLogoMark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--cream);
 }
 
-/* Remove the margin from the main navLinks since we don't need to center it anymore */
-.navLinks {
-  /* ... existing styles ... */
-  /* margin: 0 auto; 👈 REMOVE THIS LINE */
-  /* Removed margin-right: 2rem; to keep authActions closer */
+.mobileClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--text-muted);
 }
 
-/* Responsive adjustment for Mobile */
+.mobileLinks {
+  flex: 1;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mobileLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-3) var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  transition: color var(--transition-fast);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.mobileLink:hover, .mobileLinkActive { color: var(--gold); }
+
+.mobileBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--space-1);
+  background: var(--gold);
+  color: var(--ink);
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.mobileActions {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  border-top: 1px solid var(--border);
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 768px) {
-    /* The authActions container needs to be hidden on mobile 
-    when the menu is closed, and styled to stack vertically when open.
-    */
-    .authActions {
-        display: none; /* Hide by default on mobile */
-        
-        position: fixed;
-        top: 11rem;
-        left: -1rem;
-        width: 100%;
-        flex-direction: column; /* Stack items */
-        background-color: var(--primary-dark, #1E2A38); /* Same as navLinks */
-        text-align: center;
-        padding: 1rem 0;
-        z-index: 99;
-        /* Start it off-screen, right below navLinks */
-        transform: translateY(-150%); 
-        transition: transform 0.3s ease-in-out;
-    }
-
-    /* Show and position the authActions only when the menu is open */
-    .authActions.active {
-        /* To position it after the main nav links, you'll need to 
-        adjust the `top` position dynamically based on the height 
-        of the `.navLinks.active` menu. 
-        
-        A simpler approach is to merge the main links and auth actions 
-        back into one mobile-only container, or position this one lower.
-        
-        Since they are in separate containers now, you might need 
-        to calculate the height of .navLinks.active in JS 
-        for a perfect offset. 
-        
-        For CSS-only, let's keep it simple by stacking them inside a 
-        single mobile-friendly container, which we've done in the JSX by
-        placing the auth links in the new div which will now be styled 
-        to appear below the navLinks on mobile.
-        
-        Let's give it a fixed offset, assuming the navLinks are about 400px tall.
-        */
-        display: flex; /* Show it */
-        transform: translateY(200px); /* Adjust this value */
-    }
-
-    /* Mobile Auth Button Styling */
-    .authActions .primaryButton {
-      width: 80%;
-      margin: 0.5rem auto;
-    }
+  .nav { padding: 0 var(--space-5); gap: var(--space-6); }
+  .desktopLinks { display: none; }
+  .authBtns { display: none; }
+  .avatarName { display: none; }
+  .hamburger { display: flex; }
+  .mobileOverlay { display: block; }
+  .mobileMenu { display: flex; }
 }
