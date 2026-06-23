@@ -34,7 +34,7 @@ export default function AboutPage() {
         <div className={styles.heroGrid} aria-hidden="true" />
         {/* Hero background image — full bleed behind content, darkened by CSS overlay */}
         <img
-          src="/src/assets/images/team.jpg"
+          src="/images/team.jpg"
           alt=""
           aria-hidden="true"
           className={styles.heroBgImg}
@@ -101,19 +101,19 @@ export default function AboutPage() {
           {/* Mission section bottom image strip — visual break between mission and timeline */}
           <div className={styles.missionImageStrip}>
             <img
-              src="/src/assets/images/printing-caps.jpeg"
+              src="/images/printing-caps.jpeg"
               alt="NMG Zembeta cleaning services"
               className={styles.missionStripImg}
               loading="lazy"
             />
             <img
-              src="/src/assets/images/pexels-rethaferguson-4177708.jpg"
+              src="/images/pexels-rethaferguson-4177708.jpg"
               alt="NMG Zembeta catering services"
               className={styles.missionStripImg}
               loading="lazy"
             />
             <img
-              src="/src/assets/images/embroydery1.jpeg"
+              src="/images/embroydery1.jpeg"
               alt="NMG Zembeta embroidery and branding"
               className={styles.missionStripImg}
               loading="lazy"
