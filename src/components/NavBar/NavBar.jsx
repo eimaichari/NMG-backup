@@ -69,7 +69,7 @@ export default function NavBar({ adminMode = false }) {
       <nav className={styles.nav} aria-label="Main navigation">
         {/* Logo */}
         <Link
-          to={isAdmin ? '/admin' : '/'}
+          to="/"
           className={styles.logo}
           aria-label="NMG Zembeta — Home"
         >
