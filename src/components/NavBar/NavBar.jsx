@@ -73,7 +73,11 @@ export default function NavBar({ adminMode = false }) {
           className={styles.logo}
           aria-label="NMG Zembeta — Home"
         >
-          <img src="/nmg-logo.png" alt="NMG Zembeta" className={styles.logoImg} /> 
+          <img
+            src="/images/nmg-logo.png"
+            alt="NMG Zembeta"
+            className={styles.logoImg}
+          />
         </Link>
 
         {/* Desktop nav links */}
