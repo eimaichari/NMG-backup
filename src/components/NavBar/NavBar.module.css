@@ -283,7 +283,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.7);
-  z-index: calc(var(--z-nav) - 1);
+  z-index: var(--z-nav);
   opacity: 0;
   transition: opacity var(--transition-base);
   pointer-events: none;
@@ -293,18 +293,24 @@
 .mobileMenu {
   display: none;
   position: fixed;
-  top: 0;
+  top: var(--nav-height);
   right: 0;
-  bottom: 0;
+  height: calc(100vh - var(--nav-height));
   width: min(340px, 90vw);
+
   background: var(--surface);
   border-left: 1px solid var(--border);
-  z-index: var(--z-nav);
+
+  z-index: calc(var(--z-nav) + 1);
+
   flex-direction: column;
+
   transform: translateX(100%);
   transition: transform var(--duration-base) var(--ease-premium);
+
   overflow-y: auto;
 }
+
 .mobileMenuOpen { transform: translateX(0); }
 
 .mobileHeader {
