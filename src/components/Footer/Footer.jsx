@@ -92,7 +92,15 @@ export default function Footer() {
         <div className="container">
           <div className={styles.bottomInner}>
             <p className={styles.copy}>
-              © {YEAR} NMG Zembeta Pty Ltd. All rights reserved | BUILT BY <a href="https://www.linkedin.com/company/cor3hausproduction/" target="_blank" rel="noopener noreferrer" className={styles.builtByLink}> COR3 HAUS PROD</a>
+              © {YEAR} NMG Zembeta Pty Ltd. All rights reserved | BUILT BY{" "}
+              <a
+                href="https://www.linkedin.com/company/cor3hausproduction/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${styles.legalLink} ${styles.builtByLink}`}
+              >
+                COR3 HAUS PRODUCTION
+              </a>
             </p>
             <p className={styles.credit}>
               Registered business · Randburg, Gauteng · South Africa
