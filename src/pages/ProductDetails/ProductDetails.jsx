@@ -196,7 +196,7 @@ export default function ProductDetails() {
 
             {/* WhatsApp enquiry */}
             <a
-              href={`https://wa.me/27739740331?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20enquire%20about%20${encodeURIComponent(product.name)}`}
+              href={`https://wa.me/27717669014?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20enquire%20about%20${encodeURIComponent(product.name)}`}
               target="_blank"
               rel="noopener noreferrer"
               className={`btn btn-outline btn-full reveal reveal-delay-4`}

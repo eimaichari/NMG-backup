@@ -102,7 +102,7 @@ export default function ProfilePage() {
                 To update your account details or for any order enquiries, contact us directly on WhatsApp.
               </p>
               <a
-                href="https://wa.me/27739740331"
+                href="https://wa.me/27717669014"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`btn btn-primary`}

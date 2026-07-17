@@ -23,8 +23,8 @@ const NAV_LINKS = {
 };
 
 export default function Footer() {
-  const waLink = 'https://wa.me/27739740331?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20enquire%20about%20your%20services.';
-
+  const waLink = 'https://wa.me/27717669014?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20enquire%20about%20your%20services.';
+ 
   return (
     <footer className={styles.footer} role="contentinfo">
       {/* Top rule */}
@@ -51,8 +51,8 @@ export default function Footer() {
               </p>
 
               <div className={styles.contact}>
-                <a href="tel:+27739740331" className={styles.contactItem}>
-                  +27 73 974 0331
+                <a href="tel:+27717669014" className={styles.contactItem}>
+                  +27 71 766 9014
                 </a>
                 <a href="mailto:nasiphizembeta@gmail.com" className={styles.contactItem}>
                   nasiphizembeta@gmail.com

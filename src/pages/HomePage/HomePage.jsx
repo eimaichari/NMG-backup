@@ -42,7 +42,7 @@ function HeroSection() {
     return () => clearTimeout(t);
   }, []);
 
-  const waLink = 'https://wa.me/27739740331?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20get%20a%20quote.';
+  const waLink = 'https://wa.me/27717669014?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20get%20a%20quote.';
 
   return (
     <section className={styles.hero} aria-label="Hero">
@@ -490,7 +490,7 @@ function TestimonialsSection() {
    CTA SECTION
 ══════════════════════════════════════════════════════════════ */
 function CTASection() {
-  const waLink = 'https://wa.me/27739740331?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20get%20a%20quote.';
+  const waLink = 'https://wa.me/27717669014?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20get%20a%20quote.';
 
   return (
     <section className={styles.cta} aria-labelledby="cta-title">

@@ -45,7 +45,7 @@ export default function ContactPage() {
     ].filter(line => line !== null).join('\n');
 
     const encoded = encodeURIComponent(lines);
-    const waUrl   = `https://wa.me/27739740331?text=${encoded}`;
+    const waUrl   = `https://wa.me/27717669014?text=${encoded}`;
 
     window.open(waUrl, '_blank', 'noopener,noreferrer');
 
@@ -83,7 +83,7 @@ export default function ContactPage() {
 
               <div className={styles.contactItems}>
                 {[
-                  { icon: <PhoneIcon />,    label: 'Phone / WhatsApp', value: '+27 73 974 0331',               href: 'tel:+27739740331' },
+                  { icon: <PhoneIcon />,    label: 'Phone / WhatsApp', value: '+27 71 766 9014',               href: 'tel:+27717669014' },
                   { icon: <EmailIcon />,    label: 'Email',            value: 'nasiphizembeta@gmail.com',       href: 'mailto:nasiphizembeta@gmail.com' },
                   { icon: <LocationIcon />, label: 'Location',         value: 'Randburg, Gauteng, South Africa', href: null },
                   { icon: <ClockIcon />,    label: 'Business Hours',   value: 'Mon – Fri: 8am – 5pm\nSat: 9am – 1pm', href: null },
@@ -105,7 +105,7 @@ export default function ContactPage() {
               <div className={styles.waCta}>
                 <p className={styles.waCtaText}>Fastest response on WhatsApp</p>
                 <a
-                  href="https://wa.me/27739740331?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20enquire%20about%20your%20services."
+                  href="https://wa.me/27717669014?text=Hi%20NMG%20Zembeta%2C%20I%20would%20like%20to%20enquire%20about%20your%20services."
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`btn btn-lg btn-full ${styles.waCtaBtn}`}

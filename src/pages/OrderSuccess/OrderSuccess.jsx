@@ -98,7 +98,7 @@ export default function OrderSuccess() {
             View My Orders
           </Link>
           <a
-            href={`https://wa.me/27739740331?text=Hi%20NMG%20Zembeta%2C%20my%20order%20reference%20is%20${id.substring(0,12).toUpperCase()}`}
+            href={`https://wa.me/27717669014?text=Hi%20NMG%20Zembeta%2C%20my%20order%20reference%20is%20${id.substring(0,12).toUpperCase()}`}
             target="_blank"
             rel="noopener noreferrer"
             className={`btn btn-outline btn-lg`}

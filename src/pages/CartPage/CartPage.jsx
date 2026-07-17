@@ -101,7 +101,7 @@ export default function CartPage() {
 
               {/* WhatsApp help */}
               <a
-                href="https://wa.me/27739740331?text=Hi%20NMG%20Zembeta%2C%20I%20need%20help%20with%20my%20order."
+                href="https://wa.me/27717669014?text=Hi%20NMG%20Zembeta%2C%20I%20need%20help%20with%20my%20order."
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`btn btn-outline btn-full`}
