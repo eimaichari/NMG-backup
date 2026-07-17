@@ -294,7 +294,7 @@ function ProductModal({ product, categories, onClose, onSave }) {
   }, [onClose]);
 
   return (
-    <div className={styles.modalOverlay} onClick={e => e.target === e.currentTarget && onClose()}>
+    <div className={styles.modalBackdrop} onClick={e => e.target === e.currentTarget && onClose()}>
       <div className={styles.modal} role="dialog" aria-modal="true" aria-label={isEdit ? 'Edit product' : 'Add product'}>
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>{isEdit ? 'Edit Product' : 'Add New Product'}</h2>
